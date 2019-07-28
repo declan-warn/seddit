@@ -12,7 +12,12 @@ const handleSubmit = ({ apiUrl }, update) => async event => {
         },
     });
 
-    console.log(response);
+    const json = await response.json();
+    if (response.status === 200) {
+        update("LOGIN_SUCCESS", json);
+    } else {
+        alert(json.message);
+    }
 };
 
 export default (model, update) => {

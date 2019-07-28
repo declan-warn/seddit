@@ -8,6 +8,7 @@ export default class App {
         this.model = {
             apiUrl,
             route: "front",
+            token: null,
         }
 
         this.update = this.update.bind(this);
@@ -19,6 +20,12 @@ export default class App {
         switch (msg) {
             case "LOGIN_SHOW":
                 this.model.route = "login";
+                this.renderDOM();
+                break;
+
+            case "LOGIN_SUCCESS":
+                this.model.token = payload.token;
+                this.model.route = "front";
                 this.renderDOM();
                 break;
 
