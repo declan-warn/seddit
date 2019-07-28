@@ -7,7 +7,7 @@ export default class App {
         this.node = node;
         this.model = {
             apiUrl,
-            route: "home",
+            route: "front",
         }
 
         this.update = this.update.bind(this);
@@ -35,7 +35,7 @@ export default class App {
     render() {
         const { route } = this.model;
         switch (route) {
-            case "home":
+            case "front":
                 return Feed(this.model, this.update);
 
             case "login":
