@@ -1,7 +1,7 @@
 import AppHeader from "./AppHeader.js";
 
 const loadFeed = async (model, feed) => {
-    const response = await fetch(`${model.apiUrl}/feed.json`);
+    const response = await fetch(`http://${model.apiUrl}/post/public`);
     const { posts } = await response.json();
 
     posts.forEach(({ meta, title, thumbnail, text }) => {
