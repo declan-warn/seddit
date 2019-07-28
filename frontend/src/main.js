@@ -4,13 +4,14 @@
  * Updated 2019.
  */
 
-// import your own scripts here.
+import App from "./App.js";
 
 // your app must take an apiUrl as an argument --
 // this will allow us to verify your apps behaviour with 
 // different datasets.
 function initApp(apiUrl) {
-  // your app initialisation goes here
+    const node = document.getElementById("root");
+    new App(apiUrl, node);
 }
 
 export default initApp;
