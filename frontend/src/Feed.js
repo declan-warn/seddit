@@ -1,7 +1,18 @@
 import AppHeader from "./AppHeader.js";
 
 const loadFeed = async (model, feed) => {
-    const response = await fetch(`http://${model.apiUrl}/post/public`);
+    const endpoint =
+        model.token === null
+            ? `http://${model.apiUrl}/post/public`  // public
+            : new Request(`http://${model.apiUrl}/user/feed`, {
+                headers: {
+                    "Authorization": `Token ${model.token}`
+                }
+            });
+
+    console.log("ENDPOINT:", endpoint);
+
+    const response = await fetch(endpoint);
     const { posts } = await response.json();
 
     posts.forEach(({ meta, title, thumbnail, text }) => {
