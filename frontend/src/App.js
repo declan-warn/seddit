@@ -1,5 +1,7 @@
 import AppHeader from "./AppHeader.js";
 
+import LoginForm from "./LoginForm.js";
+
 export default class App {
     constructor(apiUrl, node) {
         this.node = node;
@@ -7,13 +9,13 @@ export default class App {
             apiUrl,
             route: "home",
         }
-        
+
         this.update = this.update.bind(this);
 
         this.renderDOM();
     }
 
-    update(msg, payload={}) {
+    update(msg, payload = {}) {
         switch (msg) {
             case "LOGIN_SHOW":
                 this.model.route = "login";
@@ -32,13 +34,18 @@ export default class App {
                 const header = AppHeader(this.model, this.update);
                 return header;
 
+            case "login":
+                return LoginForm(this.model, this.update);
+
             default:
                 throw new Error(`Unknown route '${route}'.`);
         }
     }
 
     renderDOM() {
-        Array.prototype.forEach.call(this.node, this.node.removeChild.bind(this));
+        this.node.childNodes.forEach(
+            this.node.removeChild.bind(this.node)
+        );
         this.node.appendChild(this.render());
     }
 
