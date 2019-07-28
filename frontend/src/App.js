@@ -1,6 +1,7 @@
 import AppHeader from "./AppHeader.js";
 
 import LoginForm from "./LoginForm.js";
+import SignupForm from "./SignupForm.js";
 
 export default class App {
     constructor(apiUrl, node) {
@@ -22,6 +23,11 @@ export default class App {
                 this.renderDOM();
                 break;
 
+            case "SIGNUP_SHOW":
+                this.model.route = "signup";
+                this.renderDOM();
+                break;
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -36,6 +42,9 @@ export default class App {
 
             case "login":
                 return LoginForm(this.model, this.update);
+
+            case "signup":
+                return SignupForm(this.model, this.update);
 
             default:
                 throw new Error(`Unknown route '${route}'.`);

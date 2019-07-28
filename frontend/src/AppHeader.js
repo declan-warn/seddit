@@ -6,7 +6,12 @@ export default (model, update) => {
     btnLogin.textContent = "Log In";
     btnLogin.addEventListener("click", () => update("LOGIN_SHOW"));
 
-    header.appendChild(btnLogin);
+    const signUp = document.createElement("button");
+    signUp.setAttribute("data-id-signup", "");
+    signUp.textContent = "Sign Up";
+    signUp.addEventListener("click", () => update("SIGNUP_SHOW"));
+
+    header.append(btnLogin, signUp);
 
     return header;
 };
