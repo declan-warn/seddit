@@ -1,5 +1,35 @@
 import AppHeader from "./AppHeader.js";
 
+const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
+    if (!upvotes) return;
+
+    const modal = document.createElement("dialog");
+
+    const close = document.createElement("button");
+    close.textContent = "Close";
+    close.addEventListener("click", () => {
+        modal.close();
+    });
+    modal.append(close);
+
+    const list = document.createElement("ul");
+
+    const users = await Promise.all(upvotes.map(userId =>
+        fetch(`http://${apiUrl}/dummy/user?id=${userId}`)
+            .then(x => x.json())
+    ));
+
+    users.forEach(({ username }) => {
+        const user = document.createElement("li");
+        user.textContent = username;
+        list.append(user);
+    });
+
+    modal.append(list);
+    document.body.append(modal);
+    modal.showModal();
+};
+
 const loadFeed = async (model, feed) => {
     const endpoint =
         model.token === null
@@ -32,6 +62,7 @@ const loadFeed = async (model, feed) => {
         const upvotes = document.createElement("span");
         upvotes.setAttribute("data-id-upvotes", "")
         upvotes.textContent = `${meta.upvotes.length} upvotes`;
+        upvotes.addEventListener("click", showUpvotes(model, meta));
 
         const postTitle = document.createElement("title");
         postTitle.setAttribute("data-id-title", "");
