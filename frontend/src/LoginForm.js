@@ -7,6 +7,9 @@ const handleSubmit = ({ apiUrl }, update) => async event => {
     const response = await fetch(`http://${apiUrl}/auth/login`, {
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
     });
 
     console.log(response);
