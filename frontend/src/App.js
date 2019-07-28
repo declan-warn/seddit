@@ -1,7 +1,6 @@
-import AppHeader from "./AppHeader.js";
-
 import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";
+import Feed from "./Feed.js";
 
 export default class App {
     constructor(apiUrl, node) {
@@ -37,8 +36,7 @@ export default class App {
         const { route } = this.model;
         switch (route) {
             case "home":
-                const header = AppHeader(this.model, this.update);
-                return header;
+                return Feed(this.model, this.update);
 
             case "login":
                 return LoginForm(this.model, this.update);
