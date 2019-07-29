@@ -9,7 +9,7 @@ export default class App {
         this.model = {
             apiUrl,
             route: "front",
-            token: null,
+            token: localStorage.getItem("token"), 
         }
 
         this.update = this.update.bind(this);
@@ -26,6 +26,7 @@ export default class App {
 
             case "LOGIN_SUCCESS":
                 this.model.token = payload.token;
+                localStorage.setItem("token", payload.token);
                 this.model.route = "front";
                 this.renderDOM();
                 break;
