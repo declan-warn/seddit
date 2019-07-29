@@ -1,4 +1,9 @@
-export default (model, update) => {
+export function withHeader(model, update, component) {
+    component.prepend(AppHeader(model, update));
+    return component;
+};
+
+export default function AppHeader(model, update) {
     const header = document.createElement("header");
 
     if (model.token === null) {

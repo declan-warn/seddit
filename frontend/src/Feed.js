@@ -1,4 +1,4 @@
-import AppHeader from "./AppHeader.js";
+import { withHeader } from "./AppHeader.js";
 import FeedItem from "./FeedItem.js";
 
 const loadFeed = async (model, update, feed) => {
@@ -22,14 +22,12 @@ const loadFeed = async (model, update, feed) => {
 export default (model, update) => {
     const container = document.createElement("div");
 
-    const header = AppHeader(model, update);
-
     const feed = document.createElement("ul");
     feed.id = "feed";
 
     loadFeed(model, update, feed);
 
-    container.append(header, feed);
+    container.append(feed);
 
-    return container;
+    return withHeader(model, update, container);
 };

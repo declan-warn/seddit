@@ -1,9 +1,7 @@
-import AppHeader from "./AppHeader.js";
+import { withHeader } from "./AppHeader.js";
 
 export default (model, update) => {
     const profile = document.createElement("div");
-
-    const header = AppHeader(model, update);
 
     const info = document.createElement("main");
 
@@ -22,7 +20,7 @@ export default (model, update) => {
             });
         });
 
-    profile.append(header, info);
+    profile.append(info);
     
-    return profile;
+    return withHeader(model, update, profile);
 };
