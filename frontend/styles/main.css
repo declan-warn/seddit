@@ -1,0 +1,24 @@
+.feed__item {
+    display: flex;
+}
+
+.feed__item__vote {
+    order: -100;
+    display: flex;
+    flex-direction: column;
+}
+
+.feed__item__vote__up {
+    order: 1;
+}
+
+.feed__item__vote__score {
+    order: 2;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feed__item__vote__down {
+    order: 3;
+}
