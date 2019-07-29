@@ -62,6 +62,13 @@ export default class App {
 
                 break;
 
+            case "SIGNOUT":
+                this.model.token = null;
+                localStorage.removeItem("token");
+                this.model.route = "front";
+                this.renderDOM();
+                break;
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -88,9 +95,9 @@ export default class App {
     }
 
     renderDOM() {
-        this.node.childNodes.forEach(
-            this.node.removeChild.bind(this.node)
-        );
+        for (const child of this.node.children) {
+            this.node.removeChild(child);
+        }
         this.node.appendChild(this.render());
     }
 

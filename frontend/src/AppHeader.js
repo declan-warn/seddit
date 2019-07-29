@@ -1,21 +1,33 @@
 export default (model, update) => {
     const header = document.createElement("header");
 
-    const btnLogin = document.createElement("button");
-    btnLogin.setAttribute("data-id-login", "");
-    btnLogin.textContent = "Log In";
-    btnLogin.addEventListener("click", () => update("LOGIN_SHOW"));
+    if (model.token === null) {
+        const btnLogin = document.createElement("button");
+        btnLogin.setAttribute("data-id-login", "");
+        btnLogin.textContent = "Log In";
+        btnLogin.addEventListener("click", () => update("LOGIN_SHOW"));
 
-    const signUp = document.createElement("button");
-    signUp.setAttribute("data-id-signup", "");
-    signUp.textContent = "Sign Up";
-    signUp.addEventListener("click", () => update("SIGNUP_SHOW"));
+        const signUp = document.createElement("button");
+        signUp.setAttribute("data-id-signup", "");
+        signUp.textContent = "Sign Up";
+        signUp.addEventListener("click", () => update("SIGNUP_SHOW"));
 
-    const submit = document.createElement("button");
-    submit.textContent = "Submit";
-    submit.addEventListener("click", () => update("SUBMIT_SHOW"));
+        header.append(btnLogin, signUp);
+    } else {
+        const signout = document.createElement("button");
+        signout.textContent = "Sign Out";
+        signout.addEventListener("click", () => update("SIGNOUT"));
 
-    header.append(btnLogin, signUp, submit);
+        const submit = document.createElement("button");
+        submit.textContent = "Submit";
+        submit.addEventListener("click", () => update("SUBMIT_SHOW"));
+
+        const profile = document.createElement("button");
+        profile.textContent = "Profile";
+        profile.addEventListener("click", () => update("PROFILE_SHOW"));
+
+        header.append(signout, submit, profile);
+    }
 
     return header;
 };
