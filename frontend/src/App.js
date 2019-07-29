@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";
 import SubmitForm from "./SubmitForm.js";
-import Feed from "./Feed.js";
+import Feed from "./component/Feed.js";
 import Profile from "./Profile.js";
 
 export default class App {

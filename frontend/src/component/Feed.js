@@ -1,4 +1,4 @@
-import { withHeader } from "./AppHeader.js";
+import { withHeader } from "../AppHeader.js";
 import FeedItem from "./FeedItem.js";
 
 const loadFeed = async (model, update, feed) => {

@@ -1,20 +1,44 @@
-.feed__item {
+[data-id-post] {
     display: flex;
 }
 
-.feed__item__vote {
-    order: -100;
+[data-id-post] .score {
+    order: 1;
     display: flex;
     flex-direction: column;
 }
 
-.feed__item__vote__up {
+[data-id-post] .info {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+[data-id-post] img {
     order: 1;
 }
 
-.feed__item__vote__score {
+[data-id-post] [data-id-subseddit] {
     order: 2;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+[data-id-post] h2 {
+    order: 3;
+}
+
+[data-id-post] p {
+    order: 4;
+}
+
+[data-id-post] [data-id-author] {
+    order: 5;
+}
+
+[data-id-post] time {
+    order: 6;
+}
+
+[data-id-post] .comments {
+    order: 7;
 }

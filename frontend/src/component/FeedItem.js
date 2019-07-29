@@ -32,23 +32,20 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
 export default (model, update, { id, meta, title, text }) => {
     const post = document.createElement("li");
     post.setAttribute("data-id-post", "");
-    post.classList.add("feed__item");
-
+    
     const voteScore = document.createElement("span");
-    voteScore.classList.add("feed__item__vote__score");
     voteScore.setAttribute("data-id-upvotes", "")
     voteScore.textContent = meta.upvotes.length;
     voteScore.addEventListener("click", showUpvotes(model, meta));
-
+    
     const voteUp = document.createElement("button");
-    voteUp.classList.add("feed__item__vote__up");
     voteUp.textContent = "UP";
     voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", { id }));
-
+    
     const voteContainer = document.createElement("div");
-    voteContainer.classList.add("feed__item__vote");
-    voteContainer.append(voteScore, voteUp);
-
+    voteContainer.classList.add("score");
+    voteContainer.append(voteUp, voteScore);
+    
     const author = document.createElement("span");
     author.setAttribute("data-id-author", "");
     author.textContent = meta.author;
@@ -59,7 +56,7 @@ export default (model, update, { id, meta, title, text }) => {
     const image = document.createElement("img");
     //image.src = thumbnail;
 
-    const postTitle = document.createElement("title");
+    const postTitle = document.createElement("h2");
     postTitle.setAttribute("data-id-title", "");
     postTitle.textContent = title;
 
@@ -67,12 +64,18 @@ export default (model, update, { id, meta, title, text }) => {
     postText.textContent = text;
 
     const numComments = document.createElement("span");
+    numComments.classList.add("comments");
     numComments.textContent = `${meta.comments ? meta.comments.length : 0} comments`;
 
     const subseddit = document.createElement("span");
+    subseddit.setAttribute("data-id-subseddit", "")
     subseddit.textContent = meta.subseddit;
 
-    post.append(author, published, image, voteContainer, postTitle, postText, numComments, subseddit);
+    const info = document.createElement("article");
+    info.classList.add("info");
+    info.append(image, postTitle, postText, subseddit, author, published, numComments);
+
+    post.append(info, voteContainer);
 
     return post;
 };
