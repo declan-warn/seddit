@@ -9,6 +9,7 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     close.textContent = "Close";
     close.addEventListener("click", () => {
         modal.close();
+        modal.parentNode.removeChild(modal);
     });
     modal.append(close);
 
@@ -26,7 +27,7 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     });
 
     modal.append(list);
-    document.body.append(modal);
+    document.getElementById("root").append(modal);
     modal.showModal();
 };
 
