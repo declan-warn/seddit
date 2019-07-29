@@ -1,6 +1,6 @@
 import { toDataURL } from "./util.js";
 
-const handleSubmit = ({ apiUrl }, update) => async event => {
+const handleSubmit = ({ apiUrl, token }, update) => async event => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -13,15 +13,13 @@ const handleSubmit = ({ apiUrl }, update) => async event => {
         data.image = "";
     }
 
-    const payload = { payload: data };
+    console.log(data);
 
-    console.log(payload);
-    console.log(JSON.stringify(payload))
-
-    const response = await fetch(`http://${apiUrl}/dummy/post`, {
+    const response = await fetch(`http://${apiUrl}/post`, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
         headers: {
+            "Authorization": `Token ${token}`,
             "Content-Type": "application/json",
         },
     });
@@ -29,7 +27,7 @@ const handleSubmit = ({ apiUrl }, update) => async event => {
     const json = await response.json();
     console.log(response, json);
     if (response.status === 200) {
-        //update("LOGIN_SUCCESS", json);
+        update("SUBMIT_SUCCESS");
     } else {
         alert(json.message);
     }

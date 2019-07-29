@@ -41,6 +41,11 @@ export default class App {
                 this.renderDOM();
                 break;
 
+            case "SUBMIT_SUCCESS":
+                this.model.route = "front";
+                this.renderDOM();
+                break;
+
             case "VOTE_ATTEMPT":
                 // TODO: use logged in version
                 const response = await fetch(`http://${this.model.apiUrl}/dummy/post/vote?id=${payload.id}`, {
