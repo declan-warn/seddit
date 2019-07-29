@@ -3,6 +3,7 @@ import SignupForm from "./SignupForm.js";
 import SubmitForm from "./SubmitForm.js";
 import Feed from "./component/Feed.js";
 import Profile from "./Profile.js";
+import Post from "./component/Post.js";
 
 export default class App {
     constructor(apiUrl, node) {
@@ -10,7 +11,8 @@ export default class App {
         this.model = {
             apiUrl,
             route: "front",
-            token: localStorage.getItem("token"), 
+            token: localStorage.getItem("token"),
+            postId: null,
         }
 
         this.update = this.update.bind(this);
@@ -44,6 +46,12 @@ export default class App {
 
             case "SUBMIT_SUCCESS":
                 this.model.route = "front";
+                this.renderDOM();
+                break;
+
+            case "POST_VIEW":
+                this.model.route = "post";
+                this.model.postId = payload.id;
                 this.renderDOM();
                 break;
 
@@ -97,6 +105,9 @@ export default class App {
 
             case "profile":
                 return Profile(this.model, this.update);
+
+            case "post":
+                return Post(this.model, this.update);
 
             default:
                 throw new Error(`Unknown route '${route}'.`);

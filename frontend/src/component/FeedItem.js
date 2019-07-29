@@ -29,7 +29,7 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     modal.showModal();
 };
 
-export default (model, update, { id, meta, title, text }) => {
+export default (model, update, { id, meta, title, text, thumbnail }) => {
     const post = document.createElement("li");
     post.setAttribute("data-id-post", "");
     
@@ -54,7 +54,10 @@ export default (model, update, { id, meta, title, text }) => {
     published.textContent = meta.published;
 
     const image = document.createElement("img");
-    //image.src = thumbnail;
+    image.src =
+        thumbnail
+            ? `data:image/png;base64,${thumbnail}`
+            : "";
 
     const postTitle = document.createElement("h2");
     postTitle.setAttribute("data-id-title", "");
@@ -66,6 +69,7 @@ export default (model, update, { id, meta, title, text }) => {
     const numComments = document.createElement("span");
     numComments.classList.add("comments");
     numComments.textContent = `${meta.comments ? meta.comments.length : 0} comments`;
+    numComments.addEventListener("click", () => update("POST_VIEW", { id }));
 
     const subseddit = document.createElement("span");
     subseddit.setAttribute("data-id-subseddit", "")
