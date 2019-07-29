@@ -11,7 +11,11 @@ export default (model, update) => {
     signUp.textContent = "Sign Up";
     signUp.addEventListener("click", () => update("SIGNUP_SHOW"));
 
-    header.append(btnLogin, signUp);
+    const submit = document.createElement("button");
+    submit.textContent = "Submit";
+    submit.addEventListener("click", () => update("SUBMIT_SHOW"));
+
+    header.append(btnLogin, signUp, submit);
 
     return header;
 };

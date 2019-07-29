@@ -1,5 +1,6 @@
 import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";
+import SubmitForm from "./SubmitForm.js";
 import Feed from "./Feed.js";
 
 export default class App {
@@ -31,6 +32,11 @@ export default class App {
 
             case "SIGNUP_SHOW":
                 this.model.route = "signup";
+                this.renderDOM();
+                break;
+
+            case "SUBMIT_SHOW":
+                this.model.route = "submit";
                 this.renderDOM();
                 break;
 
@@ -66,6 +72,9 @@ export default class App {
 
             case "signup":
                 return SignupForm(this.model, this.update);
+
+            case "submit":
+                return SubmitForm(this.model, this.update);
 
             default:
                 throw new Error(`Unknown route '${route}'.`);

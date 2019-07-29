@@ -41,7 +41,7 @@ export default (model, update, { id, meta, title, text }) => {
     voteScore.addEventListener("click", showUpvotes(model, meta));
 
     const voteUp = document.createElement("button");
-    voteUp.classList.add("feed__item__vote__up")
+    voteUp.classList.add("feed__item__vote__up");
     voteUp.textContent = "UP";
     voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", { id }));
 
