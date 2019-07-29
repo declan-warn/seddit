@@ -44,13 +44,9 @@ export default (model, update, { meta, title, text }) => {
     voteUp.classList.add("feed__item__vote__up")
     voteUp.textContent = "UP";
 
-    const voteDown = document.createElement("button");
-    voteDown.classList.add("feed__item__vote__down");
-    voteDown.textContent = "DOWN";
-
     const voteContainer = document.createElement("div");
     voteContainer.classList.add("feed__item__vote");
-    voteContainer.append(voteScore, voteUp, voteDown);
+    voteContainer.append(voteScore, voteUp);
 
     const author = document.createElement("span");
     author.setAttribute("data-id-author", "");
