@@ -2,6 +2,7 @@ import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";
 import SubmitForm from "./SubmitForm.js";
 import Feed from "./Feed.js";
+import Profile from "./Profile.js";
 
 export default class App {
     constructor(apiUrl, node) {
@@ -69,6 +70,11 @@ export default class App {
                 this.renderDOM();
                 break;
 
+            case "PROFILE_SHOW":
+                this.model.route = "profile";
+                this.renderDOM();
+                break;
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -88,6 +94,9 @@ export default class App {
 
             case "submit":
                 return SubmitForm(this.model, this.update);
+
+            case "profile":
+                return Profile(this.model, this.update);
 
             default:
                 throw new Error(`Unknown route '${route}'.`);
