@@ -29,7 +29,7 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     modal.showModal();
 };
 
-export default (model, update, { meta, title, text }) => {
+export default (model, update, { id, meta, title, text }) => {
     const post = document.createElement("li");
     post.setAttribute("data-id-post", "");
     post.classList.add("feed__item");
@@ -43,6 +43,7 @@ export default (model, update, { meta, title, text }) => {
     const voteUp = document.createElement("button");
     voteUp.classList.add("feed__item__vote__up")
     voteUp.textContent = "UP";
+    voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", { id }));
 
     const voteContainer = document.createElement("div");
     voteContainer.classList.add("feed__item__vote");

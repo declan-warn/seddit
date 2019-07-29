@@ -16,7 +16,7 @@ export default class App {
         this.renderDOM();
     }
 
-    update(msg, payload = {}) {
+    async update(msg, payload = {}) {
         switch (msg) {
             case "LOGIN_SHOW":
                 this.model.route = "login";
@@ -32,6 +32,22 @@ export default class App {
             case "SIGNUP_SHOW":
                 this.model.route = "signup";
                 this.renderDOM();
+                break;
+
+            case "VOTE_ATTEMPT":
+                // TODO: use logged in version
+                const response = await fetch(`http://${this.model.apiUrl}/dummy/post/vote?id=${payload.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (response.status !== 200) {
+                    const { message } = await response.json();
+                    alert(message);
+                }
+
                 break;
 
             default:
