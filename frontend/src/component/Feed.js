@@ -16,7 +16,9 @@ const loadFeed = async (model, update, feed) => {
     const response = await fetch(endpoint);
     const { posts } = await response.json();
 
-    posts.forEach(post => feed.append(FeedItem(model, update, post)));
+    posts
+        .sort((a, b) => Number(b.meta.published) - Number(a.meta.published))
+        .forEach(post => feed.append(FeedItem(model, update, post)));
 };
 
 export default (model, update) => {
