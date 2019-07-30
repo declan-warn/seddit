@@ -42,7 +42,14 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     
     const voteUp = document.createElement("button");
     voteUp.textContent = "thumb_up";
-    voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", { id }));
+    voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", {
+        id,
+        onSuccess: voteUp.classList.toggle.bind(voteUp.classList, "active"),
+    }));
+    console.log(model.currentUserId, meta.upvotes, meta.upvotes.includes(model.currentUserId));
+    if (meta.upvotes.includes(model.currentUserId)) {
+        voteUp.classList.add("active");
+    }
     
     const voteContainer = document.createElement("div");
     voteContainer.classList.add("score");

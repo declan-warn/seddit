@@ -12,6 +12,8 @@ export default class App {
             apiUrl,
             route: "front",
             token: localStorage.getItem("token"),
+            currentUserId: localStorage.getItem("currentUserId")
+                && Number(localStorage.getItem("currentUserId")) || null,
             postId: null,
         }
 
@@ -27,12 +29,29 @@ export default class App {
                 this.renderDOM();
                 break;
 
-            case "LOGIN_SUCCESS":
+            case "LOGIN_SUCCESS": {
                 this.model.token = payload.token;
                 localStorage.setItem("token", payload.token);
+
+                const response = await fetch(`http://${this.model.apiUrl}/user`, {
+                    headers: {
+                        "Authorization": `Token ${this.model.token}`
+                    }
+                });
+
+                const { id, message } = await response.json();
+                if (response.status === 200) {
+                    console.log("ID:", id);
+                    this.model.currentUserId = id;
+                    localStorage.setItem("currentUserId", id);
+                } else {
+                    alert(message);
+                }
+
                 this.model.route = "front";
                 this.renderDOM();
                 break;
+            }
 
             case "SIGNUP_SHOW":
                 this.model.route = "signup";
@@ -64,6 +83,9 @@ export default class App {
                     },
                 });
 
+                if (response.status === 200) {
+                    payload.onSuccess();
+                }
                 if (response.status !== 200) {
                     const { message } = await response.json();
                     alert(message);

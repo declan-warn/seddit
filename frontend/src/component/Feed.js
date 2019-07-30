@@ -3,7 +3,7 @@ import FeedItem from "./FeedItem.js";
 
 const loadFeed = async (model, update, feed) => {
     const endpoint =
-        model.token === null
+        model.token === model.token
             ? `http://${model.apiUrl}/post/public`  // public
             : new Request(`http://${model.apiUrl}/user/feed`, {
                 headers: {

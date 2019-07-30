@@ -28,7 +28,8 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-[data-id-post] .score button:hover {
+[data-id-post] .score button:hover,
+[data-id-post] .score button.active {
     color: #da4453;
     cursor: pointer;
 }

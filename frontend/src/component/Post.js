@@ -9,10 +9,11 @@ const handleSubmit = (model, update) => async event => {
 
     console.log(data);
 
-    const response = await fetch(`http://${model.apiUrl}/dummy/post/comment?id=${model.postId}`, {
+    const response = await fetch(`http://${model.apiUrl}/post/comment?id=${model.postId}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
+            "Authorization": `Token ${model.token}`,
             "Content-Type": "application/json",
         },
     });
