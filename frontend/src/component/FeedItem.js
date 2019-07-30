@@ -39,7 +39,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     voteScore.addEventListener("click", showUpvotes(model, meta));
     
     const voteUp = document.createElement("button");
-    voteUp.textContent = "UP";
+    voteUp.textContent = "thumb_up";
     voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", { id }));
     
     const voteContainer = document.createElement("div");

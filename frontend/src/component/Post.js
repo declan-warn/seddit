@@ -32,6 +32,7 @@ export default (model, update) => {
     fetch(`http://${model.apiUrl}/dummy/post?id=${model.postId}`)
         .then(x => x.json())
         .then(x => {
+            console.log(x);
             body.prepend(FeedItem(model, update, x));
             const comments = document.createElement("ul");
             x.comments.map(y => {
