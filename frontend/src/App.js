@@ -75,18 +75,17 @@ export default class App {
                 break;
 
             case "VOTE_ATTEMPT":
-                // TODO: use logged in version
-                const response = await fetch(`http://${this.model.apiUrl}/dummy/post/vote?id=${payload.id}`, {
-                    method: "PUT",
+                const response = await fetch(`http://${this.model.apiUrl}/post/vote?id=${payload.id}`, {
+                    method: payload.undo ? "DELETE" : "PUT",
                     headers: {
+                        "Authorization": `Token ${this.model.token}`,
                         "Content-Type": "application/json",
                     },
                 });
 
                 if (response.status === 200) {
                     payload.onSuccess();
-                }
-                if (response.status !== 200) {
+                } else {
                     const { message } = await response.json();
                     alert(message);
                 }
