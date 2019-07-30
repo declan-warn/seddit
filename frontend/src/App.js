@@ -102,6 +102,7 @@ export default class App {
 
             case "PROFILE_SHOW":
                 this.model.route = "profile";
+                this.model.userId = payload.id;
                 this.renderDOM();
                 break;
 

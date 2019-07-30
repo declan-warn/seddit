@@ -5,7 +5,11 @@ export default (model, update) => {
 
     const info = document.createElement("main");
 
-    fetch(`http://${model.apiUrl}/dummy/user`)
+    fetch(`http://${model.apiUrl}/user?id=${model.userId}`, {
+        headers: {
+            "Authorization": `Token ${model.token}`
+        }
+    })
         .then(x => x.json())
         .then(({ username, posts }) => {
             const lines = [

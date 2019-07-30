@@ -29,7 +29,7 @@ export default function AppHeader(model, update) {
 
         const profile = document.createElement("button");
         profile.textContent = "Profile";
-        profile.addEventListener("click", () => update("PROFILE_SHOW"));
+        profile.addEventListener("click", () => update("PROFILE_SHOW", { id: model.userId }));
 
         header.append(signout, submit, profile);
     }

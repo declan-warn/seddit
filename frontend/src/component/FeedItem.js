@@ -46,7 +46,6 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
         id,
         onSuccess: voteUp.classList.toggle.bind(voteUp.classList, "active"),
     }));
-    console.log(model.currentUserId, meta.upvotes, meta.upvotes.includes(model.currentUserId));
     if (meta.upvotes.includes(model.currentUserId)) {
         voteUp.classList.add("active");
     }
@@ -58,6 +57,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     const author = document.createElement("span");
     author.setAttribute("data-id-author", "");
     author.textContent = meta.author;
+    //author.addEventListener("click", () => update("PROFILE_SHOW", {  }))
 
     const published = document.createElement("time");
     published.textContent = toRelativeTime(meta.published);
