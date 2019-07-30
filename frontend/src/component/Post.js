@@ -34,7 +34,7 @@ export default (model, update) => {
         .then(x => {
             body.prepend(FeedItem(model, update, x));
             const comments = document.createElement("ul");
-            (x.meta.comments || []).map(y => {
+            x.comments.map(y => {
                 const comment = document.createElement("li");
                 comment.textContent = y.comment;
 

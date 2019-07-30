@@ -29,7 +29,7 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     modal.showModal();
 };
 
-export default (model, update, { id, meta, title, text, thumbnail }) => {
+export default (model, update, { id, meta, title, text, thumbnail, comments }) => {
     const post = document.createElement("li");
     post.setAttribute("data-id-post", "");
     
@@ -68,7 +68,7 @@ export default (model, update, { id, meta, title, text, thumbnail }) => {
 
     const numComments = document.createElement("span");
     numComments.classList.add("comments");
-    numComments.textContent = `${meta.comments ? meta.comments.length : 0} comments`;
+    numComments.textContent = `${comments.length} comments`;
     numComments.addEventListener("click", () => update("POST_VIEW", { id }));
 
     const subseddit = document.createElement("span");
