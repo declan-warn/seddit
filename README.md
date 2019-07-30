@@ -176,6 +176,8 @@ Allow an option for a logged in user to see all the comments on a post. Same as 
 A logged in user can upvote a post on their feed and trigger a api request (`PUT /post/vote`)
 For now it's ok if the upvote doesn't show up until the page is refreshed.
 
+In addition the user can also retract their upvote, you can do this via `DELETE /post/vote`
+
 **Post new content**
 Logged in users can upload and post new content from a [modal](https://www.webopedia.com/TERM/M/modal_window.html) or seperate page via (`POST /post`). The uploaded content can either be text, an image, or a combination of both.
 
@@ -185,7 +187,7 @@ Note users can ignore this if they properly implement Level 3's Infinite Scroll.
 
 **Profile**
 Logged in users can see their own profile information such as username, number of posts, 
-number of upvotes across all posts, profile pic. Get this information from (`GET /user`)
+number of upvotes across all posts. Get this information from (`GET /user`)
 
 ## Level 3
 Level 3 focuses on more advanced features that will take time to implement and will
@@ -196,7 +198,7 @@ Instead of pagination, users an infinitely scroll through the "subseddit" they a
 For infinite scroll to be properly implemented you need to progressively load posts as you scroll. 
 
 **Comments**
-Logged in users can write comments on "posts" via (`POST /post/comment`)
+Logged in users can write comments on "posts" via (`PUT /post/comment`)
 
 **Live Update**
 If a logged in user upvotes a post or comments on a post, the posts upvotes and comments should
@@ -238,18 +240,21 @@ As mentioned earlier, a subseddit is denoted by a "s/" in front of the subseddit
 The user interface looks good, is performant, makes logical sense, and is usable. 
 
 **Push Notifications**
-Users can receive push notifications when a user they follow posts an image. Notification can be accessed at (`GET /latest`)
+Users can receive push notifications when a user they follow posts an image. There is no endpoint or websocket provided, we expect you to figure out how to do this given the existing endpoints. Notice that since we do not give you a websocket (nor teach it in the course) we are happy for you to use polling ot achieve this, i.e check if there is anything to notify the user of every 5 or so seconds.
+
+The delay is up to you, but remember you want it to look semi live without 
+overwhelming the event queue.
 
 **Offline Access**
 Users can access the "Seddit" at all times by using Web Workers to cache the page (and previous content) locally.
-
+d
 **Fragment based URL routing**
 Users can access different pages using URL fragments:
 
 ```
-/#profile=me
+/#profile=1
 /#feed
-/#profile=janecitizen
+/#profile=420
 ```
 
 # FAQ
