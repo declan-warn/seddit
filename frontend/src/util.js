@@ -9,10 +9,9 @@ export const toDataURL = file => new Promise((resolve, reject) => {
 
 export const toRelativeTime = timestamp => {
     const diff = new Date(Date.now() - Number(timestamp));
-    //console.log(timestamp);
 
-    if (diff.getFullYear() > 0) {
-        return `${diff.getFullYear()} years ago`;
+    if (diff.getFullYear() > 1970) {
+        return `${diff.getFullYear() - 1970} years ago`;
     } else if (diff.getMonth() > 0) {
         return `${diff.getMonth()} months ago`;
     } else if (diff.getDay() > 0) {

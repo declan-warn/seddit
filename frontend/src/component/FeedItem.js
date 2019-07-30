@@ -61,7 +61,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     //author.addEventListener("click", () => update("PROFILE_SHOW", {  }))
 
     const published = document.createElement("time");
-    published.textContent = toRelativeTime(meta.published);
+    published.textContent = toRelativeTime(meta.published * 1000);
 
     const image = document.createElement("img");
     image.src =
