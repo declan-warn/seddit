@@ -1,3 +1,5 @@
+import { toRelativeTime } from "/src/util.js";
+
 const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     if (!upvotes) return;
 
@@ -51,7 +53,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     author.textContent = meta.author;
 
     const published = document.createElement("time");
-    published.textContent = meta.published;
+    published.textContent = toRelativeTime(meta.published);
 
     const image = document.createElement("img");
     image.src =
