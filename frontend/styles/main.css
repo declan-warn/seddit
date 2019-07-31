@@ -16,6 +16,9 @@
     height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+
+    position: sticky;
+    top: 8px;
 }
 
 [data-id-post] .score button {
