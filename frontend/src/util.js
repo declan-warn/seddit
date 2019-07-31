@@ -35,7 +35,7 @@ export function createElement(type, attributes={}) {
   	for (const [key, val] of Object.entries(attributes)) {
     	switch (key) {
           	case "children":
-            	if (typeof val === "string") {
+            	if (["string", "number"].includes(typeof val)) {
                     element.textContent = val;
                 } else {
                 	val
