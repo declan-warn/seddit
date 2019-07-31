@@ -69,7 +69,7 @@ export default class App {
             case "SUBMIT_SHOW":
                 this.model.route = "submit";
                 this.model.routeData = {
-                    
+
                 };
                 this.renderDOM();
                 break;
@@ -82,6 +82,14 @@ export default class App {
             case "POST_VIEW":
                 this.model.route = "post";
                 this.model.postId = payload.id;
+                this.renderDOM();
+                break;
+
+            case "POST_EDIT":
+                this.model.route = "submit";
+                this.model.routeData = {
+
+                };
                 this.renderDOM();
                 break;
 
