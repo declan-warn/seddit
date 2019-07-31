@@ -19,7 +19,8 @@ export default class App {
 
         this.update = this.update.bind(this);
 
-        this.renderDOM();
+        //this.renderDOM();
+        this.update("FRONT_SHOW");
 
         // for debugging
         window.app = this;
@@ -27,10 +28,17 @@ export default class App {
 
     async update(msg, payload = {}) {
         switch (msg) {
-            case "FRONT_SHOW":
+            case "FRONT_SHOW": {
+                const response = await fetch(`http://${this.model.apiUrl}/post/public`);
+                const { posts } = await response.json();
+
                 this.model.route = "front";
+                this.model.routeData =
+                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+
                 this.renderDOM();
                 break;
+            }
 
             case "LOGIN_SHOW":
                 this.model.route = "login";
