@@ -33,10 +33,15 @@ const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
 
 export default (model, update, { id, meta, title, text, thumbnail, comments }) => {
     const handleVote = ({ currentTarget }) => {
+        const undo = currentTarget.classList.contains("active");
         update("VOTE_ATTEMPT", {
             id,
-            toggleIndicator() { currentTarget.classList.toggle("active") },
-            undo: currentTarget.classList.contains("active"),
+            toggleIndicator() {
+                const score = currentTarget.nextElementSibling;
+                score.textContent = Number(score.textContent) + (undo ? (-1) : 1);
+                currentTarget.classList.toggle("active");
+            },
+            undo,
         })
     };
 
