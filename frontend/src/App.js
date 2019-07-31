@@ -99,6 +99,38 @@ export default class App {
                 this.renderDOM();
                 break;
 
+            case "POST_SUBMIT": {
+                const method =
+                    payload.id
+                        ? "PUT"
+                        : "POST";
+
+                const data = Object.fromEntries(
+                    Object.entries(payload).filter(([, val]) => val !== "")
+                );
+
+                console.log(method, JSON.stringify(data));
+
+                const response = await fetch(`http://${this.model.apiUrl}/post?id=${payload.id}`, {
+                    method,
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Authorization": `Token ${this.model.token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const json = await response.json();
+                
+                if (response.status === 200) {
+                    console.log(json);
+                } else {
+                    alert(json.message);
+                }
+                
+                break;
+            }
+
             case "VOTE_ATTEMPT":
                 payload.toggleIndicator();
 

@@ -2,7 +2,7 @@ import { createElement, toDataURL, path } from "/src/util.js";
 
 import { withHeader } from "/src/component/AppHeader.js";
 
-const handleSubmit = ({ apiUrl, token }, update) => async event => {
+const handleSubmit = (model, update) => async event => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -15,8 +15,13 @@ const handleSubmit = ({ apiUrl, token }, update) => async event => {
         data.image = "";
     }
 
+    data.id = path(["routeData", "id"])(model);
+
     console.log(data);
 
+    update("POST_SUBMIT", data);
+
+    /*
     const response = await fetch(`http://${apiUrl}/post`, {
         method: "POST",
         body: JSON.stringify(data),
@@ -33,6 +38,7 @@ const handleSubmit = ({ apiUrl, token }, update) => async event => {
     } else {
         alert(json.message);
     }
+    */
 };
 
 export default (model, update) => {
