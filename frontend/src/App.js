@@ -107,11 +107,31 @@ export default class App {
                 this.renderDOM();
                 break;
 
-            case "PROFILE_SHOW":
+            case "PROFILE_SHOW": {
+                const url = new URL(`http://${this.model.apiUrl}/user`);
+                if (payload.id) {
+                    url.searchParams.append("id", payload.id);
+                } else if (payload.username) {
+                    url.searchParams.append("username", payload.username);
+                }
+                
+                const response = await fetch(url, {
+                    headers: {
+                        "Authorization": `Token ${this.model.token}`
+                    }
+                });
+
+                const json = await response.json();
+
+                console.log(json);
+
                 this.model.route = "profile";
                 this.model.userId = payload.id;
+                this.model.routeData = json;
+
                 this.renderDOM();
                 break;
+            }
 
             default:
                 throw new Error(`Unknown msg '${msg}'.`);

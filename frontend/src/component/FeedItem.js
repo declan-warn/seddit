@@ -58,7 +58,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     const author = document.createElement("span");
     author.setAttribute("data-id-author", "");
     author.textContent = meta.author;
-    //author.addEventListener("click", () => update("PROFILE_SHOW", {  }))
+    author.addEventListener("click", () => update("PROFILE_SHOW", { username: meta.author }))
 
     const published = document.createElement("time");
     published.textContent = toRelativeTime(meta.published * 1000);
