@@ -36,7 +36,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
         update("VOTE_ATTEMPT", {
             id,
             toggleIndicator() { currentTarget.classList.toggle("active") },
-            undo: voteUp.classList.contains("active"),
+            undo: currentTarget.classList.contains("active"),
         })
     };
 
