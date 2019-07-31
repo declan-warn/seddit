@@ -1,5 +1,18 @@
 @import "material-icons.css";
 
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: #da4453;
+}
+
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 [data-id-post] {
     display: flex;
     margin-bottom: 24px;
@@ -22,7 +35,6 @@
 }
 
 [data-id-post] .score button {
-    box-sizing: border-box;
     font-family: "Material Icons";
     padding: 12px 0px;
     width: 100%;
