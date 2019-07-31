@@ -20,6 +20,9 @@ export default class App {
         this.update = this.update.bind(this);
 
         this.renderDOM();
+
+        // for debugging
+        window.app = this;
     }
 
     async update(msg, payload = {}) {
