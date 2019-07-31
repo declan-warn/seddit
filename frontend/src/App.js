@@ -1,6 +1,6 @@
 import LoginForm from "./LoginForm.js";
 import SignupForm from "./SignupForm.js";
-import SubmitForm from "./SubmitForm.js";
+import SubmitForm from "/src/component/SubmitForm.js";
 import Feed from "./component/Feed.js";
 import Profile from "./Profile.js";
 import Post from "./component/Post.js";

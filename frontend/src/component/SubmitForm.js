@@ -1,4 +1,6 @@
-import { toDataURL } from "./util.js";
+import { toDataURL } from "/src/util.js";
+
+import { withHeader } from "/src/component/AppHeader.js";
 
 const handleSubmit = ({ apiUrl, token }, update) => async event => {
     event.preventDefault();
@@ -59,5 +61,5 @@ export default (model, update) => {
 
     form.append(title, text, subseddit, image, submit);
 
-    return form;
+    return withHeader(model, update, form);
 };
