@@ -1,4 +1,4 @@
-import { withHeader } from "./AppHeader.js";
+import { withHeader } from "/src/component/AppHeader.js";
 
 export default (model, update) => {
     const profile = document.createElement("div");

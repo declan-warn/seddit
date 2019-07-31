@@ -1,4 +1,4 @@
-import { withHeader } from "../AppHeader.js";
+import { withHeader } from "/src/component/AppHeader.js";
 import FeedItem from "./FeedItem.js";
 
 const handleSubmit = (model, update) => async event => {

@@ -5,6 +5,7 @@ export function withHeader(model, update, component) {
 
 export default function AppHeader(model, update) {
     const header = document.createElement("header");
+    header.classList.add("nav-bar");
 
     if (model.token === null) {
         const btnLogin = document.createElement("button");
