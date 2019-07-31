@@ -10,21 +10,21 @@ export const toDataURL = file => new Promise((resolve, reject) => {
 export const toRelativeTime = timestamp => {
     const diff = new Date(Date.now() - Number(timestamp));
 
-    if (diff.getFullYear() > 1970) {
-        return `${diff.getFullYear() - 1970} years ago`;
-    } else if (diff.getMonth() > 0) {
-        return `${diff.getMonth()} months ago`;
-    } else if (diff.getDay() > 0) {
-        const weeks = Math.floor(diff.getDay() / 7);
+    if (diff.getUTCFullYear() > 1970) {
+        return `${diff.getUTCFullYear() - 1970} years ago`;
+    } else if (diff.getUTCMonth() > 0) {
+        return `${diff.getUTCMonth()} months ago`;
+    } else if (diff.getUTCDate() > 1) {
+        const weeks = Math.floor(diff.getUTCDate() / 7);
         if (weeks > 0) {
             return `${weeks} weeks ago`;
         } else {
-            return `${diff.getDay()} days ago`;
+            return `${diff.getUTCDate() - 1} days ago`;
         }
-    } else if (diff.getHours() > 0) {
-        return `${diff.getHours()} hours ago`;
-    } else if (diff.getMinutes() > 0) {
-        return `${diff.getMinutes()} minutes ago`;
+    } else if (diff.getUTCHours() > 0) {
+        return `${diff.getUTCHours()} hours ago`;
+    } else if (diff.getUTCMinutes() > 0) {
+        return `${diff.getUTCMinutes()} minutes ago`;
     } else {
         return "just then";
     }
