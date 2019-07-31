@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+body {
+    /* Easiest way to avoid the navbar visibly moving
+     * horizontally if the amount of content changes
+     * (causing scrollbar to appear/disappear)
+     */
+    overflow-y: scroll;
+}
+
 a {
     color: #da4453;
 }
