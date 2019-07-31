@@ -14,7 +14,7 @@
     width: 40px;
     flex-shrink: 0;
     height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid lightgrey;
     border-radius: 4px;
 
     position: sticky;
@@ -22,19 +22,31 @@
 }
 
 [data-id-post] .score button {
+    box-sizing: border-box;
     font-family: "Material Icons";
     padding: 12px 0px;
     width: 100%;
     background: none;
     border: none;
-    color: rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: lightgrey;
+    border-bottom: 1px solid lightgrey;
 }
 
-[data-id-post] .score button:hover,
-[data-id-post] .score button.active {
+[data-id-post] .score button:hover {
     color: #da4453;
     cursor: pointer;
+}
+
+[data-id-post] .score button.active {
+    color: #FFF;
+    background:#da4453;
+    border-radius: 4px 4px 0px 0px;
+    box-shadow: 0px 0px 0px 1px #da4453;
+    border-bottom-color: #da4453;
+}
+
+[data-id-post] .score button:focus {
+    outline: none;
 }
 
 [data-id-post] .score span {

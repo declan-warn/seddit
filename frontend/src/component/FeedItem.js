@@ -44,7 +44,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
     voteUp.textContent = "thumb_up";
     voteUp.addEventListener("click", () => update("VOTE_ATTEMPT", {
         id,
-        onSuccess: voteUp.classList.toggle.bind(voteUp.classList, "active"),
+        toggleIndicator: voteUp.classList.toggle.bind(voteUp.classList, "active"),
         undo: voteUp.classList.contains("active"),
     }));
     if (meta.upvotes.includes(model.currentUserId)) {

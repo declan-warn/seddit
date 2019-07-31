@@ -83,6 +83,8 @@ export default class App {
                 break;
 
             case "VOTE_ATTEMPT":
+                payload.toggleIndicator();
+
                 const response = await fetch(`http://${this.model.apiUrl}/post/vote?id=${payload.id}`, {
                     method: payload.undo ? "DELETE" : "PUT",
                     headers: {
@@ -91,9 +93,8 @@ export default class App {
                     },
                 });
 
-                if (response.status === 200) {
-                    payload.onSuccess();
-                } else {
+                if (response.status !== 200) {
+                    payload.toggleIndicator();
                     const { message } = await response.json();
                     alert(message);
                 }
