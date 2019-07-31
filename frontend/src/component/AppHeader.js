@@ -7,6 +7,11 @@ export default function AppHeader(model, update) {
     const header = document.createElement("header");
     header.classList.add("nav-bar");
 
+    const front = document.createElement("button");
+    front.textContent = "Front Page";
+    front.addEventListener("click", () => update("FRONT_SHOW"));
+    header.append(front);
+
     if (model.token === null) {
         const btnLogin = document.createElement("button");
         btnLogin.setAttribute("data-id-login", "");

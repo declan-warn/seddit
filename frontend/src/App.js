@@ -27,6 +27,11 @@ export default class App {
 
     async update(msg, payload = {}) {
         switch (msg) {
+            case "FRONT_SHOW":
+                this.model.route = "front";
+                this.renderDOM();
+                break;
+
             case "LOGIN_SHOW":
                 this.model.route = "login";
                 this.renderDOM();
