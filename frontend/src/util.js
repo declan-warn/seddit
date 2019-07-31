@@ -29,3 +29,20 @@ export const toRelativeTime = timestamp => {
         return "just then";
     }
 };
+
+export function createElement(type, attributes, children=[]) {
+	const element = document.createElement(type);
+  	if (attributes) {
+      for (const [key, val] of Object.entries(attributes)) {
+          element.setAttribute(key, val);
+      }
+    }
+  	if (typeof children === "string") {
+    	element.textContent = children; 
+    } else {
+      children
+          .map(args => createElement(...args))
+          .forEach(child => element.append(child));
+    }
+  	return element;
+}
