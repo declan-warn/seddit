@@ -30,19 +30,27 @@ export const toRelativeTime = timestamp => {
     }
 };
 
-export function createElement(type, attributes, children=[]) {
+export function createElement(type, attributes={}) {
 	const element = document.createElement(type);
-  	if (attributes) {
-      for (const [key, val] of Object.entries(attributes)) {
-          element.setAttribute(key, val);
-      }
-    }
-  	if (typeof children === "string") {
-    	element.textContent = children; 
-    } else {
-      children
-          .map(args => createElement(...args))
-          .forEach(child => element.append(child));
+  	for (const [key, val] of Object.entries(attributes)) {
+    	switch (key) {
+          	case "children":
+            	if (typeof val === "string") {
+                    element.textContent = val;
+                } else {
+                	val
+                    	.map(args => args instanceof HTMLElement ? args : createElement(...args))
+                  		.forEach(child => element.append(child));
+                }
+            	break;
+            
+        	case "onClick":    
+            	element.addEventListener("click", val);
+        		break;
+            
+            default:
+            	element.setAttribute(key, val);      
+        }
     }
   	return element;
 }

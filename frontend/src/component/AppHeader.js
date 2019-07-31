@@ -1,44 +1,59 @@
+import { createElement } from "/src/util.js";
+
 export function withHeader(model, update, component) {
     component.prepend(AppHeader(model, update));
     return component;
 };
 
 export default function AppHeader(model, update) {
-    const header = document.createElement("header");
-    header.classList.add("nav-bar");
+    const navLeft = createElement("nav", {
+        class: "left",
+        children: [
+            ["button", {
+                onClick() { update("FRONT_SHOW") },
+                children: "Front Page"
+            }]
+        ]
+    });
 
-    const front = document.createElement("button");
-    front.textContent = "Front Page";
-    front.addEventListener("click", () => update("FRONT_SHOW"));
-    header.append(front);
+    const navRight = createElement("nav", {
+        class: "right",
+        children:
+            model.token === null
+                ? [
+                    ["button", {
+                        "data-id-login": "",
+                        onClick() { update("LOGIN_SHOW") },
+                        children: "Log In"
+                    }],
+                    ["button", {
+                        "data-id-signup": "",
+                        onClick() { update("SIGNUP_SHOW") },
+                        children: "Sign Up"
+                    }]
+                ] : [
+                    ["button", {
+                        onClick() { update("SUBMIT_SHOW") },
+                        children: "Add Post"
+                    }],
+                    ["button", {
+                        onClick() { update("PROFILE_SHOW", { id: model.currentUserId }) },
+                        children: "Profile"
+                    }],
+                    ["button", {
+                        onClick() { update("SIGNOUT") },
+                        children: "Sign Out"
+                    }]
+                ]
+    });
 
-    if (model.token === null) {
-        const btnLogin = document.createElement("button");
-        btnLogin.setAttribute("data-id-login", "");
-        btnLogin.textContent = "Log In";
-        btnLogin.addEventListener("click", () => update("LOGIN_SHOW"));
-
-        const signUp = document.createElement("button");
-        signUp.setAttribute("data-id-signup", "");
-        signUp.textContent = "Sign Up";
-        signUp.addEventListener("click", () => update("SIGNUP_SHOW"));
-
-        header.append(btnLogin, signUp);
-    } else {
-        const signout = document.createElement("button");
-        signout.textContent = "Sign Out";
-        signout.addEventListener("click", () => update("SIGNOUT"));
-
-        const submit = document.createElement("button");
-        submit.textContent = "Submit";
-        submit.addEventListener("click", () => update("SUBMIT_SHOW"));
-
-        const profile = document.createElement("button");
-        profile.textContent = "Profile";
-        profile.addEventListener("click", () => update("PROFILE_SHOW", { id: model.currentUserId }));
-
-        header.append(signout, submit, profile);
-    }
+    const header = createElement("header", {
+        class: "nav-bar",
+        children: [
+            navLeft,
+            navRight
+        ]
+    });
 
     return header;
 };
