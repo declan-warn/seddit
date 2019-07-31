@@ -1,8 +1,10 @@
-import { toDataURL } from "/src/util.js";
+import { createElement, toDataURL, path } from "/src/util.js";
 
 import { withHeader } from "/src/component/AppHeader.js";
 
 const handleSubmit = ({ apiUrl, token }, update) => async event => {
+    console.log("AV ")
+
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -36,30 +38,42 @@ const handleSubmit = ({ apiUrl, token }, update) => async event => {
 };
 
 export default (model, update) => {
-    const form = document.createElement("form");
-    form.addEventListener("submit", handleSubmit(model, update));
+    const routeData = props =>
+        path(["routeData", ...props])(model) || "";
 
-    const title = document.createElement("input");
-    title.placeholder = "Title";
-    title.name = "title";title
+    const form = createElement("form", {
+        onSubmit: handleSubmit(model, update),
+        children: [
+            ["input", {
+                placeholder: "Title",
+                name: "title",
+                value: routeData("title")
+            }],
+            ["input", {
+                placeholder: "Text",
+                name: "text",
+                value: routeData("text")
+            }],
+            ["input", {
+                placeholder: "Subseddit",
+                name: "subseddit",
+                value: routeData("subseddit")
+            }],
+            ["input", {
+                type: "file",
+                name: "image"
+            }],
+            ["button", {
+                children: "Submit"
+            }]
+        ]
+    });
 
-    const text = document.createElement("input");
-    text.type = "text";
-    text.placeholder = "Text";
-    text.name = "text";
+    const div = createElement("div", {
+        children: [
+            form
+        ]
+    });
 
-    const subseddit = document.createElement("input");
-    subseddit.placeholder = "Subseddit";
-    subseddit.name = "subseddit";
-
-    const image = document.createElement("input");
-    image.type = "file";
-    image.name = "image";
-
-    const submit = document.createElement("button");
-    submit.textContent = "Submit";
-
-    form.append(title, text, subseddit, image, submit);
-
-    return withHeader(model, update, form);
+    return withHeader(model, update, div);
 };

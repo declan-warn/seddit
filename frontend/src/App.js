@@ -68,6 +68,9 @@ export default class App {
 
             case "SUBMIT_SHOW":
                 this.model.route = "submit";
+                this.model.routeData = {
+                    
+                };
                 this.renderDOM();
                 break;
 

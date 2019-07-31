@@ -44,8 +44,12 @@ export function createElement(type, attributes={}) {
                 }
             	break;
             
-        	case "onClick":    
-            	element.addEventListener("click", val);
+        	case "onClick":
+            case "onSubmit":
+                const method = key.replace(/^on/, "").toLowerCase();
+                console.log(method, element);
+
+            	element.addEventListener(method, val);
         		break;
             
             default:
@@ -54,3 +58,16 @@ export function createElement(type, attributes={}) {
     }
   	return element;
 }
+
+// Implements https://ramdajs.com/docs/#path
+// Code my own
+export const path = props => obj => props.reduce(
+    (acc, prop) => {
+        if (["object", "function"].includes(typeof acc) && acc.hasOwnProperty(prop)) {
+            return acc[prop]; 
+        } else {
+            return undefined;
+        }
+    },
+    obj
+);
