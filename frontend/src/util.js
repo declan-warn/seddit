@@ -47,8 +47,6 @@ export function createElement(type, attributes={}) {
         	case "onClick":
             case "onSubmit":
                 const method = key.replace(/^on/, "").toLowerCase();
-                console.log(method, element);
-
             	element.addEventListener(method, val);
         		break;
             

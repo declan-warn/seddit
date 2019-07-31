@@ -3,8 +3,6 @@ import { createElement, toDataURL, path } from "/src/util.js";
 import { withHeader } from "/src/component/AppHeader.js";
 
 const handleSubmit = ({ apiUrl, token }, update) => async event => {
-    console.log("AV ")
-
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -41,23 +39,27 @@ export default (model, update) => {
     const routeData = props =>
         path(["routeData", ...props])(model) || "";
 
+    console.log(model.routeData);
+    console.log(routeData("title"))
+    console.log(path(["routeData", "title"])(model))
+
     const form = createElement("form", {
         onSubmit: handleSubmit(model, update),
         children: [
             ["input", {
                 placeholder: "Title",
                 name: "title",
-                value: routeData("title")
+                value: routeData(["title"])
             }],
             ["input", {
                 placeholder: "Text",
                 name: "text",
-                value: routeData("text")
+                value: routeData(["text"])
             }],
             ["input", {
                 placeholder: "Subseddit",
                 name: "subseddit",
-                value: routeData("subseddit")
+                value: routeData(["meta", "subseddit"])
             }],
             ["input", {
                 type: "file",

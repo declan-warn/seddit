@@ -83,8 +83,7 @@ export default class App {
                 break;
 
             case "SUBMIT_SUCCESS":
-                this.model.route = "front";
-                this.renderDOM();
+                this.update("FRONT_SHOW");
                 break;
 
             case "POST_VIEW":
@@ -95,9 +94,8 @@ export default class App {
 
             case "POST_EDIT":
                 this.model.route = "submit";
-                this.model.routeData = {
-
-                };
+                this.model.routeData =
+                    this.model.routeData.find(({ id }) => id === payload.id);
                 this.renderDOM();
                 break;
 
