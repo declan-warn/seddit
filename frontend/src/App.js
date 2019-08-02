@@ -62,24 +62,8 @@ export default class App {
 
             case "LOGIN_SUCCESS": {
                 this.model.token = payload.token;
-
-                /*const response = await fetch(`http://${this.model.apiUrl}/user`, {
-                    headers: {
-                        "Authorization": `Token ${this.model.token}`
-                    }
-                });
-
-                const json = await response.json();
-                if (response.status === 200) {
-                    this.model.currentUser = json;
-                } else {
-                    alert(json.message);
-                }*/
-
                 this.model.currentUser = await this.api.user.get();
-                
                 this.update("FEED_SHOW");
-
                 break;
             }
 
@@ -114,34 +98,17 @@ export default class App {
                 break;
 
             case "POST_SUBMIT": {
-                const method =
-                    payload.id
-                        ? "PUT"
-                        : "POST";
-
-                const data = Object.fromEntries(
+                const body = Object.fromEntries(
                     Object.entries(payload).filter(([, val]) => val !== "")
                 );
 
-                console.log(method, JSON.stringify(data));
-
-                const response = await fetch(`http://${this.model.apiUrl}/post?id=${payload.id}`, {
-                    method,
-                    body: JSON.stringify(data),
-                    headers: {
-                        "Authorization": `Token ${this.model.token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                const json = await response.json();
-                
-                if (response.status === 200) {
-                    console.log(json);
+                if (payload.id) {
+                    await this.api.post.update(payload.id, body);
                 } else {
-                    alert(json.message);
+                    await this.api.post.submit(body);
                 }
-                
+
+                this.update("FRONT_SHOW");
                 break;
             }
 

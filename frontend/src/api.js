@@ -22,7 +22,7 @@ export default function APIWrapper(model, apiUrl) {
 
         return fetch(`${this.baseUrl}${path}?${params.toString()}`, {
             method: options.method,
-            body: options.body,
+            body: JSON.stringify(options.body),
             headers,
         });
     };
@@ -38,6 +38,17 @@ export default function APIWrapper(model, apiUrl) {
         getPublic: () => requestJSON("/post/public", {
             method: "GET",
             authorized: false,
+        }),
+        submit: (body) => requestJSON("/post", {
+            method: "POST",
+            authorized: true,
+            body,
+        }),
+        update: (id, body) => requestJSON("/post", {
+            method: "PUT",
+            authorized: true,
+            params: { id },
+            body,
         }),
     };
 
