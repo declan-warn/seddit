@@ -129,6 +129,10 @@ a:hover {
     order: 8;
 }
 
+[data-id-post] .delete {
+    order: 9;
+}
+
 .nav-bar {
     display: flex;
     justify-content: space-between;

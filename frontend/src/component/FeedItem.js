@@ -83,6 +83,11 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                         class: "edit",
                         onClick() { update("POST_EDIT", { id }) },
                         children: "Edit"
+                    }],
+                    ["button", {
+                        class: "delete",
+                        onClick() { update("POST_DELETE", { id }) },
+                        children: "Delete"
                     }]
                 ]
             }],
