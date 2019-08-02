@@ -245,22 +245,22 @@ export default class App {
         const { route } = this.model;
         switch (route) {
             case "front":
-                return Feed(this.model, this.update);
+                return Feed;
 
             case "login":
-                return LoginForm(this.model, this.update);
+                return LoginForm;
 
             case "signup":
-                return SignupForm(this.model, this.update);
+                return SignupForm;
 
             case "submit":
-                return SubmitForm(this.model, this.update);
+                return SubmitForm;
 
             case "profile":
-                return Profile(this.model, this.update);
+                return Profile;
 
             case "post":
-                return Post(this.model, this.update);
+                return Post;
 
             default:
                 throw new Error(`Unknown route '${route}'.`);
@@ -271,7 +271,8 @@ export default class App {
         for (const child of this.node.children) {
             this.node.removeChild(child);
         }
-        this.node.appendChild(this.render());
+        const component = this.render();
+        this.node.appendChild(component(this.model, this.update));
     }
 
 }
