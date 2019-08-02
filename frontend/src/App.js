@@ -21,6 +21,8 @@ export default class App {
 
         this.api = new APIWrapper(this.model, apiUrl);
 
+        this.worker = new Worker("/src/worker.js");
+
         // This method is passed around a lot so we need to bind it
         // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
