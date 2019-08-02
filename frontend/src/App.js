@@ -45,13 +45,7 @@ export default class App {
             }
 
             case "FEED_SHOW": {
-                const response = await fetch(`http://${this.model.apiUrl}/user/feed`, {
-                    headers: {
-                        "Authorization": `Token ${this.model.token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-                const { posts, message } = await response.json();
+                const { posts } = await this.api.user.getFeed();
 
                 this.model.route = "front";
                 this.model.routeData =

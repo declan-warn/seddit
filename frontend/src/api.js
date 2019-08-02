@@ -47,5 +47,9 @@ export default function APIWrapper(model, apiUrl) {
             authorized: true,
             params: username ? { username } : { id },
         }),
+        getFeed: () => requestJSON("/user/feed", {
+            method: "GET",
+            authorized: true,
+        }),
     };
 }
