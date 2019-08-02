@@ -42,7 +42,7 @@ export default function AppHeader(model, update) {
                         children: "Add Post"
                     }],
                     ["button", {
-                        onClick() { update("PROFILE_SHOW", { id: model.currentUserId }) },
+                        onClick() { update("PROFILE_SHOW", { id: model.currentUser.id }) },
                         children: "Profile"
                     }],
                     ["button", {

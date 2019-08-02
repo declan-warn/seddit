@@ -10,21 +10,21 @@ import APIWrapper from "/src/api.js";
 export default class App {
     constructor(apiUrl, node) {
         this.node = node;
+        
+        const storedModel = JSON.parse(localStorage.getItem("model"));
         this.model = {
+            currentUser: {},
+            token: null,
+            ...storedModel,
             apiUrl,
-            route: "front",
-            token: localStorage.getItem("token"),
-            currentUserId: localStorage.getItem("currentUserId")
-                && Number(localStorage.getItem("currentUserId")) || null,
-            postId: null,
-            currentUser: JSON.parse(localStorage.getItem("currentUser"))
-        }
+        };
 
         this.api = new APIWrapper(this.model, apiUrl);
 
+        // This method is passed around a lot so we need to bind it
+        // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
 
-        //this.renderDOM();
         this.update("FRONT_SHOW");
 
         // for debugging
@@ -79,12 +79,7 @@ export default class App {
 
                 const json = await response.json();
                 if (response.status === 200) {
-                    console.log("ID:", json.id);
-                    this.model.currentUserId = json.id;
-                    localStorage.setItem("currentUserId", json.id);
-
                     this.model.currentUser = json;
-                    localStorage.setItem("currentUser", JSON.stringify(json));
                 } else {
                     alert(json.message);
                 }
@@ -239,6 +234,9 @@ export default class App {
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
+
+        console.log("setting model");
+        localStorage.setItem("model", JSON.stringify(this.model));
     }
 
     render() {
