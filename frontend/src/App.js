@@ -147,21 +147,8 @@ export default class App {
             }
 
             case "POST_DELETE": {
-                const response = await fetch(
-                    `http://${this.model.apiUrl}/post?id=${payload.id}`,
-                    {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Token ${this.model.token}`,
-                        }
-                    }
-                );
-                if (response.status === 200) {
-                    this.update("FRONT_SHOW");
-                } else {
-                    const { message } = await response.json();
-                    alert(message);
-                }
+                await this.api.post.delete(payload.id);
+                this.update("FRONT_SHOW");
                 break;
             }
 

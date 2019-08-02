@@ -55,6 +55,11 @@ export default function APIWrapper(model, apiUrl) {
             authorized: true,
             params: { id },
         }),
+        delete: (id) => requestJSON("/post", {
+            method: "DELETE",
+            authorized: true,
+            params: { id },
+        })
     };
 
     this.user = {
