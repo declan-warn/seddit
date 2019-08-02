@@ -1,4 +1,4 @@
-import { createElement, toRelativeTime } from "/src/util.js";
+import { createElement, toRelativeTime, path } from "/src/util.js";
 
 const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
     if (!upvotes) return;
@@ -45,6 +45,8 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
         })
     };
 
+    const isAuthor = meta.author === path(["currentUser", "username"])(model);
+
     const post = createElement("li", {
         "data-id-post": "",
         children: [
@@ -80,12 +82,12 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                         children: `view comments (${comments.length})`
                     }],
                     ["a", {
-                        class: "edit",
+                        class: `edit ${isAuthor ? "" : "hidden"}`,
                         onClick() { update("POST_EDIT", { id }) },
                         children: "Edit"
                     }],
                     ["button", {
-                        class: "delete",
+                        class: `delete ${isAuthor ? "" : "hidden"}`,
                         onClick() { update("POST_DELETE", { id }) },
                         children: "Delete"
                     }]

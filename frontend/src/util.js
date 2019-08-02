@@ -61,7 +61,7 @@ export function createElement(type, attributes={}) {
 // Code my own
 export const path = props => obj => props.reduce(
     (acc, prop) => {
-        if (["object", "function"].includes(typeof acc) && acc.hasOwnProperty(prop)) {
+        if (acc !== null && acc !== undefined && acc.hasOwnProperty(prop)) {
             return acc[prop]; 
         } else {
             return undefined;

@@ -15,6 +15,7 @@ export default class App {
             currentUserId: localStorage.getItem("currentUserId")
                 && Number(localStorage.getItem("currentUserId")) || null,
             postId: null,
+            currentUser: JSON.parse(localStorage.getItem("currentUser"))
         }
 
         this.update = this.update.bind(this);
@@ -55,13 +56,16 @@ export default class App {
                     }
                 });
 
-                const { id, message } = await response.json();
+                const json = await response.json();
                 if (response.status === 200) {
-                    console.log("ID:", id);
-                    this.model.currentUserId = id;
-                    localStorage.setItem("currentUserId", id);
+                    console.log("ID:", json.id);
+                    this.model.currentUserId = json.id;
+                    localStorage.setItem("currentUserId", json.id);
+
+                    this.model.currentUser = json;
+                    localStorage.setItem("currentUser", JSON.stringify(json));
                 } else {
-                    alert(message);
+                    alert(json.message);
                 }
 
                 this.model.route = "front";

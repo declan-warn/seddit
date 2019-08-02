@@ -21,6 +21,10 @@ a:hover {
     text-decoration: underline;
 }
 
+.hidden {
+    display: none;
+}
+
 [data-id-post] {
     display: flex;
     margin-bottom: 24px;
