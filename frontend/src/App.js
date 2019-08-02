@@ -184,33 +184,16 @@ export default class App {
                 break;
 
             case "PROFILE_SHOW": {
-                const url = new URL(`http://${this.model.apiUrl}/user`);
-                if (payload.id) {
-                    url.searchParams.append("id", payload.id);
-                } else if (payload.username) {
-                    url.searchParams.append("username", payload.username);
-                }
-                
-                const response = await fetch(url, {
-                    headers: {
-                        "Authorization": `Token ${this.model.token}`
-                    }
-                });
-
-                const json = await response.json();
-
-                console.log(json);
-
-                const posts =
-                    await Promise.all(json.posts.map(this.api.post.get));
-
-                console.log(posts);
+                const userData = await this.api.user.get(payload);
+                const posts = await Promise.all(
+                    userData.posts.map(this.api.post.get)
+                );
 
                 this.model.route = "profile";
                 this.model.userId = payload.id;
-                this.model.routeData = { ...json, posts };
-
+                this.model.routeData = { ...userData, posts };
                 this.renderDOM();
+
                 break;
             }
 
