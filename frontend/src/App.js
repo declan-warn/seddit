@@ -10,7 +10,7 @@ import APIWrapper from "/src/api.js";
 export default class App {
     constructor(apiUrl, node) {
         this.node = node;
-        
+
         const storedModel = JSON.parse(localStorage.getItem("model"));
         this.model = {
             currentUser: {},
@@ -85,8 +85,13 @@ export default class App {
                 break;
 
             case "POST_VIEW":
-                this.model.routeData =
-                    this.model.routeData.find(({ id }) => id === payload.id);
+                if (payload.forceUpdate) {
+                    this.model.routeData =
+                        await this.api.post.get(payload.id);
+                } else {
+                    this.model.routeData =
+                        this.model.routeData.find(({ id }) => id === payload.id);
+                }
 
                 this.model.route = "post";
                 this.model.postId = payload.id;
@@ -157,6 +162,10 @@ export default class App {
 
             case "COMMENT_SUBMIT": {
                 await this.api.post.comment(payload.id, payload.body);
+                this.update("POST_VIEW", {
+                    id: payload.id,
+                    forceUpdate: true,
+                });
                 break;
             }
 
