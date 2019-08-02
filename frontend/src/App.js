@@ -85,6 +85,9 @@ export default class App {
                 break;
 
             case "POST_VIEW":
+                this.model.routeData =
+                    this.model.routeData.find(({ id }) => id === payload.id);
+
                 this.model.route = "post";
                 this.model.postId = payload.id;
                 this.renderDOM();

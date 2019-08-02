@@ -1,5 +1,6 @@
 import { withHeader } from "/src/component/AppHeader.js";
 import FeedItem from "./FeedItem.js";
+import { createElement } from "../util.js";
 
 const handleSubmit = (model, update) => async event => {
     event.preventDefault();
@@ -27,36 +28,29 @@ const handleSubmit = (model, update) => async event => {
     }
 };
 
-export default (model, update) => {
-    const body = document.createElement("main");
-
-    fetch(`http://${model.apiUrl}/dummy/post?id=${model.postId}`)
-        .then(x => x.json())
-        .then(x => {
-            console.log(x);
-            body.prepend(FeedItem(model, update, x));
-            const comments = document.createElement("ul");
-            x.comments.map(y => {
-                const comment = document.createElement("li");
-                comment.textContent = y.comment;
-
-                comments.append(comment);
-            });
-            body.append(comments);
-        });
-
-    const commentText = document.createElement("textarea");
-    commentText.placeholder = "Add comment...";
-    commentText.name = "comment";
-
-    const commentSubmit = document.createElement("button");
-    commentSubmit.textContent = "Submit";
-
-    const form = document.createElement("form");
-    form.addEventListener("submit", handleSubmit(model, update));
-    form.append(commentText, commentSubmit);
-
-    body.append(form);
-
-    return withHeader(model, update, body);
-};
+export default (model, update) => withHeader(model, update, createElement(
+    "main", {
+        children: [
+            FeedItem(model, update, model.routeData),
+            ["form", {
+                onSubmit() { handleSubmit(model, update) },
+                children: [
+                    ["textarea", {
+                        placeholder: "Add comment...",
+                        name: "comment"
+                    }],
+                    ["button", {
+                        children: "Submit"
+                    }]
+                ]
+            }],
+            ["ul", {
+                children: model.routeData.comments.map(
+                    ({ comment }) => createElement("li", {
+                        children: comment
+                    })
+                )
+            }]
+        ]
+    }
+));
