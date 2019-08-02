@@ -62,9 +62,8 @@ export default class App {
 
             case "LOGIN_SUCCESS": {
                 this.model.token = payload.token;
-                localStorage.setItem("token", payload.token);
 
-                const response = await fetch(`http://${this.model.apiUrl}/user`, {
+                /*const response = await fetch(`http://${this.model.apiUrl}/user`, {
                     headers: {
                         "Authorization": `Token ${this.model.token}`
                     }
@@ -75,8 +74,9 @@ export default class App {
                     this.model.currentUser = json;
                 } else {
                     alert(json.message);
-                }
+                }*/
 
+                this.model.currentUser = await this.api.user.get();
                 
                 this.update("FEED_SHOW");
 
