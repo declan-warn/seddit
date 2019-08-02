@@ -38,7 +38,7 @@ export function createElement(type, attributes={}) {
             	if (["string", "number"].includes(typeof val)) {
                     element.textContent = val;
                 } else {
-                	val
+                    val
                     	.map(args => args instanceof HTMLElement ? args : createElement(...args))
                   		.forEach(child => element.append(child));
                 }

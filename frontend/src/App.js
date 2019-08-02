@@ -41,6 +41,23 @@ export default class App {
                 break;
             }
 
+            case "FEED_SHOW": {
+                const response = await fetch(`http://${this.model.apiUrl}/user/feed`, {
+                    headers: {
+                        "Authorization": `Token ${this.model.token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                const { posts, message } = await response.json();
+
+                this.model.route = "front";
+                this.model.routeData =
+                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+
+                this.renderDOM();
+                break;
+            }
+
             case "LOGIN_SHOW":
                 this.model.route = "login";
                 this.renderDOM();
@@ -68,8 +85,9 @@ export default class App {
                     alert(json.message);
                 }
 
-                this.model.route = "front";
-                this.renderDOM();
+                
+                this.update("FEED_SHOW");
+
                 break;
             }
 
