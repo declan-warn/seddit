@@ -35,6 +35,10 @@ export default function APIWrapper(model, apiUrl) {
             authorized: true,
             params: { id },
         }),
+        getPublic: () => requestJSON("/post/public", {
+            method: "GET",
+            authorized: false,
+        }),
     };
 
     this.user = {

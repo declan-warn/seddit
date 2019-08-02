@@ -34,8 +34,7 @@ export default class App {
     async update(msg, payload = {}) {
         switch (msg) {
             case "FRONT_SHOW": {
-                const response = await fetch(`http://${this.model.apiUrl}/post/public`);
-                const { posts } = await response.json();
+                const { posts } = await this.api.post.getPublic();
 
                 this.model.route = "front";
                 this.model.routeData =
