@@ -3,6 +3,7 @@ import { withHeader } from "/src/component/AppHeader.js";
 import { createElement } from "/src/util.js";
 
 export default (model, update) => {
+    const username = model.routeData.username;
     const info = createElement("main", {
         class: "profile",
         children: [
@@ -17,7 +18,7 @@ export default (model, update) => {
                         children: [
                             ["h2", {
                                 "data-id-profile-username": "",
-                                children: model.routeData.username     
+                                children: username
                             }],
                             ["span", {
                                 "data-id-profile-email": "",
@@ -25,6 +26,7 @@ export default (model, update) => {
                             }],
                             ["button", {
                                 "data-id-profile-follow": "",
+                                onClick() { update("FOLLOW_USER", { username }) },
                                 children: "Follow"
                             }]
                         ]
@@ -33,6 +35,6 @@ export default (model, update) => {
             }]
         ]
     });
-    
+
     return withHeader(model, update, info);
 };

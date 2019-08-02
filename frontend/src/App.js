@@ -183,6 +183,26 @@ export default class App {
                 break;
             }
 
+            case "FOLLOW_USER": {
+                const response = await fetch(
+                    `http://${this.model.apiUrl}/user/follow?username=${payload.username}`,
+                    ({
+                        method: "PUT", 
+                        headers: {
+                            "Authorization": `Token ${this.model.token}`,
+                        }
+                    })
+                );
+                if (response.status === 200) {
+                    // TODO: update indicator
+                    console.log("SUCCESS! Now following", payload.username);
+                } else {
+                    const { message } = await response.json();
+                    alert(message);
+                }
+                break;
+            }
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
