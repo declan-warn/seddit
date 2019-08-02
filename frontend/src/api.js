@@ -59,7 +59,13 @@ export default function APIWrapper(model, apiUrl) {
             method: "DELETE",
             authorized: true,
             params: { id },
-        })
+        }),
+        comment: (id, body) => requestJSON("/post/comment", {
+            method: "PUT",
+            authorized: true,
+            params: { id },
+            body,
+        }),
     };
 
     this.user = {

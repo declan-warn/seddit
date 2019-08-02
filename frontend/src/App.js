@@ -155,6 +155,11 @@ export default class App {
                 break;
             }
 
+            case "COMMENT_SUBMIT": {
+                await this.api.post.comment(payload.id, payload.body);
+                break;
+            }
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -190,8 +195,8 @@ export default class App {
     }
 
     renderDOM() {
-        for (const child of this.node.children) {
-            this.node.removeChild(child);
+        while (this.node.firstElementChild) {
+            this.node.firstElementChild.remove();
         }
         const component = this.render();
         this.node.appendChild(component(this.model, this.update));
