@@ -166,9 +166,7 @@ export default class App {
 
             case "SIGNOUT":
                 this.model.token = null;
-                localStorage.removeItem("token");
-                this.model.route = "front";
-                this.renderDOM();
+                this.update("FRONT_SHOW");
                 break;
 
             case "PROFILE_SHOW": {
