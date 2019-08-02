@@ -114,19 +114,10 @@ export default class App {
 
             case "VOTE_ATTEMPT":
                 payload.toggleIndicator();
-
-                const response = await fetch(`http://${this.model.apiUrl}/post/vote?id=${payload.id}`, {
-                    method: payload.undo ? "DELETE" : "PUT",
-                    headers: {
-                        "Authorization": `Token ${this.model.token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                if (response.status !== 200) {
+                try {
+                    await this.api.post.vote(payload.id, payload.undo);
+                } catch (error) {
                     payload.toggleIndicator();
-                    const { message } = await response.json();
-                    alert(message);
                 }
 
                 break;

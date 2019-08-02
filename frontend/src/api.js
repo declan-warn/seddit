@@ -50,6 +50,11 @@ export default function APIWrapper(model, apiUrl) {
             params: { id },
             body,
         }),
+        vote: (id, undo=false) => requestJSON("/post/vote", {
+            method: undo ? "DELETE" : "PUT",
+            authorized: true,
+            params: { id },
+        }),
     };
 
     this.user = {
