@@ -58,14 +58,19 @@ export default function APIWrapper(model, apiUrl) {
     };
 
     this.user = {
-        get: (identifier) => requestJSON("/user", {
+        get: ({ username, id }) => requestJSON("/user", {
             method: "GET",
             authorized: true,
-            params: { [identifier]: identifier },
+            params: username && { username } || id && { id } || {},
         }),
         getFeed: () => requestJSON("/user/feed", {
             method: "GET",
             authorized: true,
         }),
+        follow: (username) => requestJSON("/user/follow", {
+            method: "PUT",
+            authorized: true,
+            params: { username },
+        })
     };
 }
