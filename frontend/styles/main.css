@@ -140,3 +140,47 @@ a:hover {
 nav button {
     height: 100%;
 }
+
+[data-id-profile-info] {
+    display: flex;
+    width: 960px;
+    margin: 0px auto;
+}
+
+[data-id-profile-picture] {
+    height: 76px;
+    width: 76px;
+    margin-right: 8px;
+    background: lightgrey;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+[data-id-profile-picture]::before {
+    content: "person";
+    font-family: "Material Icons";
+    font-size: 48px;
+    color: white;
+}
+
+[data-id-profile-info] div {
+    display: flex;
+    flex-direction: column;
+}
+
+[data-id-profile-username] {
+    font-size: 24px;
+    margin: 0px 0px 4px 0px;
+}
+
+[data-id-profile-email] {
+    height: 16px;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+[data-id-profile-follow] {
+    height: 24px;
+}
