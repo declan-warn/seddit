@@ -5,6 +5,8 @@ import Feed from "./component/Feed.js";
 import Profile from "./Profile.js";
 import Post from "./component/Post.js";
 
+import APIWrapper from "/src/api.js";
+
 export default class App {
     constructor(apiUrl, node) {
         this.node = node;
@@ -17,6 +19,8 @@ export default class App {
             postId: null,
             currentUser: JSON.parse(localStorage.getItem("currentUser"))
         }
+
+        this.api = new APIWrapper(this.model, apiUrl);
 
         this.update = this.update.bind(this);
 
@@ -197,9 +201,14 @@ export default class App {
 
                 console.log(json);
 
+                const posts =
+                    await Promise.all(json.posts.map(this.api.post.get));
+
+                console.log(posts);
+
                 this.model.route = "profile";
                 this.model.userId = payload.id;
-                this.model.routeData = json;
+                this.model.routeData = { ...json, posts };
 
                 this.renderDOM();
                 break;

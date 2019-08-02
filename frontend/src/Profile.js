@@ -1,6 +1,7 @@
 import { withHeader } from "/src/component/AppHeader.js";
 
 import { createElement } from "/src/util.js";
+import FeedItem from "/src/component/FeedItem.js";
 
 export default (model, update) => {
     const username = model.routeData.username;
@@ -32,6 +33,12 @@ export default (model, update) => {
                         ]
                     }]
                 ]
+            }],
+            ["section", {
+                "data-id-profile-posts": "",
+                children: model.routeData.posts.map(post =>
+                    FeedItem(model, update, post)
+                )
             }]
         ]
     });
