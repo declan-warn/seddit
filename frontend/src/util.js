@@ -30,31 +30,31 @@ export const toRelativeTime = timestamp => {
     }
 };
 
-export function createElement(type, attributes={}) {
-	const element = document.createElement(type);
-  	for (const [key, val] of Object.entries(attributes)) {
-    	switch (key) {
-          	case "children":
-            	if (["string", "number"].includes(typeof val)) {
+export function createElement(type, attributes = {}) {
+    const element = document.createElement(type);
+    for (const [key, val] of Object.entries(attributes)) {
+        switch (key) {
+            case "children":
+                if (["string", "number"].includes(typeof val)) {
                     element.textContent = val;
                 } else {
                     val
-                    	.map(args => args instanceof HTMLElement ? args : createElement(...args))
-                  		.forEach(child => element.append(child));
+                        .map(args => args instanceof HTMLElement ? args : createElement(...args))
+                        .forEach(child => element.append(child));
                 }
-            	break;
-            
-        	case "onClick":
+                break;
+
+            case "onClick":
             case "onSubmit":
                 const method = key.replace(/^on/, "").toLowerCase();
-            	element.addEventListener(method, val);
-        		break;
-            
+                element.addEventListener(method, val);
+                break;
+
             default:
-            	element.setAttribute(key, val);      
+                element.setAttribute(key, val);
         }
     }
-  	return element;
+    return element;
 }
 
 // Implements https://ramdajs.com/docs/#path
@@ -62,10 +62,17 @@ export function createElement(type, attributes={}) {
 export const path = props => obj => props.reduce(
     (acc, prop) => {
         if (acc !== null && acc !== undefined && acc.hasOwnProperty(prop)) {
-            return acc[prop]; 
+            return acc[prop];
         } else {
             return undefined;
         }
     },
     obj
 );
+
+export const removeImageData = obj => {
+    const copy = { ...obj };
+    delete copy.thumbnail;
+    delete copy.image;
+    return copy;
+};

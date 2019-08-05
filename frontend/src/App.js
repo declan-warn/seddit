@@ -7,6 +7,8 @@ import Post from "./component/Post.js";
 
 import APIWrapper from "/src/api.js";
 
+import * as util from "/src/util.js";
+
 export default class App {
     constructor(apiUrl, node) {
         this.node = node;
@@ -30,6 +32,7 @@ export default class App {
         this.update = this.update.bind(this);
 
         this.update("FRONT_SHOW");
+        
 
         // for debugging
         window.app = this;
@@ -44,6 +47,12 @@ export default class App {
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
+                history.pushState(
+                    posts.map(util.removeImageData),
+                    undefined,
+                    "#/front"
+                );
+
                 this.renderDOM();
                 break;
             }
@@ -55,11 +64,23 @@ export default class App {
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
+                history.pushState(
+                    posts.map(util.removeImageData),
+                    undefined,
+                    "#/feed"
+                );
+
                 this.renderDOM();
                 break;
             }
 
             case "LOGIN_SHOW":
+                history.pushState(
+                    undefined,
+                    undefined,
+                    "#/login"
+                );
+
                 this.model.route = "login";
                 this.renderDOM();
                 break;
@@ -72,15 +93,19 @@ export default class App {
             }
 
             case "SIGNUP_SHOW":
+                history.pushState(
+                    undefined,
+                    undefined,
+                    "#/signup"
+                )
+            
                 this.model.route = "signup";
                 this.renderDOM();
                 break;
 
             case "SUBMIT_SHOW":
                 this.model.route = "submit";
-                this.model.routeData = {
-
-                };
+                this.model.routeData = {};
                 this.renderDOM();
                 break;
 
@@ -96,6 +121,12 @@ export default class App {
                     this.model.routeData =
                         this.model.routeData.find(({ id }) => id === payload.id);
                 }
+
+                history.pushState(
+                    util.removeImageData(this.model.routeData),
+                    undefined,
+                    `#/post/${payload.id}`
+                );
 
                 this.model.route = "post";
                 this.model.postId = payload.id;
@@ -144,6 +175,12 @@ export default class App {
                 const posts = await Promise.all(
                     userData.posts.map(this.api.post.get)
                 );
+
+                history.pushState(
+                    posts.map(util.removeImageData),
+                    undefined,
+                    `#/user/${userData.id}`
+                )
 
                 this.model.route = "profile";
                 this.model.userId = payload.id;
