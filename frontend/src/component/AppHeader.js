@@ -26,14 +26,16 @@ export default function AppHeader(model, update) {
         children:
             model.token === null
                 ? [
-                    ["button", {
+                    ["a", {
                         "data-id-login": "",
-                        onClick() { update("LOGIN_SHOW") },
+                        //onClick() { update("LOGIN_SHOW") },
+                        href: "#/login",
                         children: "Log In"
                     }],
-                    ["button", {
+                    ["a", {
                         "data-id-signup": "",
-                        onClick() { update("SIGNUP_SHOW") },
+                        //onClick() { update("SIGNUP_SHOW") },
+                        href: "#/signup",
                         children: "Sign Up"
                     }]
                 ] : [
@@ -41,8 +43,9 @@ export default function AppHeader(model, update) {
                         onClick() { update("SUBMIT_SHOW") },
                         children: "Add Post"
                     }],
-                    ["button", {
-                        onClick() { update("PROFILE_SHOW", { id: model.currentUser.id }) },
+                    ["a", {
+                        //onClick() { update("PROFILE_SHOW", { id: model.currentUser.id }) },
+                        href: `#/profile/${model.currentUser.id}`,
                         children: "Profile"
                     }],
                     ["button", {

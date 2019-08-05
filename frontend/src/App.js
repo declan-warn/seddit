@@ -30,16 +30,22 @@ export default class App {
         // This method is passed around a lot so we need to bind it
         // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
+        this.handleRouting = this.handleRouting.bind(this);
 
-        this.update("FRONT_SHOW");
+        //this.update("FRONT_SHOW");
+        this.handleRouting();
         
 
         // for debugging
         window.app = this;
+
+
+        window.addEventListener("hashchange", this.handleRouting);
     }
 
     async update(msg, payload = {}) {
         switch (msg) {
+            case "VIEW_FRONT":
             case "FRONT_SHOW": {
                 const { posts } = await this.api.post.getPublic();
 
@@ -57,6 +63,7 @@ export default class App {
                 break;
             }
 
+            case "VIEW_FEED":
             case "FEED_SHOW": {
                 const { posts } = await this.api.user.getFeed();
 
@@ -74,6 +81,7 @@ export default class App {
                 break;
             }
 
+            case "VIEW_LOGIN":
             case "LOGIN_SHOW":
                 history.pushState(
                     undefined,
@@ -92,6 +100,7 @@ export default class App {
                 break;
             }
 
+            case "VIEW_SIGNUP":
             case "SIGNUP_SHOW":
                 history.pushState(
                     undefined,
@@ -113,6 +122,7 @@ export default class App {
                 this.update("FRONT_SHOW");
                 break;
 
+            case "VIEW_POST":
             case "POST_VIEW":
                 if (payload.forceUpdate) {
                     this.model.routeData =
@@ -121,12 +131,6 @@ export default class App {
                     this.model.routeData =
                         this.model.routeData.find(({ id }) => id === payload.id);
                 }
-
-                history.pushState(
-                    util.removeImageData(this.model.routeData),
-                    undefined,
-                    `#/post/${payload.id}`
-                );
 
                 this.model.route = "post";
                 this.model.postId = payload.id;
@@ -170,17 +174,12 @@ export default class App {
                 this.update("FRONT_SHOW");
                 break;
 
+            case "VIEW_PROFILE":
             case "PROFILE_SHOW": {
                 const userData = await this.api.user.get(payload);
                 const posts = await Promise.all(
                     userData.posts.map(this.api.post.get)
                 );
-
-                history.pushState(
-                    posts.map(util.removeImageData),
-                    undefined,
-                    `#/user/${userData.id}`
-                )
 
                 this.model.route = "profile";
                 this.model.userId = payload.id;
@@ -250,6 +249,44 @@ export default class App {
         }
         const component = this.render();
         this.node.appendChild(component(this.model, this.update));
+    }
+
+    handleRouting(event) {
+        console.log(event);
+
+        const [route, ...args] =
+            window.location.hash
+                .split("/")
+                .slice(1);
+
+        console.log("ROUTE:", route, args);
+
+        switch (route) {
+            case "login":
+                this.update("VIEW_LOGIN");
+                break;
+
+            case "signup":
+                this.update("VIEW_SIGNUP");
+                break;
+
+            case "feed":
+                this.update("VIEW_FEED");
+                break;
+
+            case "profile":
+                this.update("VIEW_PROFILE", { username: args[0] });
+                break;
+
+            case "post":
+                this.update("VIEW_POST", { id: Number(args[0]) });
+                break;
+
+            case "front":
+            default:
+                this.update("VIEW_FRONT");
+                break;
+        }
     }
 
 }

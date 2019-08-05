@@ -70,7 +70,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                     ["a", {
                         "data-id-author": "",
                         rel: "author",
-                        onClick() { update("PROFILE_SHOW", { username: meta.author }) },
+                        href: `#/profile/${meta.author}`,
                         children: meta.author
                     }],
                     ["time", {
@@ -78,7 +78,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                     }],
                     ["a", {
                         class: "comments",
-                        onClick() { update("POST_VIEW", { id }) },
+                        href: `#/post/${id}`,
                         children: `view comments (${comments.length})`
                     }],
                     ["a", {
