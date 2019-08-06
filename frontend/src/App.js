@@ -185,6 +185,13 @@ export default class App {
                 break;
             }
 
+            case "VIEW_SUBSEDDIT": {
+                const { posts } = await this.api.user.getFeed();
+                console.log(posts);
+
+                break;
+            }
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -256,6 +263,15 @@ export default class App {
 
             case "post":
                 this.update("VIEW_POST", { id: Number(args[0]) });
+                break;
+
+            case "s":
+                const subseddit = args.join("/");
+                if (subseddit === "all") {
+                    this.update("VIEW_FRONT");
+                } else {
+                    this.update("VIEW_SUBSEDDIT", subseddit);
+                }
                 break;
 
             case "front":

@@ -19,9 +19,12 @@ export default function AppHeader(model, update) {
                 children: "Feed"
             }],
             ["form", {
+                onSubmit: viewSubseddit,
                 children: [
                     ["input", {
-                        placeholder: "subseddit"    
+                        required: "",
+                        pattern: "^[^/]+$",
+                        placeholder: "subseddit"
                     }],
                     ["button", {
                         class: "material-icons",
@@ -94,3 +97,15 @@ export default function AppHeader(model, update) {
 
     return header;
 };
+
+function viewSubseddit(event) {
+    event.preventDefault();
+
+    const subseddit =
+        event.currentTarget
+            .querySelector("input")
+            .value;
+
+    window.location.hash =
+        `#/s/${subseddit}`;
+}
