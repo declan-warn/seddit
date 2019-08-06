@@ -5,6 +5,8 @@ import Feed from "./component/Feed.js";
 import Profile from "./Profile.js";
 import Post from "./component/Post.js";
 
+import FeedItem from "/src/component/FeedItem.js";
+
 import APIWrapper from "/src/api.js";
 
 import * as util from "/src/util.js";
@@ -31,16 +33,18 @@ export default class App {
         // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
         this.handleRouting = this.handleRouting.bind(this);
+        this.scrollFeed = this.scrollFeed.bind(this);
 
         //this.update("FRONT_SHOW");
         this.handleRouting();
-        
+
 
         // for debugging
         window.app = this;
 
 
         window.addEventListener("hashchange", this.handleRouting);
+        window.addEventListener("scroll", this.scrollFeed);
     }
 
     async update(msg, payload = {}) {
@@ -83,7 +87,7 @@ export default class App {
             }
 
             case "VIEW_SIGNUP":
-            case "SIGNUP_SHOW":            
+            case "SIGNUP_SHOW":
                 this.model.route = "signup";
                 this.renderDOM();
                 break;
@@ -278,6 +282,22 @@ export default class App {
             default:
                 this.update("VIEW_FRONT");
                 break;
+        }
+    }
+
+    async scrollFeed() {
+        if (this.model.route === "front") {
+            const scrollPercentage =
+                (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+            if (scrollPercentage > 0.75 && !this.scrollFeed.hasChecked) {
+                this.scrollFeed.hasChecked = true;
+                const { posts } = await this.api.user.getFeed({ page: 2 });
+                const feed = document.getElementById("feed");
+                posts.forEach(post =>
+                    feed.append(FeedItem(this.model, this.update, post))
+                );
+                console.log(posts);
+            }
         }
     }
 

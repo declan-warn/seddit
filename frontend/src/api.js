@@ -8,10 +8,10 @@ export default function APIWrapper(model, apiUrl) {
             : `http://${apiUrl}`
                 .replace(/\/$/, "");
 
-    const request = (path, options={}) => {
+    const request = (path, options = {}) => {
         const params = new URLSearchParams(options.params);
         const headers = new Headers(options.headers);
-        
+
         if (options.authorized) {
             headers.set("Authorization", `Token ${model.token}`);
         }
@@ -50,7 +50,7 @@ export default function APIWrapper(model, apiUrl) {
             params: { id },
             body,
         }),
-        vote: (id, undo=false) => requestJSON("/post/vote", {
+        vote: (id, undo = false) => requestJSON("/post/vote", {
             method: undo ? "DELETE" : "PUT",
             authorized: true,
             params: { id },
@@ -69,14 +69,15 @@ export default function APIWrapper(model, apiUrl) {
     };
 
     this.user = {
-        get: ({ username, id }={}) => requestJSON("/user", {
+        get: ({ username, id } = {}) => requestJSON("/user", {
             method: "GET",
             authorized: true,
             params: username && { username } || id && { id } || {},
         }),
-        getFeed: () => requestJSON("/user/feed", {
+        getFeed: ({ page } = { page: 1 }) => requestJSON("/user/feed", {
             method: "GET",
             authorized: true,
+            params: { n: 10, p: (page - 1) * 10 },
         }),
         follow: (username) => requestJSON("/user/follow", {
             method: "PUT",
