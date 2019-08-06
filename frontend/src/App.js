@@ -53,12 +53,6 @@ export default class App {
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
-                history.pushState(
-                    posts.map(util.removeImageData),
-                    undefined,
-                    "#/front"
-                );
-
                 this.renderDOM();
                 break;
             }
@@ -71,24 +65,12 @@ export default class App {
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
-                history.pushState(
-                    posts.map(util.removeImageData),
-                    undefined,
-                    "#/feed"
-                );
-
                 this.renderDOM();
                 break;
             }
 
             case "VIEW_LOGIN":
             case "LOGIN_SHOW":
-                history.pushState(
-                    undefined,
-                    undefined,
-                    "#/login"
-                );
-
                 this.model.route = "login";
                 this.renderDOM();
                 break;
@@ -101,13 +83,7 @@ export default class App {
             }
 
             case "VIEW_SIGNUP":
-            case "SIGNUP_SHOW":
-                history.pushState(
-                    undefined,
-                    undefined,
-                    "#/signup"
-                )
-            
+            case "SIGNUP_SHOW":            
                 this.model.route = "signup";
                 this.renderDOM();
                 break;
