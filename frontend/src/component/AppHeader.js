@@ -28,7 +28,7 @@ export default function AppHeader(model, update) {
                         ]
                     }],
                     ["input", {
-
+                        "data-id-search": ""                        
                     }],
                     ["button", {
                         children: "search"
@@ -43,16 +43,16 @@ export default function AppHeader(model, update) {
         children:
             model.token === null
                 ? [
-                    ["a", {
+                    ["button", {
                         "data-id-login": "",
-                        //onClick() { update("LOGIN_SHOW") },
-                        href: "#/login",
+                        onClick() { window.location.hash = "#/login" },
+                        //href: "#/login",
                         children: "Log In"
                     }],
-                    ["a", {
+                    ["button", {
                         "data-id-signup": "",
-                        //onClick() { update("SIGNUP_SHOW") },
-                        href: "#/signup",
+                        onClick() { window.location.hash = "#/signup" },
+                        //href: "#/signup",
                         children: "Sign Up"
                     }]
                 ] : [
@@ -73,6 +73,7 @@ export default function AppHeader(model, update) {
     });
 
     const header = createElement("header", {
+        id: "nav",
         class: "nav-bar",
         children: [
             navLeft,
