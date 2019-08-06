@@ -17,6 +17,23 @@ export default function AppHeader(model, update) {
                 class: `${model.token === null && "hidden"}`,
                 onClick() { update("FEED_SHOW") },
                 children: "Feed"
+            }],
+            ["form", {
+                children: [
+                    ["select", {
+                        children: [
+                            ["option", {
+                                children: "a"
+                            }]
+                        ]
+                    }],
+                    ["input", {
+
+                    }],
+                    ["button", {
+                        children: "search"
+                    }]
+                ]
             }]
         ]
     });
