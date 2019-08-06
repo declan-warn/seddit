@@ -20,6 +20,17 @@ export default function AppHeader(model, update) {
             }],
             ["form", {
                 children: [
+                    ["input", {
+                        placeholder: "subseddit"    
+                    }],
+                    ["button", {
+                        class: "material-icons",
+                        children: "search"
+                    }]
+                ]
+            }],
+            ["form", {
+                children: [
                     ["select", {
                         children: [
                             ["option", {
