@@ -1,15 +1,14 @@
-import LoginForm from "./LoginForm.js";
-import SignupForm from "./SignupForm.js";
-import SubmitForm from "/src/component/SubmitForm.js";
-import Feed from "./component/Feed.js";
-import Profile from "./Profile.js";
-import Post from "./component/Post.js";
-
-import FeedItem from "/src/component/FeedItem.js";
-
+// Utilities
 import APIWrapper from "/src/api.js";
 
-import * as util from "/src/util.js";
+// Components
+import Feed from "/src/component/Feed.js";
+import FeedItem from "/src/component/FeedItem.js";
+import LoginForm from "/src/LoginForm.js";
+import Post from "/src/component/Post.js";
+import Profile from "/src/Profile.js";
+import SignupForm from "/src/SignupForm.js";
+import SubmitForm from "/src/component/SubmitForm.js";
 
 export default class App {
     constructor(apiUrl, node) {
@@ -35,15 +34,15 @@ export default class App {
         this.handleRouting = this.handleRouting.bind(this);
         this.scrollFeed = this.scrollFeed.bind(this);
 
-        //this.update("FRONT_SHOW");
         this.handleRouting();
-
 
         // for debugging
         window.app = this;
-
-
+        
+        // event listener used to handle routing
         window.addEventListener("hashchange", this.handleRouting);
+
+        // event listener used for infinite scrolling
         window.addEventListener("scroll", this.scrollFeed);
     }
 
