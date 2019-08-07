@@ -1,8 +1,10 @@
 const model = {
     apiUrl: null,
     token: null,
-    api: null,
+    mostRecent: null,
 };
+
+const POLLING_INTERVAL = 2500;
 
 this.addEventListener(
     "message",
@@ -13,13 +15,12 @@ this.addEventListener(
                 break;
 
             case "UPDATE_TOKEN":
-                token = payload;
-                if (model.apiUrl && token !== null) {
-                    model.api = new APIWrapper(model, model.apiUrl);
-                } else {
-                    model.api = null; 
-                }
-                
+                model.token = payload;
+                // if (model.apiUrl && token !== null) {
+                //     model.api = new APIWrapper(model, model.apiUrl);
+                // } else {
+                //     model.api = null; 
+                // }
                 break;
 
             default:
@@ -36,9 +37,33 @@ this.addEventListener(
     }
 
     setInterval(async () => {
-        const api = model.api;
-        if (api === null) return;
-        console.log(await api.user.getFeed());
-    }, 2000);
+        if (model.apiUrl === null || model.token === null) return;
 
+        const response = await fetch(`http://${model.apiUrl}/user/feed`, {
+            headers: {
+                Authorization: `Token ${model.token}`,
+            }
+        });
+
+        const { posts } = await response.json();
+
+        console.log(`${posts[0].meta.published} <=> ${model.mostRecent}`)
+
+        if (model.mostRecent !== null) {
+            console.log("??")
+            const x = posts
+                .filter(({ meta }) => meta.published > model.mostRecent)
+
+            console.log(x);
+            
+            x
+                .forEach(post => new Notification(post.title, {
+                    body: post.text,
+                }));
+        }
+        model.mostRecent = posts[0].meta.published;
+
+        ///console.log("DATA:", JSON.stringify(posts));
+        
+    }, POLLING_INTERVAL);
 })();
