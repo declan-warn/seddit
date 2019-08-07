@@ -13,9 +13,10 @@ export default function AppHeader(model, update) {
                 onClick() { update("FRONT_SHOW") },
                 children: "Front Page"
             }],
-            ["button", {
+            ["a", {
                 class: `${model.token === null && "hidden"}`,
-                onClick() { update("FEED_SHOW") },
+                //onClick() { update("FEED_SHOW") },
+                href: "#/feed",
                 children: "Feed"
             }],
             ["form", {

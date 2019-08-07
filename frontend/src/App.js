@@ -69,6 +69,9 @@ export default class App {
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
+                this.scrollFeed.current = 1;
+                this.scrollFeed.checked = 1;
+
                 this.renderDOM();
                 break;
             }
@@ -289,9 +292,15 @@ export default class App {
         if (this.model.route === "front") {
             const scrollPercentage =
                 (window.scrollY + window.innerHeight) / document.body.scrollHeight;
-            if (scrollPercentage > 0.75 && !this.scrollFeed.hasChecked) {
-                this.scrollFeed.hasChecked = true;
-                const { posts } = await this.api.user.getFeed({ page: 2 });
+
+            if (scrollPercentage > 0.6 && this.scrollFeed.current === this.scrollFeed.checked) {
+                this.scrollFeed.checked++;
+                const { posts } =
+                    await this.api.user.getFeed({ page: this.scrollFeed.checked });
+                if (posts.length > 0) {
+                    this.scrollFeed.current++;
+                }
+
                 const feed = document.getElementById("feed");
                 posts.forEach(post =>
                     feed.append(FeedItem(this.model, this.update, post))
