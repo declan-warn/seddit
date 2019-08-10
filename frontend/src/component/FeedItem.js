@@ -86,7 +86,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                 class: "score",
                 children: [
                     ["button", {
-                        class: meta.upvotes.includes(model.currentUser.id) ? "active" : "",
+                        class: meta.upvotes.includes(path(["currentUser", "id"])(model)) ? "active" : "",
                         onClick: handleVote,
                         children: "thumb_up"
                     }],

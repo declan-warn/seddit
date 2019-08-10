@@ -94,11 +94,7 @@ export const showModal = (...children) => {
             children: [
                 ["div", {
                     class: "modal-container",
-                    children: [
-                        ["span", {
-                            children
-                        }]
-                    ]
+                    children
                 }]
             ]
         }

@@ -1,5 +1,6 @@
 // Utilities
 import APIWrapper from "/src/api.js";
+import * as util from "/src/util.js";
 
 // Components
 import Feed from "/src/component/Feed.js";
@@ -16,7 +17,7 @@ export default class App {
 
         const storedModel = JSON.parse(localStorage.getItem("model"));
         this.model = {
-            currentUser: {},
+            currentUser: null,
             token: null,
             ...storedModel,
             apiUrl,
@@ -142,20 +143,28 @@ export default class App {
                 break;
             }
 
-            case "VOTE_ATTEMPT":
+            case "VOTE_ATTEMPT": {
+                if (!this.model.currentUser) {
+                    util.showModal(util.createElement(
+                        "span", {
+                            children: "You must be logged in to upvote posts"
+                        }
+                    ));
+                }
+
                 payload.toggleIndicator();
                 try {
                     await this.api.post.vote(payload.id, payload.undo);
                 } catch (error) {
-                    console.log(error);
                     payload.toggleIndicator();
                 }
 
                 break;
+            }
 
             case "SIGNOUT":
                 this.model.token = null;
-                this.model.currentUser = {};
+                this.model.currentUser = null;
                 window.location.hash = "#/front";
                 break;
 
