@@ -154,7 +154,8 @@ export default class App {
 
             case "SIGNOUT":
                 this.model.token = null;
-                this.update("FRONT_SHOW");
+                this.model.currentUser = {};
+                window.location.hash = "#/front";
                 break;
 
             case "VIEW_PROFILE":
