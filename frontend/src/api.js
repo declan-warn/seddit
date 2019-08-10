@@ -74,6 +74,11 @@ export default function APIWrapper(model, apiUrl) {
             authorized: false,
             body,
         }),
+        signup: (body) => requestJSON("/auth/signup", {
+            method: "POST",
+            authorized: false,
+            body,
+        }),
     };
 
     this.user = {
