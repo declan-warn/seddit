@@ -1,34 +1,22 @@
-import { createElement, toRelativeTime, path } from "/src/util.js";
+import { createElement, toRelativeTime, path, showModal } from "/src/util.js";
 
-const showUpvotes = ({ apiUrl, token }, { upvotes }) => async () => {
+const showUpvotes = async ({ apiUrl, token }, { upvotes }) => {
     if (!upvotes) return;
-
-    const modal = document.createElement("dialog");
-
-    const close = document.createElement("button");
-    close.textContent = "Close";
-    close.addEventListener("click", () => {
-        modal.close();
-        modal.parentNode.removeChild(modal);
-    });
-    modal.append(close);
-
-    const list = document.createElement("ul");
 
     const users = await Promise.all(upvotes.map(userId =>
         fetch(`http://${apiUrl}/dummy/user?id=${userId}`)
             .then(x => x.json())
     ));
 
-    users.forEach(({ username }) => {
-        const user = document.createElement("li");
-        user.textContent = username;
-        list.append(user);
-    });
-
-    modal.append(list);
-    document.getElementById("root").append(modal);
-    modal.showModal();
+    showModal(createElement(
+        "ul", {
+            children: users.map(({ username }) => createElement(
+                "li", {
+                    children: username
+                }
+            ))
+        } 
+    ));
 };
 
 export default (model, update, { id, meta, title, text, thumbnail, comments }) => {

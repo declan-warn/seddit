@@ -76,3 +76,31 @@ export const removeImageData = obj => {
     delete copy.image;
     return copy;
 };
+
+export const showModal = (...children) => {
+    document.body.classList.add("scrolling-disabled");
+
+    const closeModal = ({ target, currentTarget }) => {
+        if (target === currentTarget) {
+            currentTarget.remove();
+            document.body.classList.remove("scrolling-disabled");
+        }
+    };
+
+    document.body.append(createElement(
+        "div", {
+            onClick: closeModal,
+            class: "modal",
+            children: [
+                ["div", {
+                    class: "modal-container",
+                    children: [
+                        ["span", {
+                            children
+                        }]
+                    ]
+                }]
+            ]
+        }
+    ));
+};
