@@ -17,7 +17,7 @@ export default function AppHeader(model, update) {
         const formData = new FormData(event.currentTarget);
         const query = formData.get("search");
     
-        update("SEARCH", query);  
+        window.location.hash = `#/search/${encodeURIComponent(query)}`;
     };
 
     const navLeft = createElement("nav", {

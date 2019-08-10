@@ -270,7 +270,7 @@ export default class App {
             }
 
             case "SEARCH": {
-                const query = payload.toLowerCase();
+                const query = decodeURIComponent(payload.toLowerCase());
 
                 let page = 1;
                 const routeData = [];
@@ -392,6 +392,10 @@ export default class App {
                 } else {
                     this.update("VIEW_SUBSEDDIT", subseddit);
                 }
+                break;
+
+            case "search":
+                this.update("SEARCH", args[0]);
                 break;
 
             case "front":
