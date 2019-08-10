@@ -76,8 +76,7 @@ export default function AppHeader(model, update) {
                         children: "Add Post"
                     }],
                     ["a", {
-                        //onClick() { update("PROFILE_SHOW", { id: model.currentUser.id }) },
-                        href: `#/profile/${model.currentUser.id}`,
+                        onClick() { window.location.hash = `#/profile/${model.currentUser.username}` },
                         children: "Profile"
                     }],
                     ["button", {
