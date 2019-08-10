@@ -9,6 +9,7 @@ form.search {
 form.search input {
     background: none;
     border: none;
+    border-radius: 999px;
     height: 100%;
     padding: 0px 0px 0px 16px;
     flex-grow: 1;
