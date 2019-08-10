@@ -15,7 +15,7 @@ export default function AppHeader(model, update) {
         class: "left",
         children: [
             ["button", {
-                onClick() { update("FRONT_SHOW") },
+                onClick() { window.location.hash = "#/front" },
                 children: "Front Page"
             }],
             ["a", {
