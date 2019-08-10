@@ -1,3 +1,4 @@
+@import "header.css";
 @import "material-icons.css";
 @import "modal.css";
 @import "feed-item.css";
@@ -31,6 +32,10 @@ a:hover {
 
 .hidden {
     display: none;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .nav-bar {

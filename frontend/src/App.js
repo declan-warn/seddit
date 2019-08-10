@@ -269,6 +269,32 @@ export default class App {
                 break;
             }
 
+            case "SEARCH": {
+                const query = payload.toLowerCase();
+
+                let page = 1;
+                const routeData = [];
+                while (true) {
+                    const { posts } = await this.api.user.getFeed({ page });
+                    page++;
+                    if (posts.length === 0) break;
+
+                    posts
+                        .filter(post =>
+                            post.title.toLowerCase().includes(query)    ||
+                            post.text.toLowerCase().includes(query)     ||
+                            post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
+                        )
+                        .forEach(post => routeData.push(post));
+                }
+
+                this.model.route = "feed";
+                this.model.routeData = routeData;
+                this.renderDOM();
+
+                break;
+            }
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }

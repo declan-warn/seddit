@@ -11,6 +11,15 @@ export const withHeader = (model, update, component) =>
     );
 
 export default function AppHeader(model, update) {
+    const handleSearch = (event) => {
+        event.preventDefault();
+    
+        const formData = new FormData(event.currentTarget);
+        const query = formData.get("search");
+    
+        update("SEARCH", query);  
+    };
+
     const navLeft = createElement("nav", {
         class: "left",
         children: [
@@ -39,16 +48,13 @@ export default function AppHeader(model, update) {
                 ]
             }],
             ["form", {
+                class: "search",
+                onSubmit: handleSearch,
                 children: [
-                    ["select", {
-                        children: [
-                            ["option", {
-                                children: "a"
-                            }]
-                        ]
-                    }],
                     ["input", {
-                        "data-id-search": ""                        
+                        name: "search",
+                        placeholder: "Search title, text, comments",
+                        required: ""                  
                     }],
                     ["button", {
                         children: "search"

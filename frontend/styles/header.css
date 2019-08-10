@@ -1,0 +1,28 @@
+form.search {
+    display: flex;
+    background: white;
+    border-radius: 999px;
+    border: 1px solid lightgrey;
+    min-width: 240px;
+}
+
+form.search input {
+    background: none;
+    border: none;
+    height: 100%;
+    padding: 0px 0px 0px 16px;
+    flex-grow: 1;
+}
+
+form.search button {
+    background: none;
+    border: none;
+    font-family: "Material Icons";
+    font-size: 24px;
+    color: lightgrey;
+    padding: 0px 8px;
+}
+
+form.search button:hover {
+    color: black;
+}
