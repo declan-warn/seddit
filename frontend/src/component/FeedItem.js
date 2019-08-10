@@ -19,7 +19,7 @@ const showUpvotes = async ({ apiUrl, token }, { upvotes }) => {
     ));
 };
 
-export default (model, update, { id, meta, title, text, thumbnail, comments }) => {
+export default (model, update, { id, image, meta, title, text, thumbnail, comments }) => {
     const handleVote = ({ currentTarget }) => {
         const undo = currentTarget.classList.contains("active");
         update("VOTE_ATTEMPT", {
@@ -61,6 +61,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                     thumbnail
                         ? [
                             ["img", {
+                                onClick() { window.open(`data:image/png;base64,${image}`) },
                                 src: `data:image/png;base64,${thumbnail}`
                             }]
                         ]
