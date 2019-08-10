@@ -108,5 +108,10 @@ export default function APIWrapper(model, apiUrl) {
             authorized: true,
             params: { username },
         }),
+        update: (body) => requestJSON("/user", {
+            method: "PUT",
+            authorized: true,
+            body,
+        }),
     };
 }

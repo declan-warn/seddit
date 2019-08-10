@@ -19,9 +19,9 @@ export default (model, update) => {
     );
 
     const edit = createElement(
-        "button", {
+        "a", {
             class: "edit",
-            onClick() { update("EDIT_PROFILE") },
+            href: `#/profile/${model.currentUser.username}/edit`,
             children: "Edit"
         }
     );

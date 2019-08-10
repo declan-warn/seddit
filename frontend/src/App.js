@@ -8,6 +8,7 @@ import FeedItem from "/src/component/FeedItem.js";
 import LoginForm from "/src/component/LoginForm.js";
 import Post from "/src/component/Post.js";
 import Profile from "/src/component/Profile.js";
+import ProfileForm from "/src/component/ProfileForm.js";
 import SignupForm from "/src/component/SignupForm.js";
 import SubmitForm from "/src/component/SubmitForm.js";
 
@@ -230,7 +231,10 @@ export default class App {
             }
 
             case "EDIT_PROFILE": {
-                // TODO:
+                if (Object.keys(payload).length >= 1) {
+                    await this.api.user.update(payload);
+                }
+                window.location.hash = "#/profile";
                 break;
             }
 
@@ -260,6 +264,9 @@ export default class App {
             case "profile":
                 return Profile;
 
+            case "edit_profile":
+                return ProfileForm;
+
             case "post":
                 return Post;
 
@@ -273,10 +280,10 @@ export default class App {
             this.node.firstElementChild.remove();
         }
         const component = this.render();
-        this.node.appendChild(component(this.model, this.update));
+        this.node.appendChild(component.call(this, this.model, this.update));
     }
 
-    handleRouting(event) {
+    async handleRouting(event) {
         console.log(event);
 
         const [route, ...args] =
@@ -300,7 +307,20 @@ export default class App {
                 break;
 
             case "profile":
-                this.update("VIEW_PROFILE", { username: args[0] });
+                if (!args[0]) {
+                    window.location.hash = `#/profile/${this.model.currentUser.username}`;
+                    return;
+                }
+
+                if (args[1] === "edit") {
+                    const userData = await this.api.user.get();
+                    this.model.route = "edit_profile";
+                    this.model.routeData = userData;
+                    this.renderDOM();
+                } else {
+                    this.update("VIEW_PROFILE", { username: args[0] });
+                }
+                
                 break;
 
             case "post":
