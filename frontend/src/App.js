@@ -13,6 +13,10 @@ import SignupForm from "/src/component/SignupForm.js";
 import SubmitForm from "/src/component/SubmitForm.js";
 
 export default class App {
+    static get POLLING_INTERVAL() {
+        return 5000;
+    }
+
     constructor(apiUrl, node) {
         this.node = node;
 
@@ -36,6 +40,7 @@ export default class App {
         this.update = this.update.bind(this);
         this.handleRouting = this.handleRouting.bind(this);
         this.scrollFeed = this.scrollFeed.bind(this);
+        this.backgroundPoll = this.backgroundPoll.bind(this);
 
         this.handleRouting();
 
@@ -47,6 +52,9 @@ export default class App {
 
         // event listener used for infinite scrolling
         window.addEventListener("scroll", this.scrollFeed);
+        
+        // used for live update
+        window.setTimeout(this.backgroundPoll, App.POLLING_INTERVAL);
     }
 
     async update(msg, payload = {}) {
@@ -67,7 +75,7 @@ export default class App {
             case "FEED_SHOW": {
                 const { posts } = await this.api.user.getFeed();
 
-                this.model.route = "front";
+                this.model.route = "feed";
                 this.model.routeData =
                     posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
@@ -267,6 +275,7 @@ export default class App {
         const { route } = this.model;
         switch (route) {
             case "front":
+            case "feed":
                 return Feed;
 
             case "login":
@@ -380,6 +389,41 @@ export default class App {
                 console.log(posts);
             }
         }
+    }
+
+    async backgroundPoll() {
+        switch (this.model.route) {
+            case "front": {
+                const { posts } = await this.api.post.getPublic();
+                if (this.model.route === "front") {
+                    for (const post of this.model.routeData) {
+                        const updatedPost = posts.find(({ id }) => id === post.id);
+                        const node = document.querySelector(`[data-post-id="${post.id}"]`);
+                        if (updatedPost === undefined || node === null) continue;
+
+                        post.comments = updatedPost.comments;
+                        post.meta.upvotes = updatedPost.meta.upvotes;
+
+                        node.querySelector("[data-id-upvotes]").textContent = post.meta.upvotes.length;
+                        node.querySelector("[data-num-comments]")
+                            .setAttribute("data-num-comments", post.comments.length);
+                    }
+                }
+                break;
+            }
+
+            case "feed": {
+
+                break;
+            }
+
+            case "post": {
+
+                break;
+            }
+        }
+        
+        window.setTimeout(this.backgroundPoll, App.POLLING_INTERVAL);
     }
 
 }

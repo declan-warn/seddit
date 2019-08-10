@@ -38,6 +38,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
 
     const post = createElement("li", {
         "data-id-post": "",
+        "data-post-id": id,
         children: [
             ["article", {
                 class: "info",
@@ -66,9 +67,10 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                         children: toRelativeTime(meta.published * 1000)
                     }],
                     ["a", {
+                        "data-num-comments": comments.length,
                         class: "comments",
                         href: `#/post/${id}`,
-                        children: `view comments (${comments.length})`
+                        children: `view comments`
                     }],
                     ["a", {
                         class: `edit ${isAuthor ? "" : "hidden"}`,

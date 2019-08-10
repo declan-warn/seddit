@@ -136,6 +136,10 @@ a:hover {
     margin-right: 1em;
 }
 
+[data-id-post] .comments::after {
+    content: " (" attr(data-num-comments) ")";
+}
+
 [data-id-post] .edit {
     order: 8;
 }
