@@ -171,12 +171,16 @@ export default class App {
 
             case "VIEW_PROFILE":
             case "PROFILE_SHOW": {
-                const userData = await this.api.user.get(payload);
+                const [currentUser, userData] = await Promise.all([
+                    this.api.user.get(),
+                    this.api.user.get(payload),
+                ]);
                 const posts = await Promise.all(
                     userData.posts.map(this.api.post.get)
                 );
 
                 this.model.route = "profile";
+                this.model.currentUser = currentUser;
                 this.model.userId = payload.id;
                 this.model.routeData = { ...userData, posts };
                 this.renderDOM();
@@ -186,6 +190,19 @@ export default class App {
 
             case "FOLLOW_USER": {
                 await this.api.user.follow(payload.username);
+                this.update("REFRESH_CURRENT_USER");
+                break;
+            }
+
+            case "UNFOLLOW_USER": {
+                await this.api.user.unfollow(payload.username);
+                this.update("REFRESH_CURRENT_USER");
+                break;
+            }
+            
+            case "REFRESH_CURRENT_USER": {
+                const currentUser = await this.api.user.get();
+                this.model.currentUser = currentUser;
                 break;
             }
 

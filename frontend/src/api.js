@@ -108,6 +108,11 @@ export default function APIWrapper(model, apiUrl) {
             authorized: true,
             params: { username },
         }),
+        unfollow: (username) => requestJSON("/user/unfollow", {
+            method: "PUT",
+            authorized: true,
+            params: { username },
+        }),
         update: (body) => requestJSON("/user", {
             method: "PUT",
             authorized: true,

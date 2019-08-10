@@ -10,11 +10,27 @@ export default (model, update) => {
             .map(post => post.meta.upvotes.length)
             .reduce((sum, val) => sum + val, 0);
 
+    const isFollowing =
+        model.currentUser.following.includes(model.routeData.id);
+
     const follow = createElement(
         "button", {
-            class: "follow",
-            onClick() { update("FOLLOW_USER", { username }) },
-            children: "Follow"
+            class: isFollowing ? "unfollow" : "follow",
+            async onClick({ currentTarget }) {
+                const isFollowing =
+                    currentTarget.classList.contains("follow");
+
+                if (isFollowing) {
+                    update("FOLLOW_USER", { username });
+                    currentTarget.classList.replace("follow", "unfollow");
+                    currentTarget.textContent = "Unfollow";
+                } else {
+                    update("UNFOLLOW_USER", { username });
+                    currentTarget.classList.replace("unfollow", "follow");
+                    currentTarget.textContent = "Follow";
+                }
+            },
+            children: isFollowing ? "Unfollow" : "Follow"
         }
     );
 
