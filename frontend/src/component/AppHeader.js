@@ -1,9 +1,14 @@
 import { createElement } from "/src/util.js";
 
-export function withHeader(model, update, component) {
-    component.prepend(AppHeader(model, update));
-    return component;
-};
+export const withHeader = (model, update, component) =>
+    createElement(
+        "div", {
+            children: [
+                AppHeader(model, update),
+                component
+            ]
+        }
+    );
 
 export default function AppHeader(model, update) {
     const navLeft = createElement("nav", {
