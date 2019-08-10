@@ -68,6 +68,14 @@ export default function APIWrapper(model, apiUrl) {
         }),
     };
 
+    this.auth = {
+        login: (body) => requestJSON("/auth/login", {
+            method: "POST",
+            authorized: false,
+            body,
+        }),
+    };
+
     this.user = {
         get: ({ username, id } = {}) => requestJSON("/user", {
             method: "GET",
@@ -83,6 +91,6 @@ export default function APIWrapper(model, apiUrl) {
             method: "PUT",
             authorized: true,
             params: { username },
-        })
+        }),
     };
 }

@@ -4,7 +4,7 @@ import APIWrapper from "/src/api.js";
 // Components
 import Feed from "/src/component/Feed.js";
 import FeedItem from "/src/component/FeedItem.js";
-import LoginForm from "/src/LoginForm.js";
+import LoginForm from "/src/component/LoginForm.js";
 import Post from "/src/component/Post.js";
 import Profile from "/src/Profile.js";
 import SignupForm from "/src/SignupForm.js";
@@ -196,6 +196,14 @@ export default class App {
                 const { posts } = await this.api.user.getFeed();
                 console.log(posts);
 
+                break;
+            }
+
+            case "LOGIN": {
+                const { token } = await this.api.auth.login(payload);
+                this.model.token = token;
+                this.model.currentUser = await this.api.user.get();
+                this.update("FEED_SHOW");
                 break;
             }
 
