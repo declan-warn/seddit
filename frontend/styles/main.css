@@ -1,5 +1,6 @@
 @import "material-icons.css";
 @import "modal.css";
+@import "feed-item.css";
 @import "profile.css";
 
 * {
@@ -30,122 +31,6 @@ a:hover {
 
 .hidden {
     display: none;
-}
-
-[data-id-post] {
-    display: flex;
-    margin-bottom: 24px;
-}
-
-[data-id-post] .score {
-    order: 1;
-    display: flex;
-    flex-direction: column;
-    margin-right: 24px;
-    align-items: center;
-    width: 40px;
-    flex-shrink: 0;
-    height: 100%;
-    border: 1px solid lightgrey;
-    border-radius: 4px;
-
-    position: sticky;
-    top: 8px;
-}
-
-[data-id-post] .score button {
-    font-family: "Material Icons";
-    padding: 12px 0px;
-    width: 100%;
-    background: none;
-    border: none;
-    color: lightgrey;
-    border-bottom: 1px solid lightgrey;
-}
-
-[data-id-post] .score button:hover {
-    color: #da4453;
-    cursor: pointer;
-}
-
-[data-id-post] .score button.active {
-    color: #FFF;
-    background:#da4453;
-    border-radius: 4px 4px 0px 0px;
-    box-shadow: 0px 0px 0px 1px #da4453;
-    border-bottom-color: #da4453;
-}
-
-[data-id-post] .score button:focus {
-    outline: none;
-}
-
-[data-id-post] .score span {
-    padding: 8px 0px;
-}
-
-[data-id-post] .info {
-    order: 2;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-[data-id-post] img {
-    order: 1;
-    width: 100%;
-}
-
-[data-id-post] [data-id-subseddit] {
-    order: 2;
-    color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-}
-
-[data-id-post] [data-id-subseddit]::before {
-    content: "s/";
-}
-
-[data-id-post] [data-id-subseddit]:empty::before {
-    content: "s/all";
-}
-
-[data-id-post] h2 {
-    order: 3;
-    width: 100%;
-    margin: 8px 0px;
-}
-
-[data-id-post] p {
-    order: 4;
-    width: 100%;
-    margin: 0px 0px 24x 0px;
-}
-
-[data-id-post] [data-id-author] {
-    order: 5;
-    margin-right: 1em;
-}
-
-[data-id-post] time {
-    order: 6;
-    margin-right: 1em;
-}
-
-[data-id-post] .comments {
-    order: 7;
-    margin-right: 1em;
-}
-
-[data-id-post] .comments::after {
-    content: " (" attr(data-num-comments) ")";
-}
-
-[data-id-post] .edit {
-    order: 8;
-}
-
-[data-id-post] .delete {
-    order: 9;
 }
 
 .nav-bar {

@@ -40,22 +40,46 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
         "data-id-post": "",
         "data-post-id": id,
         children: [
+            ["div", {
+                class: "score",
+                children: [
+                    ["button", {
+                        class: meta.upvotes.includes(path(["currentUser", "id"])(model)) ? "active" : "",
+                        onClick: handleVote,
+                        children: "thumb_up"
+                    }],
+                    ["span", {
+                        "data-id-upvotes": "",
+                        onClick() { showUpvotes(model, meta) },
+                        children: meta.upvotes.length
+                    }]
+                ]
+            }],
+            ["div", {
+                class: "thumbnail",
+                children: (
+                    thumbnail
+                        ? [
+                            ["img", {
+                                src: `data:image/png;base64,${thumbnail}`
+                            }]
+                        ]
+                        : []
+                )
+            }],
             ["article", {
                 class: "info",
                 children: [
+                    ["span", {
+                        "data-id-subseddit": "",
+                        children: meta.subseddit
+                    }],
                     ["h2", {
                         "data-id-title": "",
                         children: title
                     }],
                     ["p", {
                         children: text
-                    }],
-                    ["img", {
-                        src: thumbnail ? `data:image/png;base64,${thumbnail}` : ""
-                    }],
-                    ["span", {
-                        "data-id-subseddit": "",
-                        children: meta.subseddit
                     }],
                     ["a", {
                         "data-id-author": "",
@@ -83,22 +107,7 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
                         children: "Delete"
                     }]
                 ]
-            }],
-            ["div", {
-                class: "score",
-                children: [
-                    ["button", {
-                        class: meta.upvotes.includes(path(["currentUser", "id"])(model)) ? "active" : "",
-                        onClick: handleVote,
-                        children: "thumb_up"
-                    }],
-                    ["span", {
-                        "data-id-upvotes": "",
-                        onClick() { showUpvotes(model, meta) },
-                        children: meta.upvotes.length
-                    }]
-                ]
-            }]
+            }]            
         ]
     });
 
