@@ -26,7 +26,8 @@ export default (model, update, { id, meta, title, text, thumbnail, comments }) =
             id,
             toggleIndicator() {
                 const score = currentTarget.nextElementSibling;
-                score.textContent = Number(score.textContent) + (undo ? (-1) : 1);
+                const isActive = currentTarget.classList.contains("active");
+                score.textContent = Number(score.textContent) + (isActive ? (-1) : 1);
                 currentTarget.classList.toggle("active");
             },
             undo,

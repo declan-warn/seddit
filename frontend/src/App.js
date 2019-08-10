@@ -147,6 +147,7 @@ export default class App {
                 try {
                     await this.api.post.vote(payload.id, payload.undo);
                 } catch (error) {
+                    console.log(error);
                     payload.toggleIndicator();
                 }
 

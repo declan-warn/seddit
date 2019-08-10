@@ -8,7 +8,7 @@ export default function APIWrapper(model, apiUrl) {
             : `http://${apiUrl}`
                 .replace(/\/$/, "");
 
-    const request = (path, options = {}) => {
+    const request = async (path, options = {}) => {
         const params = new URLSearchParams(options.params);
         const headers = new Headers(options.headers);
 
@@ -20,11 +20,22 @@ export default function APIWrapper(model, apiUrl) {
             headers.set("Content-Type", "application/json");
         }
 
-        return fetch(`${this.baseUrl}${path}?${params.toString()}`, {
-            method: options.method,
-            body: JSON.stringify(options.body),
-            headers,
-        });
+        const response =
+            await fetch(`${this.baseUrl}${path}?${params.toString()}`, {
+                method: options.method,
+                body: JSON.stringify(options.body),
+                headers,
+            });
+
+        if (response.status !== 200) {
+            const { message } = await response.json();
+
+            const error = new Error(message);
+            error.status = response.status;
+            throw error;
+        }
+
+        return response;
     };
 
     const requestJSON = (...args) => request(...args).then(x => x.json());
