@@ -223,8 +223,21 @@ export default class App {
             }
 
             case "VIEW_SUBSEDDIT": {
-                const { posts } = await this.api.user.getFeed();
-                console.log(posts);
+                let page = 1;
+                const routeData = [];
+                while (true) {
+                    const { posts } = await this.api.user.getFeed({ page });
+                    page++;
+                    if (posts.length === 0) break;
+
+                    posts
+                        .filter(post => post.meta.subseddit === payload)
+                        .forEach(post => routeData.push(post));
+                }
+
+                this.model.route = "feed";
+                this.model.routeData = routeData;
+                this.renderDOM();
 
                 break;
             }
@@ -347,7 +360,7 @@ export default class App {
                 break;
 
             case "s":
-                const subseddit = args.join("/");
+                const subseddit = args[0];
                 if (subseddit === "all") {
                     this.update("VIEW_FRONT");
                 } else {
