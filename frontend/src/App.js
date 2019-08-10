@@ -92,13 +92,6 @@ export default class App {
                 this.renderDOM();
                 break;
 
-            case "LOGIN_SUCCESS": {
-                this.model.token = payload.token;
-                this.model.currentUser = await this.api.user.get();
-                this.update("FEED_SHOW");
-                break;
-            }
-
             case "VIEW_SIGNUP":
             case "SIGNUP_SHOW":
                 this.model.route = "signup";
