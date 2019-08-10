@@ -1,0 +1,110 @@
+.profile {
+    display: flex;
+}
+
+.profile section.info {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    position: sticky;
+    top: 24px;
+    height: 0%;
+    margin-right: 48px;
+    flex-shrink: 0;
+}
+
+.profile section.info::before {
+    content: "person";
+    font-family: "Material Icons";
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 64px;
+    height: 64px;
+    background: lightgrey;
+    border-radius: 50%;
+    font-size: 32px;
+}
+
+.profile section.info div {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile section.info .follow {
+    background: #da4453;
+    color: white;
+    border: none;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.profile section.info .name,
+.profile section.info .email {
+    position: relative;
+    margin-left: 24px;
+}
+
+.profile section.info .name::before,
+.profile section.info .email::before {
+    font-family: "Material Icons";
+    position: absolute;
+    left: -24px;
+}
+
+.profile section.info .name::before {
+    content: "person_pin";
+}
+
+.profile section.info .email::before {
+    content: "email";
+}
+
+.profile section.info .metrics {
+    display: flex;
+    background: darkcyan;
+    color: white;
+    padding: 8px;
+}
+
+.profile section.info .metrics span {
+    font-size: 24px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 50%;
+    flex-shrink: 0;
+}
+
+.profile section.info .metrics span::before {
+    font-family: "Material Icons";
+    margin-right: 8px;
+    font-size: 0.8em;
+}
+
+.profile section.info .metrics span::after {
+    font-size: 12px;
+    flex-basis: 100%;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.profile section.info .metrics .followers::before {
+    content: "people";
+}
+
+.profile section.info .metrics .followers::after {
+    content: "followers";
+}
+
+.profile section.info .metrics .upvotes::before {
+    content: "thumb_up";
+}
+
+.profile section.info .metrics .upvotes::after {
+    content: "upvotes";
+}

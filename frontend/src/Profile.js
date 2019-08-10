@@ -5,42 +5,64 @@ import FeedItem from "/src/component/FeedItem.js";
 
 export default (model, update) => {
     const username = model.routeData.username;
-    const info = createElement("main", {
-        class: "profile",
-        children: [
-            ["section", {
-                "data-id-profile-info": "",
-                class: "info",
-                children: [
-                    ["div", {
-                        "data-id-profile-picture": "",
-                    }],
-                    ["div", {
-                        children: [
-                            ["h2", {
-                                "data-id-profile-username": "",
-                                children: username
-                            }],
-                            ["span", {
-                                "data-id-profile-email": "",
-                                children: model.routeData.email
-                            }],
-                            ["button", {
-                                "data-id-profile-follow": "",
-                                onClick() { update("FOLLOW_USER", { username }) },
-                                children: "Follow"
-                            }]
-                        ]
-                    }]
-                ]
-            }],
-            ["section", {
-                "data-id-profile-posts": "",
-                children: model.routeData.posts.map(post =>
-                    FeedItem(model, update, post)
-                )
-            }]
-        ]
+    const upvotes =
+        model.routeData.posts
+            .map(post => post.meta.upvotes.length)
+            .reduce((sum, val) => sum + val, 0);
+
+    console.log("UPVOTES: ", upvotes);
+
+    const info = createElement(
+        "main", {
+            class: "profile",
+            children: [
+                ["section", {
+                    class: "info",
+                    children: [
+                        ["h2", {
+                            children: username
+                        }],
+                        ["div", {
+                            children: [
+                                ["button", {
+                                    class: "follow",
+                                    onClick() { update("FOLLOW_USER", { username }) },
+                                    children: "Follow"
+                                }],
+                                ["span", {
+                                    class: "name",
+                                    title: "name",
+                                    children: model.routeData.name
+                                }],
+                                ["span", {
+                                    class: "email",
+                                    title: "email",
+                                    children: model.routeData.email
+                                }],
+                                ["section", {
+                                    class: "metrics",
+                                    children: [
+                                        ["span", {
+                                            class: "followers",
+                                            children: `${model.routeData.followed_num}`
+                                        }],
+                                        ["span", {
+                                            class: "upvotes",
+                                            children: `${upvotes}`
+                                        }]
+                                    ]
+                                }]
+                            ]
+                        }]                        
+                    ]
+                }],
+                ["section", {
+                    "data-id-profile-posts": "",
+                    children: model.routeData.posts.map(post =>
+                        FeedItem(model, update, post)
+                    )
+                }]
+            ]
     });
 
     return withHeader(model, update, info);

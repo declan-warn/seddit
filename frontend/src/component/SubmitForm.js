@@ -8,7 +8,7 @@ const handleSubmit = (model, update) => async event => {
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    if (data.image.type.startsWith("image/")) {
+    if (data.image.type && data.image.type.startsWith("image/")) {
         const dataURL = await toDataURL(data.image);
         data.image = dataURL;
     } else {
