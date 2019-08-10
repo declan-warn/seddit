@@ -10,7 +10,21 @@ export default (model, update) => {
             .map(post => post.meta.upvotes.length)
             .reduce((sum, val) => sum + val, 0);
 
-    console.log("UPVOTES: ", upvotes);
+    const follow = createElement(
+        "button", {
+            class: "follow",
+            onClick() { update("FOLLOW_USER", { username }) },
+            children: "Follow"
+        }
+    );
+
+    const edit = createElement(
+        "button", {
+            class: "edit",
+            onClick() { update("EDIT_PROFILE") },
+            children: "Edit"
+        }
+    );
 
     const info = createElement(
         "main", {
@@ -24,11 +38,10 @@ export default (model, update) => {
                         }],
                         ["div", {
                             children: [
-                                ["button", {
-                                    class: "follow",
-                                    onClick() { update("FOLLOW_USER", { username }) },
-                                    children: "Follow"
-                                }],
+                                (model.currentUser.id === model.routeData.id
+                                    ? edit
+                                    : follow
+                                ),
                                 ["span", {
                                     class: "name",
                                     title: "name",

@@ -7,7 +7,7 @@ import Feed from "/src/component/Feed.js";
 import FeedItem from "/src/component/FeedItem.js";
 import LoginForm from "/src/component/LoginForm.js";
 import Post from "/src/component/Post.js";
-import Profile from "/src/Profile.js";
+import Profile from "/src/component/Profile.js";
 import SignupForm from "/src/component/SignupForm.js";
 import SubmitForm from "/src/component/SubmitForm.js";
 
@@ -226,6 +226,11 @@ export default class App {
                 this.model.token = payload;
                 this.model.currentUser = await this.api.user.get();
                 this.update("FEED_SHOW");
+                break;
+            }
+
+            case "EDIT_PROFILE": {
+                // TODO:
                 break;
             }
 

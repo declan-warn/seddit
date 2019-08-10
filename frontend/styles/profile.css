@@ -34,12 +34,30 @@
     flex-direction: column;
 }
 
+.profile section.info .edit,
 .profile section.info .follow {
     background: #da4453;
     color: white;
     border: none;
     padding: 8px;
     font-size: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile section.info .edit::before,
+.profile section.info .follow::before {
+    font-family: "Material Icons";
+    margin-right: 4px;
+}
+
+.profile section.info .edit::before {
+    content: "edit";
+}
+
+.profile section.info .follow::before {
+    content: "add_circle_outline";
 }
 
 .profile section.info .name,
