@@ -82,18 +82,6 @@ export default class App {
                 break;
             }
 
-            case "VIEW_LOGIN":
-            case "LOGIN_SHOW":
-                this.model.route = "login";
-                this.renderDOM();
-                break;
-
-            case "VIEW_SIGNUP":
-            case "SIGNUP_SHOW":
-                this.model.route = "signup";
-                this.renderDOM();
-                break;
-
             case "VIEW_SUBMIT":
             case "SUBMIT_SHOW":
                 this.model.route = "submit";
@@ -292,6 +280,11 @@ export default class App {
                 break;
             }
 
+            case "UPDATE_ROUTE_DATA": {
+                this.model.routeData = payload;
+                break;
+            }
+
             default:
                 throw new Error(`Unknown msg '${msg}'.`);
         }
@@ -330,11 +323,11 @@ export default class App {
         }
     }
 
-    renderDOM() {
+    renderDOM(c) {
         while (this.node.firstElementChild) {
             this.node.firstElementChild.remove();
         }
-        const component = this.render();
+        const component = c || this.render();
         this.node.appendChild(component.call(this, this.model, this.update));
     }
 
@@ -350,11 +343,11 @@ export default class App {
 
         switch (routeName) {
             case "login":
-                this.update("VIEW_LOGIN");
+                this.renderDOM(LoginForm);
                 break;
 
             case "signup":
-                this.update("VIEW_SIGNUP");
+                this.renderDOM(SignupForm);
                 break;
 
             case "feed":
