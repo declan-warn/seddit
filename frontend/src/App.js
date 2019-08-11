@@ -30,11 +30,6 @@ export default class App {
 
         this.api = new APIWrapper(this.model, apiUrl);
 
-        this.worker = new Worker("/src/worker.js");
-        console.log(this.worker);
-        this.worker.postMessage(["SET_API_URL", this.model.apiUrl]);
-        this.worker.postMessage(["UPDATE_TOKEN", this.model.token]);
-
         // This method is passed around a lot so we need to bind it
         // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
