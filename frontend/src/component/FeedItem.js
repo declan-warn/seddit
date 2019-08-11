@@ -71,8 +71,9 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
             ["article", {
                 class: "info",
                 children: [
-                    ["span", {
+                    ["a", {
                         "data-id-subseddit": "",
+                        href: `#/s/${meta.subseddit}`,
                         children: meta.subseddit
                     }],
                     ["h2", {
