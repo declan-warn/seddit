@@ -26,16 +26,15 @@
 }
 
 [data-id-post] .score button:hover {
-    color: #da4453;
-    cursor: pointer;
+    color: var(--color-primary);
 }
 
 [data-id-post] .score button.active {
-    color: #FFF;
-    background:#da4453;
+    color: white;
+    background:var(--color-primary);
     border-radius: 4px 4px 0px 0px;
-    box-shadow: 0px 0px 0px 1px #da4453;
-    border-bottom-color: #da4453;
+    box-shadow: 0px 0px 0px 1px var(--color-primary);
+    border-bottom-color: var(--color-primary);
 }
 
 [data-id-post] .score button:focus {

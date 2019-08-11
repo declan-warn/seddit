@@ -37,7 +37,7 @@
 .profile section.info .edit,
 .profile section.info .follow,
 .profile section.info .unfollow {
-    background: #da4453;
+    background: var(--color-primary);
     color: white;
     border: none;
     padding: 8px;
@@ -90,7 +90,7 @@
 
 .profile section.info .metrics {
     display: flex;
-    background: darkcyan;
+    background: var(--color-secondary);
     color: white;
     padding: 8px;
 }

@@ -4,6 +4,11 @@
 @import "feed-item.css";
 @import "profile.css";
 
+:root {
+    --color-primary: #da4453;
+    --color-secondary: darkcyan;
+}
+
 * {
     box-sizing: border-box;
 }
