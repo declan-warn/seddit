@@ -27,15 +27,16 @@ export default function AppHeader(model, update) {
                 onClick() { window.location.hash = "#/front" },
                 children: "Front Page"
             }],
-            ["a", {
-                class: `${model.token === null && "hidden"}`,
-                //onClick() { update("FEED_SHOW") },
-                href: "#/feed",
-                children: "Feed"
-            }],
             ["form", {
+                class: "subseddit",
                 onSubmit: viewSubseddit,
                 children: [
+                    ["button", {
+                        class: `feed ${model.token === null && "hidden"}`,
+                        type: "button",
+                        onClick() { window.location.hash = "#/feed" },
+                        children: "Feed"
+                    }],
                     ["input", {
                         required: "",
                         pattern: "^[^/]+$",

@@ -1,5 +1,6 @@
 @import "header.css";
 @import "material-icons.css";
+@import "Montserrat.css";
 @import "modal.css";
 @import "feed-item.css";
 @import "profile.css";
@@ -7,6 +8,7 @@
 :root {
     --color-primary: #da4453;
     --color-secondary: darkcyan;
+    font-size: 16px;
 }
 
 * {
@@ -27,7 +29,7 @@ main {
 }
 
 a {
-    color: #da4453;
+    color: var(--color-primary);
 }
 
 a:hover {
@@ -39,22 +41,13 @@ a:hover {
     display: none;
 }
 
+button {
+    background: var(--color-primary);
+    color: #FFF;
+    border: none;
+    border-radius: 0.2em;
+}
+
 button:hover {
     cursor: pointer;
-}
-
-.nav-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px calc((100% - 960px) / 2);
-    border-bottom: 1px solid lightgrey;
-    height: 48px;
-}
-
-nav.left {
-    display: flex;
-}
-
-nav button {
-    height: 100%;
 }
