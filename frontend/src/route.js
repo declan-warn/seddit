@@ -11,39 +11,39 @@ const go = route => {
     if (window.location.hash === route) {
         window.dispatchEvent(new HashChangeEvent("hashchange"));
     } else {
-        window.location.hash = route;
+        window.location.hash = `#/${route}`;
     }
 };
 
-const FRONT = "#/front";
+const FRONT = "front";
 export const front = () => go(FRONT);
 
-const SUBSEDDIT = "#/s";
+const SUBSEDDIT = "s";
 export const subseddit = name => go(`${SUBSEDDIT}/${name}`);
 
-const FEED = "#/s/all";
+const FEED = "s/all";
 export const feed = () => go(FEED);
 
-const PROFILE = "#/profile";
+const PROFILE = "profile";
 export const profile = (username = "") => go(`${PROFILE}/${username}`);
 
-const POST = "#/post";
+const POST = "post";
 export const post = id => go(`${POST}/${id}`);
 export const editPost = id => go(`${POST}/${id}/edit`);
 
-const LOGIN = "#/login";
+const LOGIN = "login";
 export const login = () => go(LOGIN);
 
-const SIGNUP = "#/signup";
+const SIGNUP = "signup";
 export const signup = () => go(SIGNUP);
 
-const SIGNOUT = "#/signout";
+const SIGNOUT = "signout";
 export const signout = () => go(SIGNOUT);
 
-const SUBMIT = "#/submit";
+const SUBMIT = "submit";
 export const submit = () => go(SUBMIT);
 
-const SEARCH = "#/search";
+const SEARCH = "search";
 export const search = (query = "") => go(`${SEARCH}/${encodeURIComponent(query)}`);
 
 export async function handleRouting() {
@@ -53,20 +53,15 @@ export async function handleRouting() {
             .slice(1);
 
     switch (routeName) {
-        case "login":
+        case LOGIN:
             this.render(LoginForm);
             break;
 
-        case "signup":
+        case SIGNUP:
             this.render(SignupForm);
             break;
 
-        case "feed": {
-            feed();
-            break;
-        }
-
-        case "profile":
+        case PROFILE:
             if (!args[0]) {
                 profile(this.model.currentUser.username);
                 return;
@@ -87,12 +82,12 @@ export async function handleRouting() {
 
             break;
 
-        case "submit":
+        case SUBMIT:
             await this.update("UPDATE_ROUTE_DATA");
             this.render(SubmitForm);
             break;
 
-        case "post": {
+        case POST: {
             const post = await this.api.post.get(Number(args[0]));
             this.update("UPDATE_ROUTE_DATA", post);
             this.render(
@@ -103,7 +98,7 @@ export async function handleRouting() {
             break;
         }
 
-        case "s":
+        case SUBSEDDIT:
             const subseddit = args[0];
             if (subseddit === "all") {
                 const { posts } = await this.api.user.getFeed();
@@ -132,7 +127,7 @@ export async function handleRouting() {
             }
             break;
 
-        case "search": {
+        case SEARCH: {
             const query = decodeURIComponent(args[0]).toLowerCase();
 
             let page = 1;
@@ -157,11 +152,11 @@ export async function handleRouting() {
             break;
         }
 
-        case "signout":
+        case SIGNOUT:
             this.update("SIGNOUT");
             break;
 
-        case "front":
+        case FRONT:
         default: {
             const { posts } = await this.api.post.getPublic();
             posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
