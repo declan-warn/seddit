@@ -450,9 +450,8 @@ export default class App {
                     const inSnapshot = this.monitorFeed.snapshot.find(({ id }) => id === post.id);
                     // Check that the post was created approximately within the last polling interval to avoid
                     // false-positives caused by deleting posts in multi-page feeds
-                    const isRecent = (Date.now - (post.meta.published * 1000)) <= (App.POLLING_INTERVAL * 1.75);
+                    const isRecent = (Date.now() - (post.meta.published * 1000)) <= (App.POLLING_INTERVAL * 1.75);
                     if (!inSnapshot && isRecent) {
-                        console.log("OK NEW POST")
                         // If the post wasn't in the snapshot it must be new so notify the user
                         const notification = new Notification(`"New post from ${post.meta.author}`, {
                             body: `${post.title.substr(0, 17)}...`
