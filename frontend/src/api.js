@@ -6,7 +6,7 @@ export default function APIWrapper(model, apiUrl) {
         apiUrl.includes("://")
             ? apiUrl
             : `http://${apiUrl}`
-                .replace(/\/$/, "");
+                .replace(/\/*$/, "");
 
     const request = async (path, options = {}) => {
         const params = new URLSearchParams(options.params);
