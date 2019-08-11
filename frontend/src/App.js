@@ -55,66 +55,6 @@ export default class App {
 
     async update(msg, payload = {}) {
         switch (msg) {
-            case "VIEW_FRONT":
-            case "FRONT_SHOW": {
-                const { posts } = await this.api.post.getPublic();
-
-                this.model.route = "front";
-                this.model.routeData =
-                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
-
-                this.renderDOM();
-                break;
-            }
-
-            case "VIEW_FEED":
-            case "FEED_SHOW": {
-                const { posts } = await this.api.user.getFeed();
-
-                this.model.route = "feed";
-                this.model.routeData =
-                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
-
-                this.scrollFeed.current = 1;
-                this.scrollFeed.checked = 1;
-
-                this.renderDOM();
-                break;
-            }
-
-            case "VIEW_SUBMIT":
-            case "SUBMIT_SHOW":
-                this.model.route = "submit";
-                this.model.routeData = {};
-                this.renderDOM();
-                break;
-
-            case "SUBMIT_SUCCESS":
-                this.update("FRONT_SHOW");
-                break;
-
-            case "VIEW_POST":
-            case "POST_VIEW":
-                if (payload.forceUpdate) {
-                    this.model.routeData =
-                        await this.api.post.get(payload.id);
-                } else {
-                    this.model.routeData =
-                        this.model.routeData.find(({ id }) => id === payload.id);
-                }
-
-                this.model.route = "post";
-                this.model.postId = payload.id;
-                this.renderDOM();
-                break;
-
-            case "POST_EDIT":
-                this.model.route = "submit";
-                this.model.routeData =
-                    this.model.routeData.find(({ id }) => id === payload.id);
-                this.renderDOM();
-                break;
-
             case "POST_SUBMIT": {
                 const body = Object.fromEntries(
                     Object.entries(payload).filter(([, val]) => val !== "")
@@ -126,7 +66,7 @@ export default class App {
                     await this.api.post.submit(body);
                 }
 
-                this.update("FRONT_SHOW");
+                route.front();
                 break;
             }
 
@@ -155,25 +95,6 @@ export default class App {
                 route.front();
                 break;
 
-            case "VIEW_PROFILE":
-            case "PROFILE_SHOW": {
-                const [currentUser, userData] = await Promise.all([
-                    this.api.user.get(),
-                    this.api.user.get(payload),
-                ]);
-                const posts = await Promise.all(
-                    userData.posts.map(this.api.post.get)
-                );
-
-                this.model.route = "profile";
-                this.model.currentUser = currentUser;
-                this.model.userId = payload.id;
-                this.model.routeData = { ...userData, posts };
-                this.renderDOM();
-
-                break;
-            }
-
             case "FOLLOW_USER": {
                 await this.api.user.follow(payload.username);
                 this.update("REFRESH_CURRENT_USER");
@@ -194,36 +115,13 @@ export default class App {
 
             case "POST_DELETE": {
                 await this.api.post.delete(payload.id);
-                this.update("FRONT_SHOW");
+                route.front();
                 break;
             }
 
             case "COMMENT_SUBMIT": {
                 await this.api.post.comment(payload.id, payload.body);
-                this.update("POST_VIEW", {
-                    id: payload.id,
-                    forceUpdate: true,
-                });
-                break;
-            }
-
-            case "VIEW_SUBSEDDIT": {
-                let page = 1;
-                const routeData = [];
-                while (true) {
-                    const { posts } = await this.api.user.getFeed({ page });
-                    page++;
-                    if (posts.length === 0) break;
-
-                    posts
-                        .filter(post => post.meta.subseddit === payload)
-                        .forEach(post => routeData.push(post));
-                }
-
-                this.model.route = "feed";
-                this.model.routeData = routeData;
-                this.renderDOM();
-
+                route.post(payload.id);
                 break;
             }
 
@@ -242,7 +140,7 @@ export default class App {
             case "AUTH_SUCCESS": {
                 this.model.token = payload;
                 this.model.currentUser = await this.api.user.get();
-                this.update("FEED_SHOW");
+                route.feed();
                 break;
             }
 
@@ -251,32 +149,6 @@ export default class App {
                     await this.api.user.update(payload);
                 }
                 route.profile();
-                break;
-            }
-
-            case "SEARCH": {
-                const query = decodeURIComponent(payload.toLowerCase());
-
-                let page = 1;
-                const routeData = [];
-                while (true) {
-                    const { posts } = await this.api.user.getFeed({ page });
-                    page++;
-                    if (posts.length === 0) break;
-
-                    posts
-                        .filter(post =>
-                            post.title.toLowerCase().includes(query) ||
-                            post.text.toLowerCase().includes(query) ||
-                            post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
-                        )
-                        .forEach(post => routeData.push(post));
-                }
-
-                this.model.route = "feed";
-                this.model.routeData = routeData;
-                this.renderDOM();
-
                 break;
             }
 
@@ -293,41 +165,10 @@ export default class App {
         localStorage.setItem("model", JSON.stringify(this.model));
     }
 
-    render() {
-        const { route } = this.model;
-        switch (route) {
-            case "front":
-            case "feed":
-                return Feed;
-
-            case "login":
-                return LoginForm;
-
-            case "signup":
-                return SignupForm;
-
-            case "submit":
-                return SubmitForm;
-
-            case "profile":
-                return Profile;
-
-            case "edit_profile":
-                return ProfileForm;
-
-            case "post":
-                return Post;
-
-            default:
-                throw new Error(`Unknown route '${route}'.`);
-        }
-    }
-
-    renderDOM(c) {
+    render(component) {
         while (this.node.firstElementChild) {
             this.node.firstElementChild.remove();
         }
-        const component = c || this.render();
         this.node.appendChild(component.call(this, this.model, this.update));
     }
 
@@ -343,16 +184,17 @@ export default class App {
 
         switch (routeName) {
             case "login":
-                this.renderDOM(LoginForm);
+                this.render(LoginForm);
                 break;
 
             case "signup":
-                this.renderDOM(SignupForm);
+                this.render(SignupForm);
                 break;
 
-            case "feed":
-                this.update("VIEW_FEED");
+            case "feed": {
+                route.feed();
                 break;
+            }
 
             case "profile":
                 if (!args[0]) {
@@ -361,45 +203,105 @@ export default class App {
                 }
 
                 if (args[1] === "edit") {
-                    const userData = await this.api.user.get();
-                    this.model.route = "edit_profile";
-                    this.model.routeData = userData;
-                    this.renderDOM();
+                    this.update("UPDATE_ROUTE_DATA", await this.api.user.get());
+                    this.render(ProfileForm);
                 } else {
-                    this.update("VIEW_PROFILE", { username: args[0] });
+                    //await this.update("REFRESH_CURRENT_USER");
+                    const userData = await this.api.user.get(args[0]);
+                    const posts = await Promise.all(
+                        userData.posts.map(this.api.post.get)
+                    );
+
+                    this.update("UPDATE_ROUTE_DATA", { ...userData, posts });
+                    this.render(Profile);
                 }
 
                 break;
 
             case "submit":
-                this.update("VIEW_SUBMIT");
+                await this.update("UPDATE_ROUTE_DATA");
+                this.render(SubmitForm);
                 break;
 
-            case "post":
-                this.update("VIEW_POST", { id: Number(args[0]) });
+            case "post": {
+                const post = await this.api.post.get(Number(args[0]));
+                this.update("UPDATE_ROUTE_DATA", post);
+                this.render(
+                    args[1] === "edit"
+                        ? SubmitForm
+                        : Post
+                );
                 break;
+            }
 
             case "s":
                 const subseddit = args[0];
                 if (subseddit === "all") {
-                    this.update("VIEW_FEED");
+                    const { posts } = await this.api.user.getFeed();
+                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+
+                    this.scrollFeed.current = 1;
+                    this.scrollFeed.checked = 1;
+
+                    this.update("UPDATE_ROUTE_DATA", posts);
+                    this.render(Feed);
                 } else {
-                    this.update("VIEW_SUBSEDDIT", subseddit);
+                    let page = 1;
+                    const routeData = [];
+                    while (true) {
+                        const { posts } = await this.api.user.getFeed({ page });
+                        page++;
+                        if (posts.length === 0) break;
+    
+                        posts
+                            .filter(post => post.meta.subseddit === subseddit)
+                            .forEach(post => routeData.push(post));
+                    }
+    
+                    this.update("UPDATE_ROUTE_DATA", routeData);
+                    this.render(Feed);
                 }
                 break;
 
-            case "search":
-                this.update("SEARCH", args[0]);
+            case "search": {
+                const query = decodeURIComponent(args[0]).toLowerCase();
+
+                let page = 1;
+                const routeData = [];
+                while (true) {
+                    const { posts } = await this.api.user.getFeed({ page });
+                    page++;
+                    if (posts.length === 0) break;
+
+                    posts
+                        .filter(post =>
+                            post.title.toLowerCase().includes(query) ||
+                            post.text.toLowerCase().includes(query) ||
+                            post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
+                        )
+                        .forEach(post => routeData.push(post));
+                }
+                
+                this.update("UPDATE_ROUTE_DATA", routeData);
+                this.render(Feed);
+
                 break;
+            }
 
             case "signout":
                 this.update("SIGNOUT");
                 break;
 
             case "front":
-            default:
-                this.update("VIEW_FRONT");
+            default: {
+                const { posts } = await this.api.post.getPublic();
+                posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+
+                this.update("UPDATE_ROUTE_DATA", posts);
+                this.render(Feed);
+                
                 break;
+            }
         }
     }
 

@@ -1,4 +1,10 @@
-const go = route => window.location.hash = route;
+const go = route => {
+    if (window.location.hash === route) {
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+    } else {
+        window.location.hash = route;
+    }
+};
 
 const FRONT = "#/front";
 export const front = () => go(FRONT);
@@ -14,6 +20,7 @@ export const profile = (username = "") => go(`${PROFILE}/${username}`);
 
 const POST = "#/post";
 export const post = id => go(`${POST}/${id}`);
+export const editPost = id => go(`${POST}/${id}/edit`);
 
 const LOGIN = "#/login";
 export const login = () => go(LOGIN);

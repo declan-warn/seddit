@@ -1,4 +1,5 @@
 import { createElement, toRelativeTime, path, showModal } from "/src/util.js";
+import * as route from "/src/route.js";
 
 const showUpvotes = async ({ apiUrl, token }, { upvotes }) => {
     if (!upvotes) return;
@@ -100,7 +101,7 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
                     }],
                     ["a", {
                         class: `edit ${isAuthor ? "" : "hidden"}`,
-                        onClick() { update("POST_EDIT", { id }) },
+                        onClick() { route.editPost(id) },
                         children: "Edit"
                     }],
                     ["button", {
