@@ -3,16 +3,6 @@ import APIWrapper from "/src/api.js";
 import * as util from "/src/util.js";
 import * as route from "/src/route.js";
 
-// Components
-import Feed from "/src/component/Feed.js";
-import FeedItem from "/src/component/FeedItem.js";
-import LoginForm from "/src/component/LoginForm.js";
-import Post from "/src/component/Post.js";
-import Profile from "/src/component/Profile.js";
-import ProfileForm from "/src/component/ProfileForm.js";
-import SignupForm from "/src/component/SignupForm.js";
-import SubmitForm from "/src/component/SubmitForm.js";
-
 export default class App {
     static get POLLING_INTERVAL() {
         return 5000;
@@ -34,7 +24,7 @@ export default class App {
         // This method is passed around a lot so we need to bind it
         // so it doesn't lose its 'this' context
         this.update = this.update.bind(this);
-        this.handleRouting = this.handleRouting.bind(this);
+        this.handleRouting = route.handleRouting.bind(this);
         this.scrollFeed = this.scrollFeed.bind(this);
         this.monitorFeed = this.monitorFeed.bind(this);
 
@@ -170,139 +160,6 @@ export default class App {
             this.node.firstElementChild.remove();
         }
         this.node.appendChild(component.call(this, this.model, this.update));
-    }
-
-    async handleRouting(event) {
-        console.log(event);
-
-        const [routeName, ...args] =
-            window.location.hash
-                .split("/")
-                .slice(1);
-
-        //console.log("ROUTE:", route, args);
-
-        switch (routeName) {
-            case "login":
-                this.render(LoginForm);
-                break;
-
-            case "signup":
-                this.render(SignupForm);
-                break;
-
-            case "feed": {
-                route.feed();
-                break;
-            }
-
-            case "profile":
-                if (!args[0]) {
-                    route.profile(this.model.currentUser.username);
-                    return;
-                }
-
-                if (args[1] === "edit") {
-                    this.update("UPDATE_ROUTE_DATA", await this.api.user.get());
-                    this.render(ProfileForm);
-                } else {
-                    //await this.update("REFRESH_CURRENT_USER");
-                    const userData = await this.api.user.get(args[0]);
-                    const posts = await Promise.all(
-                        userData.posts.map(this.api.post.get)
-                    );
-
-                    this.update("UPDATE_ROUTE_DATA", { ...userData, posts });
-                    this.render(Profile);
-                }
-
-                break;
-
-            case "submit":
-                await this.update("UPDATE_ROUTE_DATA");
-                this.render(SubmitForm);
-                break;
-
-            case "post": {
-                const post = await this.api.post.get(Number(args[0]));
-                this.update("UPDATE_ROUTE_DATA", post);
-                this.render(
-                    args[1] === "edit"
-                        ? SubmitForm
-                        : Post
-                );
-                break;
-            }
-
-            case "s":
-                const subseddit = args[0];
-                if (subseddit === "all") {
-                    const { posts } = await this.api.user.getFeed();
-                    posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
-
-                    this.scrollFeed.current = 1;
-                    this.scrollFeed.checked = 1;
-
-                    this.update("UPDATE_ROUTE_DATA", posts);
-                    this.render(Feed);
-                } else {
-                    let page = 1;
-                    const routeData = [];
-                    while (true) {
-                        const { posts } = await this.api.user.getFeed({ page });
-                        page++;
-                        if (posts.length === 0) break;
-    
-                        posts
-                            .filter(post => post.meta.subseddit === subseddit)
-                            .forEach(post => routeData.push(post));
-                    }
-    
-                    this.update("UPDATE_ROUTE_DATA", routeData);
-                    this.render(Feed);
-                }
-                break;
-
-            case "search": {
-                const query = decodeURIComponent(args[0]).toLowerCase();
-
-                let page = 1;
-                const routeData = [];
-                while (true) {
-                    const { posts } = await this.api.user.getFeed({ page });
-                    page++;
-                    if (posts.length === 0) break;
-
-                    posts
-                        .filter(post =>
-                            post.title.toLowerCase().includes(query) ||
-                            post.text.toLowerCase().includes(query) ||
-                            post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
-                        )
-                        .forEach(post => routeData.push(post));
-                }
-                
-                this.update("UPDATE_ROUTE_DATA", routeData);
-                this.render(Feed);
-
-                break;
-            }
-
-            case "signout":
-                this.update("SIGNOUT");
-                break;
-
-            case "front":
-            default: {
-                const { posts } = await this.api.post.getPublic();
-                posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
-
-                this.update("UPDATE_ROUTE_DATA", posts);
-                this.render(Feed);
-                
-                break;
-            }
-        }
     }
 
     async scrollFeed() {
