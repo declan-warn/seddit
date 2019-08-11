@@ -2,86 +2,57 @@ import { createElement, toDataURL, path } from "/src/util.js";
 
 import { withHeader } from "/src/component/AppHeader.js";
 
-const handleSubmit = (model, update) => async event => {
-    event.preventDefault();
+export default function () {
+    const routeData = (props, otherwise = "") =>
+        path(["routeData", ...props])(this.model) || otherwise;
 
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const handleSubmit = async event => {
+        event.preventDefault();
 
-    if (data.image.type && data.image.type.startsWith("image/")) {
-        const dataURL = await toDataURL(data.image);
-        data.image = dataURL;
-    } else {
-        data.image = "";
-    }
+        const formData = new FormData(event.currentTarget);
+        const image = formData.get("image");
+        const data = {
+            ...Object.fromEntries(formData.entries()),
+            id: routeData("id"),
+            image:
+                (image.type && image.type.startsWith("image/"))
+                    ? await toDataURL(image)
+                    : ""
+        };
+        
+        this.update("POST_SUBMIT", data);
+    };
 
-    data.id = path(["routeData", "id"])(model);
-
-    console.log(data);
-
-    update("POST_SUBMIT", data);
-
-    /*
-    const response = await fetch(`http://${apiUrl}/post`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "Authorization": `Token ${token}`,
-            "Content-Type": "application/json",
-        },
-    });
-
-    const json = await response.json();
-    console.log(response, json);
-    if (response.status === 200) {
-        update("SUBMIT_SUCCESS");
-    } else {
-        alert(json.message);
-    }
-    */
-};
-
-export default (model, update) => {
-    const routeData = props =>
-        path(["routeData", ...props])(model) || "";
-
-    console.log(model.routeData);
-    console.log(routeData("title"))
-    console.log(path(["routeData", "title"])(model))
-
-    const form = createElement("form", {
-        onSubmit: handleSubmit(model, update),
-        children: [
-            ["input", {
-                placeholder: "Title",
-                name: "title",
-                value: routeData(["title"])
-            }],
-            ["input", {
-                placeholder: "Text",
-                name: "text",
-                value: routeData(["text"])
-            }],
-            ["input", {
-                placeholder: "Subseddit",
-                name: "subseddit",
-                value: routeData(["meta", "subseddit"])
-            }],
-            ["input", {
-                type: "file",
-                name: "image"
-            }],
-            ["button", {
-                children: "Submit"
-            }]
-        ]
-    });
-
-    const div = createElement("div", {
-        children: [
-            form
-        ]
-    });
-
-    return withHeader(model, update, div);
-};
+    return withHeader(this.model, this.update, createElement(
+        "form", {
+            onSubmit: handleSubmit,
+            children: [
+                ["input", {
+                    placeholder: "Title",
+                    name: "title",
+                    value: routeData(["title"]),
+                    required: "",
+                }],
+                ["input", {
+                    placeholder: "Text",
+                    name: "text",
+                    value: routeData(["text"]),
+                    required: "",
+                }],
+                ["input", {
+                    placeholder: "Subseddit",
+                    name: "subseddit",
+                    value: routeData(["meta", "subseddit"]),
+                    required: "",
+                }],
+                ["input", {
+                    type: "file",
+                    name: "image"
+                }],
+                ["button", {
+                    children: "Submit"
+                }]
+            ]
+        }
+    ));
+}
