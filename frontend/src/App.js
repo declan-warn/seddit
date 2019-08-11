@@ -40,17 +40,21 @@ export default class App {
         this.update = this.update.bind(this);
         this.handleRouting = this.handleRouting.bind(this);
         this.scrollFeed = this.scrollFeed.bind(this);
+        this.monitorFeed = this.monitorFeed.bind(this);
 
         this.handleRouting();
 
         // for debugging
         window.app = this;
-        
+
         // event listener used to handle routing
         window.addEventListener("hashchange", this.handleRouting);
 
         // event listener used for infinite scrolling
         window.addEventListener("scroll", this.scrollFeed);
+
+        // used to periodically check the feed for updates
+        this.monitorFeed();
     }
 
     async update(msg, payload = {}) {
@@ -196,7 +200,7 @@ export default class App {
                 this.update("REFRESH_CURRENT_USER");
                 break;
             }
-            
+
             case "REFRESH_CURRENT_USER": {
                 const currentUser = await this.api.user.get();
                 this.model.currentUser = currentUser;
@@ -277,8 +281,8 @@ export default class App {
 
                     posts
                         .filter(post =>
-                            post.title.toLowerCase().includes(query)    ||
-                            post.text.toLowerCase().includes(query)     ||
+                            post.title.toLowerCase().includes(query) ||
+                            post.text.toLowerCase().includes(query) ||
                             post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
                         )
                         .forEach(post => routeData.push(post));
@@ -374,7 +378,7 @@ export default class App {
                 } else {
                     this.update("VIEW_PROFILE", { username: args[0] });
                 }
-                
+
                 break;
 
             case "post":
@@ -421,6 +425,46 @@ export default class App {
                 console.log(posts);
             }
         }
+    }
+
+    async monitorFeed() {
+        // Request permission to show notifications if needed
+        if (Notification.permission === "default") {
+            await Notification.requestPermission();
+        }
+
+        // If the user denied permission to show notifications there is no point polling the feed
+        if (Notification.permission === "denied") return;
+
+        // Check the user is logged in
+        if (this.model.currentUser) {
+            const { posts } = await this.api.user.getFeed();
+            // Check if there is an old version of the feed to compare to
+            if (this.monitorFeed.snapshot) {
+                for (const post of posts) {
+                    // Check each post to see if it is in the snapshot from last time
+                    const inSnapshot = this.monitorFeed.snapshot.find(({ id }) => id === post.id);
+                    // Check that the post was created approximately within the last polling interval to avoid
+                    // false-positives caused by deleting posts in multi-page feeds
+                    const isRecent = (Date.now - (post.meta.published * 1000)) <= (App.POLLING_INTERVAL * 1.75);
+                    if (!inSnapshot && isRecent) {
+                        console.log("OK NEW POST")
+                        // If the post wasn't in the snapshot it must be new so notify the user
+                        const notification = new Notification(`"New post from ${post.meta.author}`, {
+                            body: `${post.title.substr(0, 17)}...`
+                        });
+
+                        notification.addEventListener("click", event => {
+                            window.location.hash = `#/post/${post.id}`;
+                        });
+                    }
+                }
+            }
+            // Save the snapshot of the feed for the next time
+            this.monitorFeed.snapshot = posts;
+        }
+
+        window.setTimeout(this.monitorFeed, App.POLLING_INTERVAL);
     }
 
 }
