@@ -83,7 +83,7 @@ export default function AppHeader(model, update) {
                     }]
                 ] : [
                     ["button", {
-                        onClick() { update("SUBMIT_SHOW") },
+                        onClick() { window.location.hash = "#/submit" },
                         children: "Add Post"
                     }],
                     ["a", {
@@ -91,7 +91,7 @@ export default function AppHeader(model, update) {
                         children: "Profile"
                     }],
                     ["button", {
-                        onClick() { update("SIGNOUT") },
+                        onClick() { window.location.hash = "#/signout" },
                         children: "Sign Out"
                     }]
                 ]

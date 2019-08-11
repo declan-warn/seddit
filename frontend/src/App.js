@@ -93,6 +93,7 @@ export default class App {
                 this.renderDOM();
                 break;
 
+            case "VIEW_SUBMIT":
             case "SUBMIT_SHOW":
                 this.model.route = "submit";
                 this.model.routeData = {};
@@ -376,6 +377,10 @@ export default class App {
 
                 break;
 
+            case "submit":
+                this.update("VIEW_SUBMIT");
+                break;
+
             case "post":
                 this.update("VIEW_POST", { id: Number(args[0]) });
                 break;
@@ -391,6 +396,10 @@ export default class App {
 
             case "search":
                 this.update("SEARCH", args[0]);
+                break;
+
+            case "signout":
+                this.update("SIGNOUT");
                 break;
 
             case "front":
