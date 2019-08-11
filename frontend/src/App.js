@@ -1,6 +1,7 @@
 // Utilities
 import APIWrapper from "/src/api.js";
 import * as util from "/src/util.js";
+import * as route from "/src/route.js";
 
 // Components
 import Feed from "/src/component/Feed.js";
@@ -163,7 +164,7 @@ export default class App {
             case "SIGNOUT":
                 this.model.token = null;
                 this.model.currentUser = null;
-                window.location.hash = "#/front";
+                route.front();
                 break;
 
             case "VIEW_PROFILE":
@@ -261,7 +262,7 @@ export default class App {
                 if (Object.keys(payload).length >= 1) {
                     await this.api.user.update(payload);
                 }
-                window.location.hash = "#/profile";
+                route.profile();
                 break;
             }
 
@@ -340,14 +341,14 @@ export default class App {
     async handleRouting(event) {
         console.log(event);
 
-        const [route, ...args] =
+        const [routeName, ...args] =
             window.location.hash
                 .split("/")
                 .slice(1);
 
-        console.log("ROUTE:", route, args);
+        //console.log("ROUTE:", route, args);
 
-        switch (route) {
+        switch (routeName) {
             case "login":
                 this.update("VIEW_LOGIN");
                 break;
@@ -362,7 +363,7 @@ export default class App {
 
             case "profile":
                 if (!args[0]) {
-                    window.location.hash = `#/profile/${this.model.currentUser.username}`;
+                    route.profile(this.model.currentUser.username);
                     return;
                 }
 
@@ -388,7 +389,7 @@ export default class App {
             case "s":
                 const subseddit = args[0];
                 if (subseddit === "all") {
-                    this.update("VIEW_FRONT");
+                    this.update("VIEW_FEED");
                 } else {
                     this.update("VIEW_SUBSEDDIT", subseddit);
                 }
@@ -458,7 +459,7 @@ export default class App {
                         });
 
                         notification.addEventListener("click", event => {
-                            window.location.hash = `#/post/${post.id}`;
+                            route.post(post.id);
                         });
                     }
                 }

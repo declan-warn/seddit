@@ -1,4 +1,5 @@
 import { createElement } from "/src/util.js";
+import * as route from "/src/route.js";
 
 export const withHeader = (model, update, component) =>
     createElement(
@@ -17,14 +18,14 @@ export default function AppHeader(model, update) {
         const formData = new FormData(event.currentTarget);
         const query = formData.get("search");
     
-        window.location.hash = `#/search/${encodeURIComponent(query)}`;
+        route.search(query);
     };
 
     const navLeft = createElement("nav", {
         class: "left",
         children: [
             ["button", {
-                onClick() { window.location.hash = "#/front" },
+                onClick() { route.front() },
                 children: "Front Page"
             }],
             ["form", {
@@ -36,7 +37,7 @@ export default function AppHeader(model, update) {
                     ["button", {
                         class: "feed",
                         type: "button",
-                        onClick() { window.location.hash = "#/feed" },
+                        onClick() { route.feed() },
                         children: "Feed"
                     }],
                     ["input", {
@@ -75,30 +76,29 @@ export default function AppHeader(model, update) {
                 ? [
                     ["button", {
                         "data-id-login": "",
-                        onClick() { window.location.hash = "#/login" },
-                        //href: "#/login",
+                        onClick() { route.login() },
                         children: "Log In"
                     }],
                     ["button", {
                         "data-id-signup": "",
-                        onClick() { window.location.hash = "#/signup" },
+                        onClick() { route.signup() },
                         //href: "#/signup",
                         children: "Sign Up"
                     }]
                 ] : [
                     ["button", {
                         id: "nav-submit",
-                        onClick() { window.location.hash = "#/submit" },
+                        onClick() { route.submit() },
                         children: "Add Post"
                     }],
                     ["button", {
                         id: "nav-profile",
-                        onClick() { window.location.hash = `#/profile/${model.currentUser.username}` },
+                        onClick() { route.profile() },
                         children: "Profile"
                     }],
                     ["button", {
                         id: "nav-signout",
-                        onClick() { window.location.hash = "#/signout" },
+                        onClick() { route.signout() },
                         children: "Sign Out"
                     }]
                 ]
@@ -124,6 +124,5 @@ function viewSubseddit(event) {
             .querySelector("input")
             .value;
 
-    window.location.hash =
-        `#/s/${subseddit}`;
+    route.subseddit(subseddit);
 }
