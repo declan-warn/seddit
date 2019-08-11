@@ -28,11 +28,13 @@ export default function AppHeader(model, update) {
                 children: "Front Page"
             }],
             ["form", {
-                class: "subseddit",
+                class: `subseddit ${model.token === null && "hidden"}`,
                 onSubmit: viewSubseddit,
+                onFocusin({ currentTarget }) { currentTarget.classList.add("active") },
+                onFocusout({ currentTarget }) { currentTarget.classList.remove("active") },
                 children: [
                     ["button", {
-                        class: `feed ${model.token === null && "hidden"}`,
+                        class: "feed",
                         type: "button",
                         onClick() { window.location.hash = "#/feed" },
                         children: "Feed"
@@ -40,17 +42,18 @@ export default function AppHeader(model, update) {
                     ["input", {
                         required: "",
                         pattern: "^[^/]+$",
-                        placeholder: "subseddit"
+                        placeholder: "Subseddit"
                     }],
                     ["button", {
-                        class: "material-icons",
-                        children: "search"
+                        children: "launch"
                     }]
                 ]
             }],
             ["form", {
-                class: "search",
+                class: `search ${model.token === null && "hidden"}`,
                 onSubmit: handleSearch,
+                onFocusin({ currentTarget }) { currentTarget.classList.add("active") },
+                onFocusout({ currentTarget }) { currentTarget.classList.remove("active") },
                 children: [
                     ["input", {
                         name: "search",
@@ -84,14 +87,17 @@ export default function AppHeader(model, update) {
                     }]
                 ] : [
                     ["button", {
+                        id: "nav-submit",
                         onClick() { window.location.hash = "#/submit" },
                         children: "Add Post"
                     }],
-                    ["a", {
+                    ["button", {
+                        id: "nav-profile",
                         onClick() { window.location.hash = `#/profile/${model.currentUser.username}` },
                         children: "Profile"
                     }],
                     ["button", {
+                        id: "nav-signout",
                         onClick() { window.location.hash = "#/signout" },
                         children: "Sign Out"
                     }]

@@ -46,6 +46,8 @@ export function createElement(type, attributes = {}) {
 
             case "onClick":
             case "onSubmit":
+            case "onFocusin":
+            case "onFocusout":
                 const method = key.replace(/^on/, "").toLowerCase();
                 element.addEventListener(method, val);
                 break;

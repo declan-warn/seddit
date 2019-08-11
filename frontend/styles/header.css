@@ -14,7 +14,8 @@ nav.left {
     display: flex;
 }
 
-nav.left >:not(:first-child) {
+nav.left >:not(:first-child),
+nav.right >:not(:first-child) {
     margin-left: 8px;
 }
 
@@ -24,8 +25,12 @@ nav button {
     font-family: inherit;
     font-size: 0.8rem;
     background: transparent;
-    border: 1px solid lightgrey;
+    border: 1px solid var(--color-primary);
     color: var(--color-primary);
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 
     transition: background-color 0.2s ease-in-out;
 }
@@ -33,7 +38,7 @@ nav button {
 nav button:hover {
     background: var(--color-primary);
     color: white;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 form.subseddit,
@@ -41,22 +46,59 @@ form.search {
     display: flex;
     background: white;
     border-radius: 0.2em;
-    border: 1px solid lightgrey;
     min-width: 240px;
 }
 
+form.search {
+    border: 1px solid lightgrey;
+}
+
 form.subseddit button.feed {
-    border-radius: 0.2em 0 0 0.2em;
-    background: var(--color-primary);
-    color: white;
-    border: none;
+    border-radius: 0.2rem 0 0 0.2rem;
 }
 
 form.subseddit input {
-    border: none;
+    border: 1px solid lightgrey;
+    border-width: 1px 0px;
     height: 100%;
     padding: 0px 0px 0px 12px;
     flex-grow: 1;
+}
+
+form.search button,
+form.subseddit button:last-child {
+    font-family: "Material Icons";
+    font-size: 24px;
+    color: lightgrey;
+    padding: 0px 8px;
+}
+
+form.search button:hover,
+form.subseddit button:last-child:hover {
+    color: var(--color-primary);
+    background: none;
+    text-decoration: none;
+}
+
+form.subseddit button:last-child {
+    border-radius: 0 0.2rem 0.2rem 0;
+    border-left: none;
+    border-color: lightgrey;
+}
+
+form.subseddit.active input,
+form.subseddit.active button:last-child {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+form.search.active {
+    border-color: var(--color-primary);
+}
+
+form.search.active input,
+form.search.active button {
+    color: var(--color-primary);
 }
 
 form.search input {
@@ -71,12 +113,21 @@ form.search input {
 form.search button {
     background: none;
     border: none;
-    font-family: "Material Icons";
-    font-size: 24px;
-    color: lightgrey;
-    padding: 0px 8px;
 }
 
-form.search button:hover {
-    color: black;
+nav button::before {
+    font-family: "Material Icons";
+    margin-right: 4px;
+}
+
+#nav-submit::before {
+    content: "add_box";
+}
+
+#nav-profile::before {
+    content: "account_circle";
+}
+
+#nav-signout::before {
+    content: "exit_to_app";
 }
