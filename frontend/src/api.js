@@ -2,6 +2,8 @@
 // doesn't allow for namespacing the api methods as easily
 export default function APIWrapper(model, apiUrl) {
     this.apiUrl = apiUrl;
+    
+    // Normalise the given apiUrl
     this.baseUrl =
         apiUrl.includes("://")
             ? apiUrl
@@ -12,14 +14,17 @@ export default function APIWrapper(model, apiUrl) {
         const params = new URLSearchParams(options.params);
         const headers = new Headers(options.headers);
 
+        // Specify the authorization header
         if (options.authorized) {
             headers.set("Authorization", `Token ${model.token}`);
         }
 
+        // Specify the content type header
         if (options.body) {
             headers.set("Content-Type", "application/json");
         }
 
+        // Perform the request
         const response =
             await fetch(`${this.baseUrl}${path}?${params.toString()}`, {
                 method: options.method,
@@ -27,6 +32,8 @@ export default function APIWrapper(model, apiUrl) {
                 headers,
             });
 
+        // If the status code wasn't a success then throw an error
+        // that we can handle somewhere more relevant
         if (response.status !== 200) {
             const { message } = await response.json();
 
