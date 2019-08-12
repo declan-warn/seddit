@@ -208,9 +208,11 @@ export default class App {
                     const isRecent = (Date.now() - (post.meta.published * 1000)) <= (App.POLLING_INTERVAL * 1.75);
                     if (!inSnapshot && isRecent) {
                         // If the post wasn't in the snapshot it must be new so notify the user
-                        const notification = new Notification(`"New post from ${post.meta.author}`, {
-                            body: `${post.title.substr(0, 17)}...`
-                        });
+                        const notification = new Notification(
+                            `${post.meta.author} just posted`, {
+                                body: "Click to view..."
+                            }
+                        );
 
                         notification.addEventListener("click", event => {
                             route.post(post.id);
