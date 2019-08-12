@@ -51,6 +51,8 @@ main {
     max-width: var(--content-width);
     width: 100%;
     padding: var(--main-gutter) 0px;
+    display: flex;
+    justify-content: center;
 }
 
 a {
@@ -88,6 +90,6 @@ time {
 #feed {
     width: 100%;
     max-width: var(--content-width);
-    margin: var(--main-gutter) auto;
+    margin: 0;
     padding: 0;
 }

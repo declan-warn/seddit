@@ -2,15 +2,17 @@ import { withHeader } from "/src/component/AppHeader.js";
 import FeedItem from "/src/component/FeedItem.js";
 import { createElement } from "/src/util.js";
 
-export default (model, update) => withHeader(model, update, createElement(
-    "div", {
-        children: [
-            ["ul", {
-                id: "feed",
-                children: model.routeData.map(post =>
-                    FeedItem(model, update, post)
-                )
-            }]
-        ]
-    }
-));
+export default function() {
+    return withHeader(this.model, this.update, createElement(
+        "main", {
+            children: [
+                ["ul", {
+                    id: "feed",
+                    children: this.model.routeData.map(post =>
+                        FeedItem(this.model, this.update, post)
+                    )
+                }]
+            ]
+        }
+    ));
+}
