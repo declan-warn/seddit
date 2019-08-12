@@ -2,8 +2,12 @@
 import APIWrapper from "/src/api.js";
 import * as util from "/src/util.js";
 import * as route from "/src/route.js";
+import * as polyfill from "/src/polyfill.js";
 
 import FeedItem from "/src/component/FeedItem.js";
+
+// Apply polyfills
+Object.fromEntries = Object.fromEntries || polyfill.fromEntries;
 
 export default class App {
     static get POLLING_INTERVAL() {
