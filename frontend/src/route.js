@@ -108,7 +108,6 @@ export async function handleRouting() {
                 this.render(ProfileForm);
             } else {
                 const userData = await this.api.user.get({ username: args[0] });
-                console.log(args[0], userData);
                 const posts = await Promise.all(
                     userData.posts.map(this.api.post.get)
                 );

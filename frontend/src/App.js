@@ -169,7 +169,6 @@ export default class App {
                 throw new Error(`Unknown msg '${msg}'.`);
         }
 
-        console.log("setting model");
         localStorage.setItem("model", JSON.stringify(this.model));
     }
 
@@ -197,7 +196,6 @@ export default class App {
                 posts.forEach(post =>
                     feed.append(FeedItem.call(this, post))
                 );
-                console.log(posts);
             }
         }
     }
