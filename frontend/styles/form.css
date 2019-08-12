@@ -49,3 +49,8 @@ main > form button {
     border-radius: 999px;
     width: 100%;
 }
+
+main > form > label {
+    width: 100%;
+    color: var(--color-secondary);
+}
