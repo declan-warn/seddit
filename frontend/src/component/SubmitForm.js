@@ -13,7 +13,7 @@ export default function () {
         const image = formData.get("image");
         const data = {
             ...Object.fromEntries(formData.entries()),
-            id: routeData("id"),
+            id: routeData(["id"]),
             image:
                 (image.type && image.type.startsWith("image/"))
                     ? await toDataURL(image)
@@ -30,6 +30,9 @@ export default function () {
                     class: "submit",
                     onSubmit: handleSubmit,
                     children: [
+                        ["h1", {
+                            children: routeData(["id"]) ? "Edit post" : "Add post"
+                        }],
                         ["input", {
                             placeholder: "Title",
                             name: "title",
