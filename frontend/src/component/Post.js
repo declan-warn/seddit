@@ -42,28 +42,29 @@ export default function Post() {
                 }],
                 ["ul", {
                     class: "comments",
-                    children: this.model.routeData.comments.map(
-                        ({ author, published, comment }) => createElement(
-                            "li", {
-                                class: "comment",
-                                children: [
-                                    ["div", {
-                                        children: [
-                                            ["a", {
-                                                children: author
-                                            }],
-                                            ["time", {
-                                                children: toRelativeTime(published * 1000)
-                                            }]
-                                        ]
-                                    }],
-                                    ["span", {
-                                        children: comment
-                                    }]
-                                ]
-                            }
-                        )
-                    )
+                    children:
+                        this.model.routeData.comments
+                            .sort((a, b) => Number(b.published) - Number(a.published))
+                            .map(({ author, published, comment }) => createElement(
+                                "li", {
+                                    class: "comment",
+                                    children: [
+                                        ["div", {
+                                            children: [
+                                                ["a", {
+                                                    children: author
+                                                }],
+                                                ["time", {
+                                                    children: toRelativeTime(published * 1000)
+                                                }]
+                                            ]
+                                        }],
+                                        ["span", {
+                                            children: comment
+                                        }]
+                                    ]
+                                }
+                            ))
                 }]
             ]
         }
