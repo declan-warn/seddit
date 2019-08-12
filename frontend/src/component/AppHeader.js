@@ -1,7 +1,7 @@
 import { createElement } from "/src/util.js";
 import * as route from "/src/route.js";
 
-export const withHeader = (model, update, component) =>
+export const withHeader = ({ model, update }, component) =>
     createElement(
         "div", {
             children: [

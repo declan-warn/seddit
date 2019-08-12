@@ -23,7 +23,7 @@ export default function () {
         this.update("POST_SUBMIT", data);
     };
 
-    return withHeader(this.model, this.update, createElement(
+    return withHeader(this, createElement(
         "main", {
             children: [
                 ["form", {

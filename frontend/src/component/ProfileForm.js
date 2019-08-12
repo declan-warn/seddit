@@ -28,7 +28,7 @@ export default function () {
         this.update("EDIT_PROFILE", data);
     };
 
-    return withHeader(this.model, this.update, util.createElement(
+    return withHeader(this, util.createElement(
         "main", {
             children: [
                 ["form", {

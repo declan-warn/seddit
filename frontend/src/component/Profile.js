@@ -47,7 +47,7 @@ export default function Profile() {
         }
     );
 
-    return withHeader(this.model, this.update, createElement(
+    return withHeader(this, createElement(
         "main", {
             class: "profile",
             children: [

@@ -13,7 +13,7 @@ export default function Post() {
         this.update("COMMENT_SUBMIT", { id: this.model.routeData.id, body });
     };
 
-    return withHeader(this.model, this.update, createElement(
+    return withHeader(this, createElement(
         "main", {
             class: "post",
             children: [

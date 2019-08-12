@@ -3,7 +3,7 @@ import FeedItem from "/src/component/FeedItem.js";
 import { createElement } from "/src/util.js";
 
 export default function() {
-    return withHeader(this.model, this.update, createElement(
+    return withHeader(this, createElement(
         "main", {
             children: [
                 ["ul", {

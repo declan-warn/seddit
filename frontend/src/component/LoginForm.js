@@ -15,7 +15,7 @@ export default function() {
         }
     };
 
-    return withHeader(this.model, this.update, createElement(
+    return withHeader(this, createElement(
         "main", {
             children: [
                 ["form", {
