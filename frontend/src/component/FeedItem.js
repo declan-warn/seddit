@@ -16,7 +16,7 @@ const showUpvotes = async ({ apiUrl, token }, { upvotes }) => {
                     children: username
                 }
             ))
-        } 
+        }
     ));
 };
 
@@ -77,40 +77,49 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
                         href: `#/s/${meta.subseddit}`,
                         children: meta.subseddit
                     }],
-                    ["h2", {
-                        "data-id-title": "",
-                        children: title
+                    ["div", {
+                        class: "title",
+                        children: [
+                            ["h2", {
+                                "data-id-title": "",
+                                children: title
+                            }]
+                        ]
                     }],
                     ["p", {
                         children: text
                     }],
-                    ["a", {
-                        "data-id-author": "",
-                        rel: "author",
-                        href: `#/profile/${meta.author}`,
-                        children: meta.author
-                    }],
-                    ["time", {
-                        children: toRelativeTime(meta.published * 1000)
-                    }],
-                    ["a", {
-                        "data-num-comments": comments.length,
-                        class: "comments",
-                        href: `#/post/${id}`,
-                        children: `view comments`
-                    }],
-                    ["a", {
-                        class: `edit ${isAuthor ? "" : "hidden"}`,
-                        onClick() { route.editPost(id) },
-                        children: "Edit"
-                    }],
-                    ["button", {
-                        class: `delete ${isAuthor ? "" : "hidden"}`,
-                        onClick() { update("POST_DELETE", { id }) },
-                        children: "Delete"
+                    ["footer", {
+                        children: [
+                            ["a", {
+                                "data-id-author": "",
+                                rel: "author",
+                                href: `#/profile/${meta.author}`,
+                                children: meta.author
+                            }],
+                            ["time", {
+                                children: toRelativeTime(meta.published * 1000)
+                            }],
+                            ["a", {
+                                "data-num-comments": comments.length,
+                                class: "comments",
+                                href: `#/post/${id}`,
+                                children: `view comments`
+                            }],
+                            ["button", {
+                                class: `edit ${isAuthor ? "" : "hidden"}`,
+                                onClick() { route.editPost(id) },
+                                children: "Edit"
+                            }],
+                            ["button", {
+                                class: `delete ${isAuthor ? "" : "hidden"}`,
+                                onClick() { update("POST_DELETE", { id }) },
+                                children: "Delete"
+                            }]
+                        ]
                     }]
                 ]
-            }]            
+            }]
         ]
     });
 

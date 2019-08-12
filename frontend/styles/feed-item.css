@@ -46,13 +46,18 @@
 }
 
 [data-id-post] .thumbnail {
-    width: 96px;
+    --thumbnail-size: 96px;
+
+    width: var(--thumbnail-size);
+    height: var(--thumbnail-size);
     flex-shrink: 0;
     margin-right: 16px;
 }
 
 [data-id-post] .thumbnail img {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
     border-radius: 4px;
     border: 1px solid lightgrey;
 }
@@ -64,7 +69,7 @@
     color: white;
     background: lightgrey;
     width: 100%;
-    height: 96px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,12 +83,25 @@
 }
 
 [data-id-post] [data-id-subseddit] {
-    color: rgba(0, 0, 0, 0.5);
-    width: 100%;
+    height: 20px;
+
+    background: var(--gradient-secondary);
+    color: transparent;
+    background-clip: text;
+    border: 1px solid transparent;
+    border-image: var(--gradient-secondary);
+    border-image-slice: 1;
+
     text-decoration: none;
+    padding: 0px 8px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
+
 [data-id-post] [data-id-subseddit]:hover {
-    text-decoration: underline;
+    background: var(--gradient-secondary);
+    color: white;
 }
 
 [data-id-post] [data-id-subseddit]::before {
@@ -94,17 +112,45 @@
     content: "s/all";
 }
 
-[data-id-post] h2 {
+[data-id-post] .title {
     width: 100%;
-    margin: 0px 0px 6px 0px;
+    padding: 6px 0px 4px 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 28px;
+}
+
+[data-id-post] h2 {
+    margin: 0px;
+    background: var(--gradient-primary);
+    color: transparent;
+    background-clip: text;
+    position: relative;
 }
 
 [data-id-post] p {
+    height: 24px;
     width: 100%;
-    margin: 0px 0px 6px 0px;
+    /* margin: 0px 0px 6px 0px; */
+    margin: 0px 0px 2px 0px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-flex;
+    align-items: center;
+}
+
+[data-id-post] footer {
+    background: none;
+    height: 20px;
+    display: flex;
+}
+
+[data-id-post] footer >* {
+    height: 100%;
+    display: inline-flex;
+    align-items: end;
 }
 
 [data-id-post] [data-id-author] {
@@ -123,8 +169,32 @@
     content: " (" attr(data-num-comments) ")";
 }
 
+[data-id-post] .edit,
+[data-id-post] .delete {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+}
+
+[data-id-post] .edit::before,
+[data-id-post] .delete::before {
+    font-family: "Material Icons";
+    margin-right: 4px;
+}
+
 [data-id-post] .edit {
+    margin-right: 1em;
+    background: var(--gradient-primary);
+}
+
+[data-id-post] .edit::before {
+    content: "edit";
 }
 
 [data-id-post] .delete {
+    background: var(--gradient-secondary);
+}
+
+[data-id-post] .delete::before {
+    content: "delete";
 }

@@ -41,12 +41,16 @@ main {
 }
 
 a {
-    color: var(--color-primary);
+    background: var(--gradient-secondary);
+    background-clip: text;
+    color: transparent;
+    border-bottom: 1px solid transparent;
 }
 
 a:hover {
     cursor: pointer;
-    text-decoration: underline;
+    border-image: var(--gradient-secondary);
+    border-image-slice: 1;
 }
 
 .hidden {

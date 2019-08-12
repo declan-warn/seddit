@@ -3,6 +3,7 @@
 }
 
 .nav-bar {
+    z-index: 999;
     width: 100%;
     height: var(--nav-bar-height);
     background: white;
