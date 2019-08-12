@@ -176,4 +176,6 @@ export async function handleRouting() {
             front();
             break;
     }
+
+    window.scrollTo(0, 0);
 }
