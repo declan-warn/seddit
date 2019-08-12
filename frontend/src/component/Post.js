@@ -19,7 +19,7 @@ export default function Post() {
             children: [
                 ["ul", {
                     children: [
-                        FeedItem(this.model, this.update, this.model.routeData)
+                        FeedItem.call(this, this.model.routeData)
                     ]
                 }],
                 ["form", {

@@ -93,7 +93,7 @@ export default function Profile() {
                 ["section", {
                     class: "posts",
                     children: routeData(["posts"], []).map(post =>
-                        FeedItem(this.model, this.update, post)
+                        FeedItem.call(this, post)
                     )
                 }]
             ]

@@ -1,29 +1,29 @@
 import { createElement, toRelativeTime, path, showModal } from "/src/util.js";
 import * as route from "/src/route.js";
 
-const showUpvotes = async ({ apiUrl, token }, { upvotes }) => {
-    if (!upvotes) return;
+export default function FeedItem({ id, image, meta, title, text, thumbnail, comments }) {
+    const showUpvotes = async ({ upvotes }) => {
+        if (!upvotes) return;
+    
+        const users = await Promise.all(upvotes.map(userId =>
+            fetch(`http://${this.model.apiUrl}/dummy/user?id=${userId}`)
+                .then(x => x.json())
+        ));
+    
+        showModal(createElement(
+            "ul", {
+                children: users.map(({ username }) => createElement(
+                    "li", {
+                        children: username
+                    }
+                ))
+            }
+        ));
+    };
 
-    const users = await Promise.all(upvotes.map(userId =>
-        fetch(`http://${apiUrl}/dummy/user?id=${userId}`)
-            .then(x => x.json())
-    ));
-
-    showModal(createElement(
-        "ul", {
-            children: users.map(({ username }) => createElement(
-                "li", {
-                    children: username
-                }
-            ))
-        }
-    ));
-};
-
-export default (model, update, { id, image, meta, title, text, thumbnail, comments }) => {
     const handleVote = ({ currentTarget }) => {
         const undo = currentTarget.classList.contains("active");
-        update("VOTE_ATTEMPT", {
+        this.update("VOTE_ATTEMPT", {
             id,
             toggleIndicator() {
                 const score = currentTarget.nextElementSibling;
@@ -35,7 +35,10 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
         })
     };
 
-    const isAuthor = meta.author === path(["currentUser", "username"])(model);
+    const currentUserData = (props, otherwise = "") =>
+        path(["currentUser", ...props])(this.model) || otherwise;
+
+    const isAuthor = meta.author === currentUserData(["username"]);
 
     const post = createElement("li", {
         "data-id-post": "",
@@ -45,13 +48,13 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
                 class: "score",
                 children: [
                     ["button", {
-                        class: meta.upvotes.includes(path(["currentUser", "id"])(model)) ? "active" : "",
+                        class: meta.upvotes.includes(currentUserData(["id"])) ? "active" : "",
                         onClick: handleVote,
                         children: "thumb_up"
                     }],
                     ["span", {
                         "data-id-upvotes": "",
-                        onClick() { showUpvotes(model, meta) },
+                        onClick() { showUpvotes(meta) },
                         children: meta.upvotes.length
                     }]
                 ]
@@ -114,7 +117,7 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
                             }],
                             ["button", {
                                 class: `delete ${isAuthor ? "" : "hidden"}`,
-                                onClick() { update("POST_DELETE", { id }) },
+                                onClick: () => this.update("POST_DELETE", { id }),
                                 children: "Delete"
                             }]
                         ]

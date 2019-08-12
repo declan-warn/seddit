@@ -195,7 +195,7 @@ export default class App {
 
                 const feed = document.getElementById("feed");
                 posts.forEach(post =>
-                    feed.append(FeedItem(this.model, this.update, post))
+                    feed.append(FeedItem.call(this, post))
                 );
                 console.log(posts);
             }

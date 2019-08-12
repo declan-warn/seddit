@@ -9,7 +9,7 @@ export default function() {
                 ["ul", {
                     id: "feed",
                     children: this.model.routeData.map(post =>
-                        FeedItem(this.model, this.update, post)
+                        FeedItem.call(this, post)
                     )
                 }]
             ]
