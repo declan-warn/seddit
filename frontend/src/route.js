@@ -8,6 +8,8 @@ import ProfileForm from "/src/component/ProfileForm.js";
 import SignupForm from "/src/component/SignupForm.js";
 import SubmitForm from "/src/component/SubmitForm.js";
 
+import { byPublished } from "/src/util.js";
+
 export const refresh = () => {
     window.dispatchEvent(new HashChangeEvent("hashchange"));
 };
@@ -79,7 +81,7 @@ export async function handleRouting() {
     switch (routeName) {
         case FRONT: {
             const { posts } = await this.api.post.getPublic();
-            posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+            posts.sort(byPublished);
 
             this.update("UPDATE_ROUTE_DATA", posts);
             this.render(Feed);
@@ -111,6 +113,8 @@ export async function handleRouting() {
                     userData.posts.map(this.api.post.get)
                 );
 
+                posts.sort(byPublished);
+
                 this.update("UPDATE_ROUTE_DATA", { ...userData, posts });
                 this.render(Profile);
             }
@@ -138,7 +142,7 @@ export async function handleRouting() {
             const subseddit = args[0];
             if (subseddit === "all") {
                 const { posts } = await this.api.user.getFeed();
-                posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+                posts.sort(byPublished);
 
                 this.scrollFeed.current = 1;
                 this.scrollFeed.checked = 1;
@@ -155,6 +159,7 @@ export async function handleRouting() {
 
                     posts
                         .filter(post => post.meta.subseddit === subseddit)
+                        .sort(byPublished)
                         .forEach(post => routeData.push(post));
                 }
 
@@ -180,6 +185,7 @@ export async function handleRouting() {
                         post.text.toLowerCase().includes(query) ||
                         post.comments.some(({ comment }) => comment.toLowerCase().includes(query))
                     )
+                    .sort(byPublished)
                     .forEach(post => routeData.push(post));
             }
             

@@ -102,3 +102,5 @@ export const showModal = (...children) => {
         }
     ));
 };
+
+export const byPublished = (a, b) => Number(b.meta.published) - Number(a.meta.published);
