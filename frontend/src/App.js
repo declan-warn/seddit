@@ -126,7 +126,7 @@ export default class App {
 
             case "COMMENT_SUBMIT": {
                 await this.api.post.comment(payload.id, payload.body);
-                route.refesh();
+                route.refresh();
                 break;
             }
 
