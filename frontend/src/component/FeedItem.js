@@ -63,6 +63,7 @@ export default (model, update, { id, image, meta, title, text, thumbnail, commen
                         ? [
                             ["img", {
                                 onClick() { window.open(`data:image/png;base64,${image}`) },
+                                title: "View full-size image",
                                 src: `data:image/png;base64,${thumbnail}`
                             }]
                         ]
