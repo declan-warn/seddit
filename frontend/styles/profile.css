@@ -1,18 +1,28 @@
 .profile {
     display: flex;
+    align-items: start;
 }
 
 .profile section.info {
+    --picture-size: 64px;
+    --padding-size: 24px;
+    --section-width: 240px;
+    --username-height: 28px;
+    --element-margin: 16px;
+    --action-height: 36px;
+    --text-margin: 4px;
+
+    width: var(--section-width);
     background: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px;
+    padding: var(--padding-size);
     position: sticky;
-    top: 24px;
-    height: 0%;
-    margin-right: 48px;
+    top: 96px;
+    margin-right: calc(var(--padding-size) * 2);
     flex-shrink: 0;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
 }
 
 .profile section.info::before {
@@ -22,11 +32,16 @@
     justify-content: center;
     align-items: center;
     color: white;
-    width: 64px;
-    height: 64px;
+    width: var(--picture-size);
+    height: var(--picture-size);
     background: lightgrey;
     border-radius: 50%;
-    font-size: 32px;
+    font-size: calc(var(--picture-size) / 2);
+}
+
+.profile section.info h2 {
+    height: var(--username-height);
+    margin: var(--element-margin);
 }
 
 .profile section.info div {
@@ -37,15 +52,18 @@
 .profile section.info .edit,
 .profile section.info .follow,
 .profile section.info .unfollow {
-    background: var(--color-primary);
+    background: var(--gradient-primary);
     color: white;
     border: none;
-    padding: 8px;
+    padding: 0px;
+    height: var(--action-height);
+    border-radius: 999px;
     font-size: 16px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    margin-bottom: var(--element-margin);
 }
 
 .profile section.info .edit::before,
@@ -65,6 +83,10 @@
 
 .profile section.info .unfollow::before {
     content: "remove_circle_outline";
+}
+
+.profile section.info span:not(:last-of-type) {
+    margin-bottom: var(--text-margin);
 }
 
 .profile section.info .name,
@@ -90,9 +112,11 @@
 
 .profile section.info .metrics {
     display: flex;
-    background: var(--color-secondary);
+    background: var(--gradient-secondary);
     color: white;
     padding: 8px;
+    margin-top: var(--element-margin);
+    border-radius: 0.2em;
 }
 
 .profile section.info .metrics span {

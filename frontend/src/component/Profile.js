@@ -60,12 +60,12 @@ export default (model, update) => {
                                 ),
                                 ["span", {
                                     class: "name",
-                                    title: "name",
+                                    title: "Name",
                                     children: model.routeData.name
                                 }],
                                 ["span", {
                                     class: "email",
-                                    title: "email",
+                                    title: "Email",
                                     children: model.routeData.email
                                 }],
                                 ["section", {
