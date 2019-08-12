@@ -48,8 +48,9 @@ export default function () {
                         ["input", {
                             placeholder: "Subseddit",
                             name: "subseddit",
-                            value: routeData(["meta", "subseddit"]),
+                            value: routeData(["meta", "subseddit"]) || "all",
                             required: "",
+                            ...(routeData(["id"]) ? { disabled: "" } : {})
                         }],
                         ["input", {
                             type: "file",
