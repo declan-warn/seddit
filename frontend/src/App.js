@@ -3,6 +3,8 @@ import APIWrapper from "/src/api.js";
 import * as util from "/src/util.js";
 import * as route from "/src/route.js";
 
+import FeedItem from "/src/component/FeedItem.js";
+
 export default class App {
     static get POLLING_INTERVAL() {
         return 5000;
@@ -163,7 +165,7 @@ export default class App {
     }
 
     async scrollFeed() {
-        if (this.model.route === "front") {
+        if (window.location.hash === "#/s/all") {
             const scrollPercentage =
                 (window.scrollY + window.innerHeight) / document.body.scrollHeight;
 
