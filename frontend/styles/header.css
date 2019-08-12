@@ -1,6 +1,10 @@
+:root {
+    --nav-bar-height: 64px;
+}
+
 .nav-bar {
     width: 100%;
-    height: 64px;
+    height: var(--nav-bar-height);
     background: white;
     position: sticky;
     top: 0px;

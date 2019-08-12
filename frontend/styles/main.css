@@ -10,6 +10,7 @@
     --color-secondary: darkcyan;
     --gradient-primary: linear-gradient(to right, #f16529, #e44d26);
     --gradient-secondary: linear-gradient(to right, #00b4db, #0083b0);
+    --main-gutter: 32px;
     font-size: 16px;
 }
 
@@ -34,7 +35,7 @@ body {
 
 main {
     max-width: 960px;
-    margin: 32px 0px;
+    padding: var(--main-gutter) 0px;
 }
 
 a {
