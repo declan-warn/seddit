@@ -52,24 +52,50 @@ export const submit = () => go(SUBMIT);
 const SEARCH = "search";
 export const search = (query = "") => go(`${SEARCH}/${encodeURIComponent(query)}`);
 
+const restrictedRoutes = [
+    FEED,
+    POST,
+    PROFILE,
+    SEARCH,
+    SIGNOUT,
+    SUBMIT,
+    SUBSEDDIT,
+];
+
 export async function handleRouting() {
     const [routeName, ...args] =
         window.location.hash
             .split("/")
             .slice(1);
 
+    // Check user authentication
+    if (!this.isAuthenticated() && restrictedRoutes.includes(routeName)) {
+        return login();
+    }
+
+    // Show a loading spinner while we load the actual destination
     this.render(Loading);
 
     switch (routeName) {
+        case FRONT: {
+            const { posts } = await this.api.post.getPublic();
+            posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
+
+            this.update("UPDATE_ROUTE_DATA", posts);
+            this.render(Feed);
+            
+            break;
+        }
+
         case LOGIN:
             this.render(LoginForm);
             break;
 
         case SIGNUP:
             this.render(SignupForm);
-            break;
+            break;      
 
-        case PROFILE:
+        case PROFILE: {
             if (!args[0]) {
                 profile(this.model.currentUser.username);
                 return;
@@ -90,6 +116,7 @@ export async function handleRouting() {
             }
 
             break;
+        }
 
         case SUBMIT:
             await this.update("UPDATE_ROUTE_DATA");
@@ -107,7 +134,7 @@ export async function handleRouting() {
             break;
         }
 
-        case SUBSEDDIT:
+        case SUBSEDDIT: {
             const subseddit = args[0];
             if (subseddit === "all") {
                 const { posts } = await this.api.user.getFeed();
@@ -135,6 +162,7 @@ export async function handleRouting() {
                 this.render(Feed);
             }
             break;
+        }
 
         case SEARCH: {
             const query = decodeURIComponent(args[0]).toLowerCase();
@@ -161,17 +189,8 @@ export async function handleRouting() {
             break;
         }
 
-        case SIGNOUT:
+        case SIGNOUT: {
             this.update("SIGNOUT");
-            break;
-
-        case FRONT: {
-            const { posts } = await this.api.post.getPublic();
-            posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
-
-            this.update("UPDATE_ROUTE_DATA", posts);
-            this.render(Feed);
-            
             break;
         }
 

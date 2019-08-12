@@ -45,6 +45,10 @@ export default class App {
         this.monitorFeed();
     }
 
+    isAuthenticated() {
+        return Boolean(this.model.currentUser && this.model.token);
+    }
+
     async update(msg, payload = {}) {
         switch (msg) {
             case "POST_SUBMIT": {
