@@ -1,3 +1,14 @@
+.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post > ul {
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: var(--main-gutter);
+}
+
 .post form {
     width: 100%;    
 }

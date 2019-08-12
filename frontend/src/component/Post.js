@@ -15,7 +15,11 @@ export default (model, update) => withHeader(model, update, createElement(
     "main", {
         class: "post",
         children: [
-            FeedItem(model, update, model.routeData),
+            ["ul", {
+                children: [
+                    FeedItem(model, update, model.routeData)
+                ]
+            }],
             ["form", {
                 onSubmit: handleSubmit(model, update),
                 children: [
