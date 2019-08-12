@@ -56,10 +56,13 @@ export default class App {
     async update(msg, payload = {}) {
         switch (msg) {
             case "POST_SUBMIT": {
+                // Remove any empty values from the payload object
                 const body = Object.fromEntries(
                     Object.entries(payload).filter(([, val]) => val !== "")
                 );
 
+                // If there is an id attached then the user is editing the post
+                // otherwise it's new
                 if (payload.id) {
                     await this.api.post.update(payload.id, body);
                 } else {
@@ -90,6 +93,7 @@ export default class App {
             }
 
             case "SIGNOUT":
+                // Clear the saved information about the current user
                 this.model.token = null;
                 this.model.currentUser = null;
                 route.front();
@@ -108,6 +112,7 @@ export default class App {
             }
 
             case "REFRESH_CURRENT_USER": {
+                // Used to keep the local copy of the current user fresh
                 const currentUser = await this.api.user.get();
                 this.model.currentUser = currentUser;
                 break;
@@ -121,11 +126,12 @@ export default class App {
 
             case "COMMENT_SUBMIT": {
                 await this.api.post.comment(payload.id, payload.body);
-                route.post(payload.id);
+                route.refesh();
                 break;
             }
 
             case "AUTH_LOGIN": {
+                // Try to login
                 try {
                     const { token } = await this.api.auth.login(payload);
                     this.update("AUTH_SUCCESS", token);
@@ -136,6 +142,7 @@ export default class App {
             }
 
             case "AUTH_SIGNUP": {
+                // Try to signup
                 try {
                     const { token } = await this.api.auth.signup(payload);
                     this.update("AUTH_SUCCESS", token);
@@ -146,6 +153,8 @@ export default class App {
             }
 
             case "AUTH_SUCCESS": {
+                // If the authorization was successful then store
+                // the user's details in the model
                 this.model.token = payload;
                 this.model.currentUser = await this.api.user.get();
                 route.feed();
@@ -153,6 +162,8 @@ export default class App {
             }
 
             case "EDIT_PROFILE": {
+                // If there was something changed then make a request
+                // otherwise just do nothing
                 if (Object.keys(payload).length >= 1) {
                     await this.api.user.update(payload);
                 }
@@ -161,6 +172,8 @@ export default class App {
             }
 
             case "UPDATE_ROUTE_DATA": {
+                // All model updates should happen through update()
+                // this is a utility to allow that while having code elsewhere
                 this.model.routeData = payload;
                 break;
             }
@@ -169,13 +182,16 @@ export default class App {
                 throw new Error(`Unknown msg '${msg}'.`);
         }
 
+        // Store the new model in localstorage
         localStorage.setItem("model", JSON.stringify(this.model));
     }
 
     render(component) {
+        // Remove all elements
         while (this.node.firstElementChild) {
             this.node.firstElementChild.remove();
         }
+        // Render the component using the current 'this' context
         this.node.appendChild(component.call(this));
     }
 
@@ -184,6 +200,7 @@ export default class App {
             const scrollPercentage =
                 (window.scrollY + window.innerHeight) / document.body.scrollHeight;
 
+            // If the user has scrolled past a certain point then load the next page of posts
             if (scrollPercentage > 0.6 && this.scrollFeed.current === this.scrollFeed.checked) {
                 this.scrollFeed.checked++;
                 const { posts } =
@@ -192,6 +209,7 @@ export default class App {
                     this.scrollFeed.current++;
                 }
 
+                // Add the loaded posts to the DOM
                 const feed = document.getElementById("feed");
                 posts.forEach(post =>
                     feed.append(FeedItem.call(this, post))
