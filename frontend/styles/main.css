@@ -7,8 +7,8 @@
 @import "profile.css";
 
 :root {
-    --color-primary: #da4453;
-    --color-secondary: darkcyan;
+    --color-primary: #e44d26;
+    --color-secondary:  #0083b0;
     --gradient-primary: linear-gradient(to right, #f16529, #e44d26);
     --gradient-secondary: linear-gradient(to right, #00b4db, #0083b0);
     --main-gutter: 32px;
