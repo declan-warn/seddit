@@ -11,6 +11,7 @@
     --gradient-primary: linear-gradient(to right, #f16529, #e44d26);
     --gradient-secondary: linear-gradient(to right, #00b4db, #0083b0);
     --main-gutter: 32px;
+    --content-width: 960px;
     font-size: 16px;
 }
 
@@ -34,7 +35,7 @@ body {
 }
 
 main {
-    max-width: 960px;
+    max-width: var(--content-width);
     padding: var(--main-gutter) 0px;
 }
 

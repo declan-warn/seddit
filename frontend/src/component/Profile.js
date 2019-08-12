@@ -86,7 +86,7 @@ export default (model, update) => {
                     ]
                 }],
                 ["section", {
-                    "data-id-profile-posts": "",
+                    class: "posts",
                     children: model.routeData.posts.map(post =>
                         FeedItem(model, update, post)
                     )

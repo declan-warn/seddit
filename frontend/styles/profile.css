@@ -1,25 +1,27 @@
 .profile {
     display: flex;
     align-items: start;
+
+    --section-info-width: 240px;
+    --section-posts-width: calc(var(--content-width) - (var(--section-info-width) + var(--main-gutter)));
 }
 
 .profile section.info {
     --picture-size: 64px;
     --padding-size: 24px;
-    --section-width: 240px;
     --username-height: 28px;
     --element-margin: 16px;
     --action-height: 36px;
     --text-margin: 4px;
 
-    width: var(--section-width);
+    width: var(--section-info-width);
     background: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: var(--padding-size);
     position: sticky;
-    top: 96px;
+    top: calc(var(--nav-bar-height) + var(--main-gutter));
     margin-right: var(--main-gutter);
     flex-shrink: 0;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
@@ -156,4 +158,8 @@
 
 .profile section.info .metrics .upvotes::after {
     content: "upvotes";
+}
+
+.profile section.posts {
+    max-width: var(--section-posts-width);
 }
