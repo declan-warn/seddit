@@ -177,7 +177,7 @@ export default class App {
         while (this.node.firstElementChild) {
             this.node.firstElementChild.remove();
         }
-        this.node.appendChild(component.call(this, this.model, this.update));
+        this.node.appendChild(component.call(this));
     }
 
     async scrollFeed() {
