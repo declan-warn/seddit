@@ -11,30 +11,33 @@
     width: 40px;
     flex-shrink: 0;
     height: 100%;
-    border: 1px solid lightgrey;
-    border-radius: 4px;
+    border: 1px solid var(--color-secondary);
+    border-radius: 0.2em;
+    background: var(--gradient-secondary);
+    color: transparent;
+    background-clip: text;
 }
 
 [data-id-post] .score button {
     font-family: "Material Icons";
     padding: 12px 0px;
     width: 100%;
-    background: none;
     border: none;
+    background: none;
     color: lightgrey;
-    border-bottom: 1px solid lightgrey;
+    border-radius: 0px;
 }
 
 [data-id-post] .score button:hover {
-    color: var(--color-primary);
+    background: var(--gradient-secondary);
+    color: transparent;
+    background-clip: text;
 }
 
 [data-id-post] .score button.active {
     color: white;
-    background:var(--color-primary);
-    border-radius: 4px 4px 0px 0px;
-    box-shadow: 0px 0px 0px 1px var(--color-primary);
-    border-bottom-color: var(--color-primary);
+    background: var(--gradient-secondary);
+    border-bottom-color: var(--color-secondary);
 }
 
 [data-id-post] .score button:focus {
@@ -43,6 +46,15 @@
 
 [data-id-post] .score span {
     padding: 8px 0px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--color-secondary);
+}
+
+[data-id-post] .score span:hover {
+    cursor: pointer;
 }
 
 [data-id-post] .thumbnail {
