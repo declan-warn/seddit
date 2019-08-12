@@ -1,31 +1,36 @@
 import { withHeader } from "/src/component/AppHeader.js";
+import { createElement, path } from "/src/util.js";
 
-import { createElement } from "/src/util.js";
 import FeedItem from "/src/component/FeedItem.js";
 
-export default (model, update) => {
-    const username = model.routeData.username;
+export default function Profile() {
+    const routeData = (props, otherwise = "") =>
+        path(["routeData", ...props])(this.model) || otherwise;
+
+    const username = routeData(["username"]);
+
+    // Calculate how many upvotes the user has
     const upvotes =
-        model.routeData.posts
+        routeData(["posts"], [])
             .map(post => post.meta.upvotes.length)
             .reduce((sum, val) => sum + val, 0);
 
     const isFollowing =
-        model.currentUser.following.includes(model.routeData.id);
+        this.model.currentUser.following.includes(routeData(["id"]));
 
     const follow = createElement(
         "button", {
             class: isFollowing ? "unfollow" : "follow",
-            async onClick({ currentTarget }) {
+            onClick: ({ currentTarget }) => {
                 const isFollowing =
                     currentTarget.classList.contains("follow");
 
                 if (isFollowing) {
-                    update("FOLLOW_USER", { username });
+                    this.update("FOLLOW_USER", { username });
                     currentTarget.classList.replace("follow", "unfollow");
                     currentTarget.textContent = "Unfollow";
                 } else {
-                    update("UNFOLLOW_USER", { username });
+                    this.update("UNFOLLOW_USER", { username });
                     currentTarget.classList.replace("unfollow", "follow");
                     currentTarget.textContent = "Follow";
                 }
@@ -37,12 +42,12 @@ export default (model, update) => {
     const edit = createElement(
         "a", {
             class: "edit",
-            href: `#/profile/${model.currentUser.username}/edit`,
+            href: `#/profile/${this.model.currentUser.username}/edit`,
             children: "Edit"
         }
     );
 
-    const info = createElement(
+    return withHeader(this.model, this.update, createElement(
         "main", {
             class: "profile",
             children: [
@@ -54,26 +59,26 @@ export default (model, update) => {
                         }],
                         ["div", {
                             children: [
-                                (model.currentUser.id === model.routeData.id
+                                (this.model.currentUser.id === routeData(["id"])
                                     ? edit
                                     : follow
                                 ),
                                 ["span", {
                                     class: "name",
                                     title: "Name",
-                                    children: model.routeData.name
+                                    children: routeData(["name"])
                                 }],
                                 ["span", {
                                     class: "email",
                                     title: "Email",
-                                    children: model.routeData.email
+                                    children: routeData(["email"])
                                 }],
                                 ["section", {
                                     class: "metrics",
                                     children: [
                                         ["span", {
                                             class: "followers",
-                                            children: `${model.routeData.followed_num}`
+                                            children: `${routeData(["followed_num"])}`
                                         }],
                                         ["span", {
                                             class: "upvotes",
@@ -87,12 +92,11 @@ export default (model, update) => {
                 }],
                 ["section", {
                     class: "posts",
-                    children: model.routeData.posts.map(post =>
-                        FeedItem(model, update, post)
+                    children: routeData(["posts"], []).map(post =>
+                        FeedItem(this.model, this.update, post)
                     )
                 }]
             ]
-    });
-
-    return withHeader(model, update, info);
+        }
+    ));
 };
