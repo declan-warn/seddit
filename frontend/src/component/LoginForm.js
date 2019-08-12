@@ -8,7 +8,11 @@ export default function() {
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData.entries());
     
-        this.update("AUTH_LOGIN", data);
+        try {
+            this.update("AUTH_LOGIN", data);
+        } catch (message) {
+            alert("UM WHAT");
+        }
     };
 
     return withHeader(this.model, this.update, createElement(

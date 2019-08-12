@@ -122,14 +122,22 @@ export default class App {
             }
 
             case "AUTH_LOGIN": {
-                const { token } = await this.api.auth.login(payload);
-                this.update("AUTH_SUCCESS", token);
+                try {
+                    const { token } = await this.api.auth.login(payload);
+                    this.update("AUTH_SUCCESS", token);
+                } catch ({ message }) {
+                    alert(message);
+                }
                 break;
             }
 
             case "AUTH_SIGNUP": {
-                const { token } = await this.api.auth.signup(payload);
-                this.update("AUTH_SUCCESS", token);
+                try {
+                    const { token } = await this.api.auth.signup(payload);
+                    this.update("AUTH_SUCCESS", token);
+                } catch ({ message }) {
+                    alert(message);
+                }
                 break;
             }
 
