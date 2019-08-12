@@ -7,11 +7,16 @@ import ProfileForm from "/src/component/ProfileForm.js";
 import SignupForm from "/src/component/SignupForm.js";
 import SubmitForm from "/src/component/SubmitForm.js";
 
+export const refresh = () => {
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+};
+
 const go = route => {
-    if (window.location.hash === route) {
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
+    const hash = `#/${route}`;
+    if (window.location.hash === hash) {
+        refresh();
     } else {
-        window.location.hash = `#/${route}`;
+        window.location.hash = hash;
     }
 };
 

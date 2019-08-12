@@ -107,7 +107,7 @@ export default class App {
 
             case "POST_DELETE": {
                 await this.api.post.delete(payload.id);
-                route.front();
+                route.refresh();
                 break;
             }
 
