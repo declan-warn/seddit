@@ -166,7 +166,8 @@
 }
 
 [data-id-post] .comments::after {
-    content: " (" attr(data-num-comments) ")";
+    content: "(" attr(data-num-comments) ")";
+    margin-left: 4px;
 }
 
 [data-id-post] .edit,
