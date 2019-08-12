@@ -7,30 +7,33 @@ export const toDataURL = file => new Promise((resolve, reject) => {
     reader.readAsDataURL(file);
 });
 
+// Will convert a timestring to a human-readable format.
+// The output is how long ago the given time occurred relative to now.
 export const toRelativeTime = timestamp => {
     const diff = new Date(Date.now() - Number(timestamp));
 
     if (diff.getUTCFullYear() > 1970) {
-        return `${diff.getUTCFullYear() - 1970} years ago`;
+        return `${diff.getUTCFullYear() - 1970} year(s) ago`;
     } else if (diff.getUTCMonth() > 0) {
-        return `${diff.getUTCMonth()} months ago`;
+        return `${diff.getUTCMonth()} month(s) ago`;
     } else if (diff.getUTCDate() > 1) {
         const weeks = Math.floor(diff.getUTCDate() / 7);
         if (weeks > 0) {
-            return `${weeks} weeks ago`;
+            return `${weeks} week(s) ago`;
         } else {
-            return `${diff.getUTCDate() - 1} days ago`;
+            return `${diff.getUTCDate() - 1} day(s) ago`;
         }
     } else if (diff.getUTCHours() > 0) {
-        return `${diff.getUTCHours()} hours ago`;
+        return `${diff.getUTCHours()} hour(s) ago`;
     } else if (diff.getUTCMinutes() > 0) {
-        return `${diff.getUTCMinutes()} minutes ago`;
+        return `${diff.getUTCMinutes()} minute(s) ago`;
     } else {
         return "just then";
     }
 };
 
-export function createElement(type, attributes = {}) {
+// Utility method to create HTML elements more easily
+export const createElement = (type, attributes = {}) => {
     const element = document.createElement(type);
     for (const [key, val] of Object.entries(attributes)) {
         switch (key) {
@@ -72,13 +75,6 @@ export const path = props => obj => props.reduce(
     obj
 );
 
-export const removeImageData = obj => {
-    const copy = { ...obj };
-    delete copy.thumbnail;
-    delete copy.image;
-    return copy;
-};
-
 export const showModal = (...children) => {
     document.body.classList.add("scrolling-disabled");
 
@@ -103,4 +99,5 @@ export const showModal = (...children) => {
     ));
 };
 
+// Sorthing method to sort by published property
 export const byPublished = (a, b) => Number(b.meta.published) - Number(a.meta.published);
