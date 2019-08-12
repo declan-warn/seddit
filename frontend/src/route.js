@@ -1,5 +1,6 @@
 import Feed from "/src/component/Feed.js";
 import FeedItem from "/src/component/FeedItem.js";
+import Loading from "/src/component/Loading.js";
 import LoginForm from "/src/component/LoginForm.js";
 import Post from "/src/component/Post.js";
 import Profile from "/src/component/Profile.js";
@@ -56,6 +57,8 @@ export async function handleRouting() {
         window.location.hash
             .split("/")
             .slice(1);
+
+    this.render(Loading);
 
     switch (routeName) {
         case LOGIN:
