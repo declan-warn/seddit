@@ -1,5 +1,8 @@
 [data-id-post] {
     display: flex;
+}
+
+[data-id-post]:not(:last-of-type) {
     margin-bottom: 32px;
 }
 
