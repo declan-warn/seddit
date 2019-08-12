@@ -18,6 +18,8 @@
 
 * {
     box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 body {
@@ -26,6 +28,16 @@ body {
      * (causing scrollbar to appear/disappear)
      */
     overflow-y: scroll;
+    background-color: #f1f1f7;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f7;
+  height: 100%;
+  font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #root > div {
@@ -71,4 +83,11 @@ button:hover {
 
 time {
     color: grey;
+}
+
+#feed {
+    width: 100%;
+    max-width: var(--content-width);
+    margin: var(--main-gutter) auto;
+    padding: 0;
 }
