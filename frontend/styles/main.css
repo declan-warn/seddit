@@ -4,6 +4,7 @@
 @import "modal.css";
 @import "feed-item.css";
 @import "profile.css";
+@import "submit.css";
 
 :root {
     --color-primary: #da4453;

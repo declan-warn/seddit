@@ -1,0 +1,32 @@
+form.submit {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+    width: 480px;
+    padding: 32px;
+}
+
+form.submit input:not([type="file"]) {
+    background: none;
+    border: none;
+    border-bottom: 2px solid lightgrey;
+    padding: 4px 0px;
+}
+
+form.submit input:focus {
+    border-color: transparent;
+    border-image: var(--gradient-secondary);
+    border-image-slice: 1;
+}
+
+form.submit >:not(:last-child) {
+    margin-bottom: 24px;
+}
+
+form.submit button {
+    height: 36px;
+    background: var(--gradient-primary);
+    border-radius: 999px;
+}

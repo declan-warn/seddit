@@ -24,33 +24,38 @@ export default function () {
     };
 
     return withHeader(this.model, this.update, createElement(
-        "form", {
-            onSubmit: handleSubmit,
+        "main", {
             children: [
-                ["input", {
-                    placeholder: "Title",
-                    name: "title",
-                    value: routeData(["title"]),
-                    required: "",
-                }],
-                ["input", {
-                    placeholder: "Text",
-                    name: "text",
-                    value: routeData(["text"]),
-                    required: "",
-                }],
-                ["input", {
-                    placeholder: "Subseddit",
-                    name: "subseddit",
-                    value: routeData(["meta", "subseddit"]),
-                    required: "",
-                }],
-                ["input", {
-                    type: "file",
-                    name: "image"
-                }],
-                ["button", {
-                    children: "Submit"
+                ["form", {
+                    class: "submit",
+                    onSubmit: handleSubmit,
+                    children: [
+                        ["input", {
+                            placeholder: "Title",
+                            name: "title",
+                            value: routeData(["title"]),
+                            required: "",
+                        }],
+                        ["input", {
+                            placeholder: "Text",
+                            name: "text",
+                            value: routeData(["text"]),
+                            required: "",
+                        }],
+                        ["input", {
+                            placeholder: "Subseddit",
+                            name: "subseddit",
+                            value: routeData(["meta", "subseddit"]),
+                            required: "",
+                        }],
+                        ["input", {
+                            type: "file",
+                            name: "image"
+                        }],
+                        ["button", {
+                            children: "Submit"
+                        }]
+                    ]
                 }]
             ]
         }
