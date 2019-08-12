@@ -9,7 +9,8 @@ main > form {
     align-items: start;
 }
 
-main > form h1 {
+main > form h1,
+main > form h2 {
     margin-top: 0px;
     display: inline-block;
     background: var(--gradient-primary);

@@ -37,6 +37,7 @@ body {
 
 main {
     max-width: var(--content-width);
+    width: 100%;
     padding: var(--main-gutter) 0px;
 }
 
@@ -66,4 +67,8 @@ button {
 
 button:hover {
     cursor: pointer;
+}
+
+time {
+    color: grey;
 }
