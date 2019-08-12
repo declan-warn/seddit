@@ -108,8 +108,12 @@ export default function AppHeader(model, update) {
         id: "nav",
         class: "nav-bar",
         children: [
-            navLeft,
-            navRight
+            ["div", {
+                children: [
+                    navLeft,
+                    navRight
+                ]
+            }]
         ]
     });
 

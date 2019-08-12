@@ -23,9 +23,15 @@ body {
     overflow-y: scroll;
 }
 
+#root > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 main {
     max-width: 960px;
-    margin: 0px auto;
 }
 
 a {

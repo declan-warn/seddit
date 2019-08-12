@@ -156,8 +156,7 @@ export async function handleRouting() {
             this.update("SIGNOUT");
             break;
 
-        case FRONT:
-        default: {
+        case FRONT: {
             const { posts } = await this.api.post.getPublic();
             posts.sort((a, b) => Number(b.meta.published) - Number(a.meta.published));
 
@@ -166,5 +165,9 @@ export async function handleRouting() {
             
             break;
         }
+
+        default:
+            front();
+            break;
     }
 }
